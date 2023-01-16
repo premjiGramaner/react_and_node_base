@@ -2,13 +2,16 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     path = require('path'),
-    sequlizer = require('./models/index'),
     dotenv = require('dotenv').config(),
     indexRouter = require('./routes/index'),
     app = express(),
+    redis = require('redis'),
     cors = require('cors'),
-    fileUpload = require('express-fileupload');
+    fileUpload = require('express-fileupload'),
+    session = require('express-session'),
+    redisStore = require('connect-redis')(session);
 
+const client = redis.createClient();
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,8 +21,25 @@ app.use(bodyParser.json());
 app.use(fileUpload());
 app.use(cors());
 
-app.use('/api', indexRouter);
+client.on('error', (err) => {
+    console.log("redis Error " + err);
+});
 
+app.use(session({
+    store: new redisStore({ client: client }),
+    secret: 'raa-secret~!@#$%^&*',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+        sameSite: true,
+        secure: false,
+        httpOnly: false,
+        maxAge: 1000 * 60 * 10 // 10 minutes
+    },
+    rolling: true
+}))
+
+app.use('/api', indexRouter);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 app.use(express.static(path.join(__dirname, '../client/src')));
@@ -45,8 +65,8 @@ app.get('/*', function (request, res) {
 
 /**
  * Initaing the Database Connection
- */
-sequlizer.sequelize.sync({ force: false }).then(() => {
+ 
+   sequlizer.sequelize.sync({ force: false }).then(() => {
     // inside our db sync callback, we start the server
     // this is our way of making sure the server is not listening 
     // to requests if we have not made a db connection
@@ -54,5 +74,7 @@ sequlizer.sequelize.sync({ force: false }).then(() => {
         console.log(`server listening on PORT ${app.Sequlizer_port}`);
     });
 });
+
+ */
 
 module.exports = app;

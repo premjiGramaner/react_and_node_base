@@ -1,10 +1,10 @@
 const express = require('express');
+const { updateTokenToSession } = require('../middleware')
 const router = express.Router();
 
-const testRouter = require('./testRouter');
+const loginRouter = require('./loginRouter');
 
+/* router List */
+router.use('/login', updateTokenToSession, loginRouter)
 
-
-
-router.use('/test', testRouter)
 module.exports = router;
