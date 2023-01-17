@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { IDefaultPageProps, ILoginPageProps, IReducerState } from '@Utils/interface';
@@ -14,7 +14,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = (props) =>
 
     return (
         <div className='login-page-main-container'>
-            <p>Login page</p>
+            <p>{props.t('login.title', { "title": 'RAA' })}</p>
             <button onClick={onLogin}>Login</button>
         </div>
     )

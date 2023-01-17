@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { NavigateOptions, To, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { ThemeColorWrapper, ThemeColors } from "./themeWrapper";
+import { ThemeColorWrapper } from "./themeWrapper";
+import { useTranslation } from "react-i18next";
 
 
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
@@ -12,6 +13,7 @@ export function withRouter(Child: any) {
     const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const { t, i18n } = useTranslation('lang');
 
     return (
       <ThemeColorWrapper
@@ -22,6 +24,8 @@ export function withRouter(Child: any) {
           location={location}
           dispatch={dispatch}
           isUserAuthenticated={IS_USER_AUTHENTICATED()}
+          t={t}
+          i18n={i18n}
         />)}
       />
     )
