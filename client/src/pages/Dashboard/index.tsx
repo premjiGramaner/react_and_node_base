@@ -24,6 +24,10 @@ const DashboardComponent: React.FC<IDefaultPageProps> = (props) => {
     }, [])
 
     useEffect(() => {
+        console.log('props', props);
+    }, [])
+
+    useEffect(() => {
         if (!usersLoading && userList.length) {
             setusersList(userList);
         }
@@ -35,8 +39,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = (props) => {
     }
 
     const onSave = async (item: any) => {
-        await updateUser(item);
-        props.dispatch(fetchUsers())
+        // await updateUser(item);
+        // props.dispatch(fetchUsers())
+        props.changeColor('purple')
     }
 
     const onDelete = async (id: any) => {

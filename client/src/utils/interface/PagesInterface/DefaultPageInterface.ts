@@ -16,4 +16,6 @@ export interface IDefaultPageProps {
     dispatch: Dispatch<AnyAction>;
     isUserAuthenticated: string | void;
     routeInfo: IMenuItem
+    changeColor: (color: string) => void;
+    color: string;
 }
