@@ -41,8 +41,8 @@ app.use(session({
 
 app.use('/api', indexRouter);
 
-app.use(express.static(path.join(__dirname, '../client/build')));
-app.use(express.static(path.join(__dirname, '../client/src')));
+app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, '../src')));
 
 
 app.use(function (err, req, res, next) {
@@ -56,7 +56,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/*', function (request, res) {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'), function (err) {
+    res.sendFile(path.join(__dirname, '../build/index.html'), function (err) {
         if (err) {
             res.status(500).send(err)
         }

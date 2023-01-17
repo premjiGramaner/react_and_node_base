@@ -11,6 +11,7 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
+  watch: true,
   plugins: [
     new ReactRefreshWebpackPlugin(),
     new webpack.DefinePlugin({
