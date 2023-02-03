@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 
 import {
@@ -7,12 +6,13 @@ import {
   ILoginPageProps,
   IReducerState,
 } from '@Utils/interface'
+
 import { URLS } from '@Utils/constants'
-import { IS_USER_AUTHENTICATED } from '@Utils/storage'
+import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
+import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
-
-import schema from '@Utils/schema/loginValidation'
+import { userLogin } from '@Reducers/loginReducer'
 
 import { LoginBanner } from '@Assets/images'
 
@@ -22,6 +22,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   const onLogin = loginValues => {
     IS_USER_AUTHENTICATED(true)
     props.navigate(URLS.DEFAULT)
+    props.dispatch(userLogin(loginValues))
   }
 
   const onShowPassword = () => {
