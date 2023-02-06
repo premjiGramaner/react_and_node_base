@@ -1,0 +1,37 @@
+.table-wrapper table {
+  thead {
+    border-top: 2px solid $themeColor;
+    .table-header {
+      font-size: 0.875rem;
+      color: $tableTextColor;
+      font-weight: 600;
+      font-family: $font-default;
+    }
+    th {
+      border: 0;
+    }
+  }
+  tbody {
+    background-color: $tableBackground;
+
+    tr {
+      .table-data {
+        font-size: 0.875rem;
+        color: $tableTextColor;
+        font-family: $font-default;
+      }
+
+      td:first-child {
+        border-left: 0;
+      }
+      td:last-child {
+        border-right: 0;
+      }
+      &:last-child {
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}
