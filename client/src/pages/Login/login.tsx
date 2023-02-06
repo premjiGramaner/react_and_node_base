@@ -5,6 +5,7 @@ import {
   IDefaultPageProps,
   ILoginPageProps,
   IReducerState,
+  ILoginState,
 } from '@Utils/interface'
 
 import { URLS } from '@Utils/constants'
@@ -19,10 +20,14 @@ import { LoginBanner } from '@Assets/images'
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
-  const onLogin = loginValues => {
+  const onLogin = (loginValues: ILoginState) => {
+    const loginPayload =
+      loginValues.token.length > 0
+        ? { token: loginValues.token }
+        : { user: loginValues.user, password: loginValues.password }
     IS_USER_AUTHENTICATED(true)
     props.navigate(URLS.DEFAULT)
-    props.dispatch(userLogin(loginValues))
+    props.dispatch(userLogin(loginPayload))
   }
 
   const onShowPassword = () => {
@@ -30,11 +35,11 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   }
 
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({
-    initialValues: { user: '', password: '' },
+    initialValues: { user: '', password: '', token: '' },
     validationSchema: schema,
     validateOnChange: true,
     validateOnBlur: false,
-    onSubmit: values => {
+    onSubmit: (values: ILoginState) => {
       onLogin(values)
     },
   })
@@ -96,7 +101,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
               type="text"
               name="token"
               className="token-login-field"
-              value={values.user}
+              value={values.token}
               labelName="Token"
               placeHolder="Token"
               handleInputChange={handleChange}
