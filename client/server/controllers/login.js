@@ -1,12 +1,14 @@
 const getLogedInUserInfo = async (req, res, next) => {
     const session = req.session;
     try {
-        if (session.userInfo) {
-            res.status(200).send({ data: session.userInfo, message: 'user info successfully fetched!' })
-        } else {
-            res.status(200).send({ data: false, message: 'session timed out!' })
-        }
+        // if (session?.userInfo) {
+        //     res.status(200).send({ data: session.userInfo, message: 'user info successfully fetched!' })
+        // } else {
+        //     res.status(200).send({ data: false, message: 'session timed out!' })
+        // }
+        res.status(200).send({ data: false, message: 'session timed out!' })
     } catch (e) {
+        console.log('e', e);
         next(e);
     }
 };

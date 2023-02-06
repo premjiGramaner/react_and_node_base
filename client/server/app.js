@@ -1,3 +1,4 @@
+
 const express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
@@ -5,30 +6,33 @@ const express = require('express'),
     dotenv = require('dotenv').config(),
     indexRouter = require('./routes/index'),
     app = express(),
-    redis = require('redis'),
+    // redis = require('redis'),
     cors = require('cors'),
+    responseTime = require('response-time'),
     fileUpload = require('express-fileupload'),
-    session = require('express-session'),
-    redisStore = require('connect-redis')(session);
+    session = require('express-session');
+const { SESSION_SECRET } = require('./config/constants');
+const { errorHandler } = require('./helpers');
 
-const client = redis.createClient();
+// const client = redis.createClient();
 
+app.use(express.json());
 app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(fileUpload());
 app.use(cors());
+app.use(fileUpload());
 
-client.on('error', (err) => {
-    console.log("redis Error " + err);
-});
+app.use(responseTime());
 
+app.set('trust proxy', 1);
 app.use(session({
-    store: new redisStore({ client: client }),
-    secret: 'raa-secret~!@#$%^&*',
-    resave: true,
+    // store: new redisStore({ client: client }),
+    // secret: 'raa-secret~!@#$%^&*',
+    secret: SESSION_SECRET,
+    resave: false,
     saveUninitialized: true,
     cookie: {
         sameSite: true,
@@ -44,17 +48,7 @@ app.use('/api', indexRouter);
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.static(path.join(__dirname, '../src')));
 
-
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.json({ error: err });
-});
-
+app.use(errorHandler)
 app.get('/*', function (request, res) {
     res.sendFile(path.join(__dirname, '../build/index.html'), function (err) {
         if (err) {
@@ -65,16 +59,14 @@ app.get('/*', function (request, res) {
 
 /**
  * Initaing the Database Connection
- 
-   sequlizer.sequelize.sync({ force: false }).then(() => {
-    // inside our db sync callback, we start the server
-    // this is our way of making sure the server is not listening 
-    // to requests if we have not made a db connection
-    app.listen(app.Sequlizer_port, () => {
-        console.log(`server listening on PORT ${app.Sequlizer_port}`);
-    });
-});
-
  */
+// sequlizer.sequelize.sync({ force: false }).then(() => {
+//     // inside our db sync callback, we start the server
+//     // this is our way of making sure the server is not listening 
+//     // to requests if we have not made a db connection
+//     app.listen(app.serverPort, () => {
+//         console.log(`server listening on PORT ${app.serverPort}`);
+//     });
+// });
 
 module.exports = app;
