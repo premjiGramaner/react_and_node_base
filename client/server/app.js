@@ -3,18 +3,21 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     path = require('path'),
-    dotenv = require('dotenv').config(),
     indexRouter = require('./routes/index'),
     app = express(),
-    // redis = require('redis'),
     cors = require('cors'),
-    responseTime = require('response-time'),
     fileUpload = require('express-fileupload'),
     session = require('express-session');
 const { SESSION_SECRET } = require('./config/constants');
 const { errorHandler } = require('./helpers');
+const { v4: uuid } = require('uuid');
 
-// const client = redis.createClient();
+let client, redisStore, redis;
+if (process.env.NODE_ENV === "production") {
+    redis = require('redis');
+    client = redis.createClient();
+    redisStore = require('connect-redis')(session);
+}
 
 app.use(express.json());
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -25,22 +28,22 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(fileUpload());
 
-app.use(responseTime());
-
-app.set('trust proxy', 1);
 app.use(session({
-    // store: new redisStore({ client: client }),
-    // secret: 'raa-secret~!@#$%^&*',
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        sameSite: true,
-        secure: false,
-        httpOnly: false,
-        maxAge: 1000 * 60 * 10 // 10 minutes
+    genid: () => {
+        return uuid();
     },
-    rolling: true
+    secret: SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    ...(process.env.NODE_ENV === "production" && {
+        name: '_raa',
+        store: new redisStore({
+            host: 'localhost',
+            port: 6379,
+            client: client,
+            ttl: 1000 * 60 * 10
+        })
+    }),
 }))
 
 app.use('/api', indexRouter);
