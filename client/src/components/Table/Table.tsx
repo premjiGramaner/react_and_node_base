@@ -7,7 +7,7 @@ const Table: React.FC<ITableInterface> = props => {
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
     return (
-      <td className="d-flex">
+      <td>
         <span className="table-data d-flex justify-content-center align-items-center">
           {value}
         </span>
@@ -15,7 +15,7 @@ const Table: React.FC<ITableInterface> = props => {
     )
   }
   return (
-    <div className="pb-5">
+    <div>
       {rowContent?.length > 0 ? (
         <div
           id="scrollableDiv"
