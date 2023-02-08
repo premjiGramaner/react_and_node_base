@@ -9,12 +9,10 @@ $black: #000000;
 $textColorDefault: #000000;
 $textColor1: #313131;
 
-
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
 $font-default: 'Roboto', sans-serif;
 $font-optional: 'Varela Round', sans-serif;
-
 
 // media Breakpoints - Make sure to use rem not PX
 $bp-768: 48em; // 768px
@@ -26,21 +24,21 @@ $bp-1600: 100em; // 1600
 $bp-1920: 120em; // 1920
 $bp-2560: 160em; // 2560px
 
-
 // Media Queries
-$mq-768: "(min-width: #{$bp-768})";
-$mq-1024: "(min-width: #{$bp-1024})";
-$mq-1366: "(min-width: #{$bp-1366})";
-$mq-1440: "(min-width: #{$bp-1440})";
-$mq-1536: "(min-width: #{$bp-1536})";
-$mq-1600: "(min-width: #{$bp-1600})";
-$mq-1920: "(min-width: #{$bp-1920})";
-$mq-2560: "(min-width: #{$bp-2560})";
+$mq-768: '(min-width: #{$bp-768})';
+$mq-1024: '(min-width: #{$bp-1024})';
+$mq-1366: '(min-width: #{$bp-1366})';
+$mq-1440: '(min-width: #{$bp-1440})';
+$mq-1536: '(min-width: #{$bp-1536})';
+$mq-1600: '(min-width: #{$bp-1600})';
+$mq-1920: '(min-width: #{$bp-1920})';
+$mq-2560: '(min-width: #{$bp-2560})';
 
-$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
-
+$mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 
 /* =======----------- Page Styles are must be imported here --------============ */
 @import './pages/login.scss';
 @import './pages/dashboard.scss';
 @import './pages/pageNotFound.scss';
+
+@import './components/navlink.scss';
