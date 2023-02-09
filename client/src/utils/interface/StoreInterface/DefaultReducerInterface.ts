@@ -1,14 +1,14 @@
-import { ICoreReducerState } from './index';
+import { ICoreReducerState, ILoginReducerState } from './index'
 
 export interface IReducerState {
-    coreReducer: ICoreReducerState
+  coreReducer: ICoreReducerState
+  loginReducer: ILoginReducerState
 }
 
 export interface IDispatchState {
-    payload: any
+  payload: any
 }
 
 export interface APICommonResponseMock {
-    payload: any
+  payload: any
 }
-
