@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { ExpandIcon } from '@Assets/images'
 
 const DropDown = props => {
   const [show, setShow] = useState<boolean>(false)
@@ -6,11 +7,12 @@ const DropDown = props => {
     setShow(!show)
   }
   const showContent = show ? 'show' : ''
+
   return (
     <div id="accordion" className="dropDownContainer">
       <div className="card cardborder">
         <div className="" id="headingOne">
-          <div className="descriptive-insights d-flex justify-content-between mb-0 px-3 py-3">
+          <div className="descriptive-insights d-flex justify-content-between mb-0 px-3">
             <button
               className="bg-transparent border-0 fw-bold fs-12"
               data-toggle="collapse"
@@ -20,9 +22,12 @@ const DropDown = props => {
             >
               Descriptive Insights
             </button>
-            <div className="px-2">
-              <i className="fa fa-chevron-down" onClick={handleCollapse}></i>
-            </div>
+
+            <img
+              src={ExpandIcon}
+              className="expand-icon"
+              onClick={handleCollapse}
+            />
           </div>
         </div>
 

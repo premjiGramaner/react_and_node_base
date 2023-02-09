@@ -4,16 +4,20 @@ import {
   IDashboardCardInterface,
   ISearchData,
 } from '@Utils/interface/ComponentInterface/DashboardCardInterface'
+import {
+  EdgeNodeDisable,
+  EdgeNodeEnable,
+  EdgeAppInstanceDisable,
+  EdgeAppInstanceEnable,
+} from '@Assets/images'
 
 const DashboardCard: React.FC<IDashboardCardInterface> = props => {
   return (
     <div className="card-container py-4">
-      {props.projectDetails &&
-        props.projectDetails?.map((data: ISearchData) => {
+      {props.dashboardData.length > 0 &&
+        props.dashboardData?.map((data: ISearchData) => {
           const status =
-            data.projectStatus === 'Enabled'
-              ? 'status-enable'
-              : 'status-disable'
+            data.enabled === true ? 'status-enable' : 'status-disable'
           return (
             <div className="dashboardCard rounded">
               <div className={`${status}`}>
@@ -21,22 +25,30 @@ const DashboardCard: React.FC<IDashboardCardInterface> = props => {
                   className={`d-flex align-items-center px-4 pt-4 justify-content-between`}
                 >
                   <div className="d-flex align-items-center">
-                    <i className="fa fa-circle status-icon"></i>
+                    <i
+                      className={`fa fa-circle status-icon ${data.edgeNodeStatus}`}
+                    ></i>
                     <div className="project-txt px-2">{data.projectName}</div>
                   </div>
 
                   <Tooltip infoData={data.info} />
                 </div>
                 <div className="project-helpertxt px-4">{data.projectType}</div>
-                <div className={`enabled px-4`}>{data.projectStatus}</div>
+                <div className={`enabled px-4`}>
+                  {data.enabled === true ? 'Enabled' : 'Disabled'}
+                </div>
                 <div className="d-flex align-items-center">
                   <div className={` edge-app-color col-6 `}>
                     <div className={`edge-app-color edge-nodes-app px-4 pt-2`}>
                       Edge Nodes
                     </div>
                     <div className="d-flex px-4 edge-app-color align-items-center">
-                      <i className={`status-icon fa fa-desktop py-3`}></i>
-                      <div className={`node-count node-app fw-bold px-4`}>
+                      {data.enabled === true ? (
+                        <img src={EdgeNodeEnable} className="edge-node-icon" />
+                      ) : (
+                        <img src={EdgeNodeDisable} className="edge-node-icon" />
+                      )}
+                      <div className={`node-count node-app fw-bold px-2`}>
                         {data.edgeNodes}
                       </div>
                     </div>
@@ -46,8 +58,18 @@ const DashboardCard: React.FC<IDashboardCardInterface> = props => {
                       Edge App Instances
                     </div>
                     <div className="d-flex px-4 edge-node-color align-items-center">
-                      <i className={`fa fa-hand-o-up status-icon py-3`}></i>
-                      <div className={`node-count node-app fw-bold px-4`}>
+                      {data.enabled === true ? (
+                        <img
+                          src={EdgeAppInstanceEnable}
+                          className="edge-app-icon"
+                        />
+                      ) : (
+                        <img
+                          src={EdgeAppInstanceDisable}
+                          className="edge-app-icon"
+                        />
+                      )}
+                      <div className={`node-count node-app fw-bold px-2`}>
                         {data.edgeAppInstance}
                       </div>
                     </div>

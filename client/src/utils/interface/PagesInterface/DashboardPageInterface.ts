@@ -1,3 +1,1 @@
-export interface IDashboardPageState {
-  dashboardData: any[]
-}
+export interface IDashboardPageState {}

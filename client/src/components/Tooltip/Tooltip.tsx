@@ -1,11 +1,12 @@
 import React from 'react'
 import { ITooltipInterface } from '@Utils/interface/ComponentInterface'
+import { InfoIcon } from '@Assets/images'
 
 const Tooltip: React.FC<ITooltipInterface> = props => {
   return (
     <div className="tooltip-border">
       <div className="dropdown" data-tooltip={props.infoData}>
-        <i className="fa fa-info-circle infoImage" aria-hidden="true"></i>
+        <img src={InfoIcon} className="infoImage" />
       </div>
     </div>
   )

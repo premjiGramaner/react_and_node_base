@@ -1,11 +1,12 @@
 export interface ISearchData {
   projectName: string
-  projectStatus: string
+  edgeNodeStatus: string
+  enabled: boolean
   projectType: string
   edgeNodes: number
   edgeAppInstance: number
   info: string
 }
 export interface IDashboardCardInterface {
-  projectDetails: ISearchData[]
+  dashboardData: ISearchData[]
 }

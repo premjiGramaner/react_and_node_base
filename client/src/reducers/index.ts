@@ -8,6 +8,7 @@ import dashboardReducer from './dashboardReducer'
 
 /* Actions */
 export * from './coreReducer'
+export * from './dashboardReducer'
 
 const allReducers = combineReducers({
   coreReducer,

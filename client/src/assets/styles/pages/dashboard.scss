@@ -3,18 +3,23 @@
   .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 30px;
+    grid-gap: 1.875rem;
+
+    .edge-node-icon {
+      width: 1.625rem;
+    }
+    .edge-app-icon {
+      width: 1.438rem;
+    }
   }
   .endpoint {
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: $font-default;
   }
-  .DashboardCardContainer {
-    padding-right: 46px;
-    padding-left: 46px;
-  }
+  .DashboardCardContainer,
   .searchContainer {
-    padding-right: 46px;
-    padding-left: 46px;
+    padding-right: 2.875rem;
+    padding-left: 2.875rem;
   }
 }

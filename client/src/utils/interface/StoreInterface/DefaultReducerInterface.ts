@@ -1,10 +1,10 @@
 import { ICoreReducerState, ILoginReducerState } from './index'
-import { IDashboardPageState } from '../index'
+import { IDashboardCardInterface } from '@Utils/interface/ComponentInterface'
 
 export interface IReducerState {
   coreReducer: ICoreReducerState
   loginReducer: ILoginReducerState
-  dashboardReducer: IDashboardPageState
+  dashboardReducer: IDashboardCardInterface
 }
 
 export interface IDispatchState {

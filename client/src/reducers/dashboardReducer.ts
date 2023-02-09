@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
-import { API, IDispatchState, IDashboardPageState } from '@Interface/index'
+import { API, IDispatchState, IDashboardCardInterface } from '@Interface/index'
 import { dashboardPageData } from '@Store/mockStore/storeData/dashboardPageData'
 
 export const fetchDashboard: any = createAsyncThunk(
@@ -18,7 +18,7 @@ export const fetchDashboard: any = createAsyncThunk(
     })
   }
 )
-export const dashboardReducerInitialState: IDashboardPageState = {
+export const dashboardReducerInitialState: IDashboardCardInterface = {
   dashboardData: [],
 }
 
@@ -29,8 +29,8 @@ const dashboardReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(
       fetchDashboard.fulfilled,
-      (state: IDashboardPageState, action: IDispatchState) => {
-        state.dashboardData = action.payload
+      (state: IDashboardCardInterface, action: IDispatchState) => {
+        state.dashboardData = action.payload.dashboardPageData
       }
     )
   },

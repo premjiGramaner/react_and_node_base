@@ -3,11 +3,22 @@
   padding-left: 2.875rem;
   background-image: linear-gradient(270deg, grey 0%, #050505 100%);
   color: $white;
+  .header-logo {
+    width: 3rem;
+  }
+  .user-name {
+    font-family: $font-default;
+    font-size: 1rem;
+  }
   .icon-size {
-    padding-left: 1rem;
     font-size: 1.75rem;
     &:hover {
       cursor: pointer;
     }
+  }
+  .help-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 0.75rem;
   }
 }

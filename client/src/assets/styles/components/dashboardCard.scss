@@ -2,13 +2,34 @@
   border-radius: 0.438rem;
   background-color: $white;
   box-shadow: $dashboardBoxShadow;
+
+  .online {
+    color: $statusOnline;
+  }
+  .error {
+    color: $statusError;
+  }
+  .intitilized {
+    color: $statusInialzed;
+  }
+  .suspect {
+    color: $statusSuspect;
+  }
+  .unkonwn {
+    color: $stausUnknown;
+  }
+  .other {
+    color: $statusOther;
+  }
   .project-txt {
     color: $projectTxtColor;
     font-size: 1.75rem;
     font-weight: 700;
+    font-family: $font-default;
   }
   .project-helpertxt {
     color: $projectTxtColor;
+    font-family: $font-default;
     font-size: 0.875rem;
   }
   .enabled {
@@ -16,11 +37,20 @@
     font-size: 1.75rem;
     font-weight: 700;
     padding-bottom: 1.25rem;
+    font-family: $font-default;
   }
   .edge-nodes-app {
-    color: $edgeNodeAppBg;
+    color: $edgeTxtColor;
     font-size: 1rem;
+    font-family: $font-default;
   }
+  .edge-app-color,
+  .edge-nodes-app,
+  .edge-node-color,
+  .status-enable .edge-node-color {
+    padding-bottom: 0.25rem;
+  }
+
   .node-app {
     font-size: 1.375rem;
     font-weight: 700;
@@ -35,14 +65,12 @@
     .edge-node-color {
       background-color: $edgeNodeBgEnable;
     }
-    .status-icon {
-      color: $enabled;
-    }
+
     .node-count {
       color: $edgeNumColor;
     }
     .enabled {
-      color: $enabled;
+      color: $themeColor;
     }
   }
   .status-disable {
@@ -52,11 +80,9 @@
     .edge-node-color {
       background-color: $edgeNodeBgDisable;
     }
-    .status-icon {
-      color: $statusIconColor;
-    }
+
     .node-count {
-      color: $black;
+      color: $edgeDisableCount;
     }
     .enabled {
       color: $statusIconColor;
@@ -68,12 +94,6 @@
   .dashboardCard {
     .edge-nodes-app {
       font-size: 0.875rem;
-    }
-    .project-txt {
-      font-size: 1.375rem;
-    }
-    .enabled {
-      font-size: 1.375rem;
     }
   }
 }
