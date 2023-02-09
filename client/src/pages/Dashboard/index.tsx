@@ -1,94 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { IDefaultPageProps, IReducerState } from '@Utils/interface'
+import { URLS } from '@Utils/constants'
+import { IS_USER_AUTHENTICATED } from '@Utils/storage'
+import { fetchUsers, updateUser, deleteUser } from '@Reducers/index'
+import Header from '@Components/Header/Header'
+import DashboardCard from '@Components/DashboardCard/DashboardCard'
+import DropDown from '@Components/DropDown/DropDown'
+import SearchBox from '@Components/SearchBox/SearchBox'
+import Navigation from '@Components/Navigation/Navigation'
 
-import { IDefaultPageProps, IReducerState } from '@Utils/interface';
-import { URLS } from '@Utils/constants';
-import { IS_USER_AUTHENTICATED } from '@Utils/storage';
-import { fetchUsers, updateUser, deleteUser } from "@Reducers/index";
-
-
-const DashboardComponent: React.FC<IDefaultPageProps> = (props) => {
-    const [usersList, setusersList] = useState<{
-        name: string;
-        id: number;
-    }[]>([]);
-    const [name, setName] = useState<string>("")
-
-    const { userList, usersLoading } = useSelector((state: IReducerState) => state.coreReducer)
-
-    useEffect(() => {
-        if (!IS_USER_AUTHENTICATED()) {
-            props.navigate(URLS.LOGIN)
-        }
-        props.dispatch(fetchUsers())
-    }, [])
-
-    useEffect(() => {
-        console.log('props', props);
-    }, [])
-
-    useEffect(() => {
-        if (!usersLoading && userList.length) {
-            setusersList(userList);
-        }
-    }, [usersLoading])
-
-    const onLogout = () => {
-        IS_USER_AUTHENTICATED("false");
-        props.navigate(URLS.LOGIN)
+const dummyData = [
+  {
+    projectName: 'Coimbatore',
+    projectStatus: 'Enabled',
+    projectType: 'Regular',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ',
+  },
+  {
+    projectName: 'Chennai',
+    projectStatus: 'Disabled',
+    projectType: 'Azure',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ',
+  },
+  {
+    projectName: 'Coimbatore',
+    projectStatus: 'Enabled',
+    projectType: 'Regular',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ',
+  },
+  {
+    projectName: 'Chennai',
+    projectStatus: 'Disabled',
+    projectType: 'Azure',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ',
+  },
+  {
+    projectName: 'Coimbatore',
+    projectStatus: 'Enabled',
+    projectType: 'Regular',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
+  },
+  {
+    projectName: 'Chennai',
+    projectStatus: 'Disabled',
+    projectType: 'Azure',
+    edgeNodes: 33,
+    edgeAppInstance: 44,
+    info: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. ',
+  },
+]
+const DashboardComponent: React.FC<IDefaultPageProps> = props => {
+  useEffect(() => {
+    if (!IS_USER_AUTHENTICATED()) {
+      props.navigate(URLS.LOGIN)
     }
+    props.dispatch(fetchUsers())
+  }, [])
+  const onLogout = () => {
+    console.log('logout clicked')
+    IS_USER_AUTHENTICATED('false')
+    props.navigate(URLS.LOGIN)
+  }
+  return (
+    <div className="dashboard-page-main-container">
+      <Header userName={'Peter'} handleLogout={onLogout} />
+      <Navigation />
+      <div className="d-flex justify-content-between align-items-center searchContainer">
+        <div className="endpoint">{props.t('dashboard.endpoint')}</div>
+        <SearchBox icon="fa fa-search" />
+      </div>
+      <DropDown />
+      <div className="DashboardCardContainer">
+        <DashboardCard projectDetails={dummyData} />
+      </div>
+    </div>
+  )
+}
 
-    const onSave = async (item: any) => {
-        // await updateUser(item);
-        // props.dispatch(fetchUsers())
-        props.changeColor('purple')
-    }
-
-    const onDelete = async (id: any) => {
-        await deleteUser(id);
-        props.dispatch(fetchUsers())
-    }
-
-    return (
-        <div className='dashboard-page-main-container'>
-            <div className='sample-header'>
-                <h3>Dashboard Component</h3>
-                <button className='btn btn-primary' onClick={onLogout}>Logout</button>
-            </div>
-            <div>
-                name: <input name="name-input" value={name} onChange={({ target }) => setName(target.value)} />
-                <button onClick={() => onSave({ name })} disabled={name.length < 3}>Save</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {usersList.map((item, index) => {
-                        return (
-                            <tr key={item.name + item.id}>
-                                <td>{item.id}</td>
-                                <td><input name={item.id + '1'} value={item.name} onChange={({ target }) => {
-                                    const mockUsers = JSON.parse(JSON.stringify(usersList));
-                                    mockUsers[index]["name"] = target.value;
-                                    setusersList(mockUsers);
-                                }} /></td>
-                                <td>
-                                    <button onClick={() => onSave(item)}>Save</button>
-                                    <button onClick={() => onDelete(item.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-
-            </table>
-        </div>
-    )
-};
-
-export default DashboardComponent;
+export default DashboardComponent

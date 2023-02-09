@@ -1,0 +1,13 @@
+.header-section {
+  padding-right: 2.875rem;
+  padding-left: 2.875rem;
+  background-image: linear-gradient(270deg, grey 0%, #050505 100%);
+  color: $white;
+  .icon-size {
+    padding-left: 1rem;
+    font-size: 1.75rem;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

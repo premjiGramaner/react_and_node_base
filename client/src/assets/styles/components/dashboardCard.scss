@@ -1,0 +1,79 @@
+.dashboardCard {
+  border-radius: 0.438rem;
+  background-color: $white;
+  box-shadow: $dashboardBoxShadow;
+  .project-txt {
+    color: $projectTxtColor;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+  .project-helpertxt {
+    color: $projectTxtColor;
+    font-size: 0.875rem;
+  }
+  .enabled {
+    padding-top: 1.25rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    padding-bottom: 1.25rem;
+  }
+  .edge-nodes-app {
+    color: $edgeNodeAppBg;
+    font-size: 1rem;
+  }
+  .node-app {
+    font-size: 1.375rem;
+    font-weight: 700;
+  }
+  .status-icon {
+    font-size: 1.25rem;
+  }
+  .status-enable {
+    .edge-app-color {
+      background-color: $edgeAppBgEnable;
+    }
+    .edge-node-color {
+      background-color: $edgeNodeBgEnable;
+    }
+    .status-icon {
+      color: $enabled;
+    }
+    .node-count {
+      color: $edgeNumColor;
+    }
+    .enabled {
+      color: $enabled;
+    }
+  }
+  .status-disable {
+    .edge-app-color {
+      background-color: $edgeAppBgDisable;
+    }
+    .edge-node-color {
+      background-color: $edgeNodeBgDisable;
+    }
+    .status-icon {
+      color: $statusIconColor;
+    }
+    .node-count {
+      color: $black;
+    }
+    .enabled {
+      color: $statusIconColor;
+    }
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  .dashboardCard {
+    .edge-nodes-app {
+      font-size: 0.875rem;
+    }
+    .project-txt {
+      font-size: 1.375rem;
+    }
+    .enabled {
+      font-size: 1.375rem;
+    }
+  }
+}

@@ -1,5 +1,8 @@
 {
   "login": {
     "title": "Login page {{title}}"
+  },
+  "dashboard": {
+    "endpoint": "Endpoint1"
   }
 }

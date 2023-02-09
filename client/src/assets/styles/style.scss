@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap');
+@import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
 
 // Base color codes
 $blue: #526fd6;
@@ -6,15 +7,27 @@ $light-blue: #e0e5f8;
 $grey: #767676;
 $white: #ffffff;
 $black: #000000;
-$textColorDefault: #000000;
 $textColor1: #313131;
-
+$projectTxtColor: #3d4859;
+$enabled: #089d96;
+$edgeTxtColor: #707070;
+$edgeNumColor: #06746f;
+$descriptiveTxtColor: #3d4859;
+$dashboardBG: #ece7e7;
+$SearchShadowColor: #141414;
+$dashboardBoxShadow: 0 2px 14px 0 rgba(220, 220, 220, 0.5);
+$edgeNodeAppBg: #5f5f5f;
+$edgeNodeBgEnable: #a4d1c7;
+$edgeAppBgEnable: #d5f3e9;
+$edgeNodeBgDisable: #bdc0bf;
+$edgeAppBgDisable: #dde0e0;
+$statusIconColor: #aca8c1;
+$navBackgroundColor: #6f6f6f;
 
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
 $font-default: 'Roboto', sans-serif;
 $font-optional: 'Varela Round', sans-serif;
-
 
 // media Breakpoints - Make sure to use rem not PX
 $bp-768: 48em; // 768px
@@ -26,21 +39,27 @@ $bp-1600: 100em; // 1600
 $bp-1920: 120em; // 1920
 $bp-2560: 160em; // 2560px
 
-
 // Media Queries
-$mq-768: "(min-width: #{$bp-768})";
-$mq-1024: "(min-width: #{$bp-1024})";
-$mq-1366: "(min-width: #{$bp-1366})";
-$mq-1440: "(min-width: #{$bp-1440})";
-$mq-1536: "(min-width: #{$bp-1536})";
-$mq-1600: "(min-width: #{$bp-1600})";
-$mq-1920: "(min-width: #{$bp-1920})";
-$mq-2560: "(min-width: #{$bp-2560})";
+$mq-768: '(min-width: #{$bp-768})';
+$mq-1024: '(min-width: #{$bp-1024})';
+$mq-1366: '(min-width: #{$bp-1366})';
+$mq-1440: '(min-width: #{$bp-1440})';
+$mq-1536: '(min-width: #{$bp-1536})';
+$mq-1600: '(min-width: #{$bp-1600})';
+$mq-1920: '(min-width: #{$bp-1920})';
+$mq-2560: '(min-width: #{$bp-2560})';
 
-$mq-retina: "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)";
-
+$mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 
 /* =======----------- Page Styles are must be imported here --------============ */
 @import './pages/login.scss';
 @import './pages/dashboard.scss';
 @import './pages/pageNotFound.scss';
+
+/* =======----------- components Styles are must be imported here --------============ */
+@import './components/header.scss';
+@import './components/dashboardCard.scss';
+@import './components/dropDown.scss';
+@import './components/searchbox.scss';
+@import './components/navigation.scss';
+@import './components/tooltip.scss';

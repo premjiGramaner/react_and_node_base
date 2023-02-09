@@ -1,29 +1,20 @@
 .dashboard-page-main-container {
-    margin-top: 3rem;
-
-    .sample-header {
-        display: flex;
-        justify-content: space-between;
-        height: 4rem;
-        align-items: center;
-    }
-
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 5rem;
-    }
-
-    td,
-    th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
+  background-color: $dashboardBG;
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+  }
+  .endpoint {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .DashboardCardContainer {
+    padding-right: 46px;
+    padding-left: 46px;
+  }
+  .searchContainer {
+    padding-right: 46px;
+    padding-left: 46px;
+  }
 }
