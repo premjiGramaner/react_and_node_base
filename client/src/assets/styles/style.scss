@@ -1,19 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
 // Base color codes
 $blue: #526fd6;
 $light-blue: #e0e5f8;
-$grey: #767676;
+$grey: #757575;
 $white: #ffffff;
 $black: #000000;
-$textColorDefault: #000000;
-$textColor1: #313131;
+$red: #ff0000;
+$textColorDefault: #393939;
 $themeColor: #089d96;
+$eyeIconColor: #bebebe;
+$lableColor: #a1a1a1;
+$textColor1: #313131;
 $tableBackground: #f9f8f8;
 $tableTextColor: #3d4859;
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
-$font-default: 'Roboto', sans-serif;
+$font-default: 'Source Sans Pro', sans-serif;
 $font-optional: 'Varela Round', sans-serif;
 
 // media Breakpoints - Make sure to use rem not PX
@@ -46,3 +49,4 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 /* =======----------- Components Styles are must be imported here --------============ */
 @import './components/table.scss';
 @import './components/pagination.scss';
+@import './components/textbox.scss';
