@@ -1,15 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap');
 @import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
 
 // Base color codes
 $blue: #526fd6;
 $light-blue: #e0e5f8;
-$grey: #767676;
+$grey: #757575;
 $white: #ffffff;
 $black: #000000;
 $textColor1: #313131;
 $projectTxtColor: #3d4859;
-$enabled: #089d96;
 $edgeTxtColor: #707070;
 $edgeNumColor: #06746f;
 $descriptiveTxtColor: #3d4859;
@@ -23,10 +23,15 @@ $edgeNodeBgDisable: #bdc0bf;
 $edgeAppBgDisable: #dde0e0;
 $statusIconColor: #aca8c1;
 $navBackgroundColor: #6f6f6f;
+$red: #ff0000;
+$textColorDefault: #393939;
+$themeColor: #089d96;
+$eyeIconColor: #bebebe;
+$lableColor: #a1a1a1;
 
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
-$font-default: 'Roboto', sans-serif;
+$font-default: 'Source Sans Pro', sans-serif;
 $font-optional: 'Varela Round', sans-serif;
 
 // media Breakpoints - Make sure to use rem not PX
@@ -63,3 +68,4 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 @import './components/searchbox.scss';
 @import './components/navigation.scss';
 @import './components/tooltip.scss';
+@import './components/textbox.scss';

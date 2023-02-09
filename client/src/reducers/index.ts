@@ -3,13 +3,17 @@ import { URLS } from '@Utils/constants'
 
 /* Reducers */
 import coreReducer from './coreReducer'
+import loginReducer from './loginReducer'
 import dashboardReducer from './dashboardReducer'
 
 /* Actions */
 export * from './coreReducer'
-export * from './dashboardReducer'
 
-const allReducers = combineReducers({ coreReducer, dashboardReducer })
+const allReducers = combineReducers({
+  coreReducer,
+  loginReducer,
+  dashboardReducer,
+})
 
 const rootReducer = (state: any, action: any) => {
   if (action.type === URLS.LOGOUT) {
