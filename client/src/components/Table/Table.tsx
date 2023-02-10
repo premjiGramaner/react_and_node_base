@@ -2,12 +2,13 @@ import React, { FC, useState, useMemo } from 'react'
 import { ITableInterface } from '@Utils/interface/ComponentsInterface'
 import { getValueFromObject } from '@Utils/utils'
 import { Pagination } from '@Components/index'
+import { SortIcon } from '@Assets/images'
 
 const Table: React.FC<ITableInterface> = props => {
   const { column, rowContent, pageSize } = props
   const [order, setOrder] = useState<string>('ASC')
   const [tableData, setTableData] = useState<any[]>(rowContent)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize
@@ -25,6 +26,7 @@ const Table: React.FC<ITableInterface> = props => {
       </td>
     )
   }
+
   const sorting = (col: string) => {
     if (order === 'ASC') {
       const sorted = [...rowContent].sort((a, b) =>
@@ -60,7 +62,9 @@ const Table: React.FC<ITableInterface> = props => {
                     >
                       <span className="table-header d-flex align-items-center justify-content-center">
                         {_col.name}
-                        {_col.isSort && <i className="bi bi-sort-down-alt"></i>}
+                        {_col.isSort && (
+                          <img src={SortIcon} className="sort-icon" />
+                        )}
                       </span>
                     </th>
                   ))}

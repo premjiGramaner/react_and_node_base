@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
-import { usePagination, DOTS } from './usePagination'
 
-const Pagination = props => {
+import { IPaginationInterface } from '@Interface/ComponentsInterface'
+import {
+  LeftArrowIcon,
+  LeftArrowFirstIcon,
+  RightArrowIcon,
+  RightLastArrowIcon,
+} from '@Assets/images'
+
+import { usePagination } from './usePagination'
+
+const Pagination: React.FC<IPaginationInterface> = props => {
   const {
     onPageChange,
     totalCount,
@@ -37,28 +46,25 @@ const Pagination = props => {
     onPageChange(lastPage)
   }
 
-  const handlePage = e => {
-    setHandlePageCount(e.target.value)
+  const handlePage = event => {
+    setHandlePageCount(event.target.value)
   }
 
   let lastPage = paginationRange[paginationRange?.length - 1]
+
   return (
     <div className="pagination-wrapper d-flex justify-content-end align-items-center">
       <ul className={`pagination-container ${className}`}>
         <li className={`pagination-item `} onClick={onFirst}>
-          <div className="arrow left" />
+          <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
         </li>
         <li
           className={`pagination-item ${currentPage === 1 && 'disabled'} `}
           onClick={onPrevious}
         >
-          <div className="arrow left" />
+          <img src={LeftArrowIcon} className="pagination-nav-arrow" />
         </li>
-        {paginationRange.map(pageNumber => {
-          if (pageNumber === DOTS) {
-            return <li className="pagination-item dots">&#8230;</li>
-          }
-
+        {paginationRange.map((pageNumber: number) => {
           return (
             <li
               className={`pagination-item ${
@@ -76,17 +82,17 @@ const Pagination = props => {
           }`}
           onClick={onNext}
         >
-          <div className="arrow right" />
+          <img src={RightArrowIcon} className="pagination-nav-arrow" />
         </li>
         <li className={`pagination-item `} onClick={onLast}>
-          <div className="arrow right" />
+          <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
         </li>
       </ul>
       <input
         type="number"
         className="page-count mx-3"
         value={handlePageCount}
-        onChange={e => handlePage(e)}
+        onChange={event => handlePage(event)}
       />
       <p className="pagination-total-count">{`${currentPage}-${pageSize} of ${totalCount}`}</p>
     </div>

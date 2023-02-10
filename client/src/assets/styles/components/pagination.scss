@@ -19,7 +19,7 @@
         cursor: default;
       }
       &:hover {
-        background-color: rgba(0, 0, 0, 0.04);
+        background-color: unset;
         cursor: pointer;
       }
 
@@ -70,5 +70,8 @@
   .pagination-total-count {
     margin: 0;
     color: #4a4a4a;
+  }
+  .pagination-nav-arrow {
+    width: 1.25rem;
   }
 }
