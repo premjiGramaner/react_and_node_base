@@ -1,8 +1,10 @@
 import React from 'react'
 import { ISearchBoxProps } from '@Utils/interface/ComponentInterface/SearchBoxInterface'
+import { IDefaultPageProps } from '@Interface/PagesInterface'
+
 import { SearchIcon } from '@Assets/images'
 
-function SearchBox({ handleChange, icon, ...props }: ISearchBoxProps) {
+const SearchBox: React.FC<IDefaultPageProps & ISearchBoxProps> = props => {
   return (
     <div className="search-box">
       <div className="input-group bg-color2 ml-n5 rounded">
@@ -11,9 +13,9 @@ function SearchBox({ handleChange, icon, ...props }: ISearchBoxProps) {
             type="search"
             className="search-input nrounded-pill form-field form-control fs-14"
             aria-label="Search"
-            placeholder="Search"
+            placeholder={props.t('search.search')}
             aria-describedby="basic-addon1"
-            onChange={handleChange}
+            onChange={props.handleChange}
             {...props}
           />
           <figure className="pointer">

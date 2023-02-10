@@ -37,15 +37,18 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
   return (
     <div className="dashboard-page-main-container">
-      <Header userName={userName} handleLogout={onLogout} />
-      <Navigation />
+      <Header {...props} userName={userName} handleLogout={onLogout} />
+      <Navigation {...props} />
       <div className="d-flex justify-content-between align-items-center searchContainer">
         <div className="endpoint">{props.t('dashboard.endpoint')}</div>
-        <SearchBox icon="fa fa-search" />
+        <SearchBox {...props} icon="fa fa-search" />
       </div>
-      <DropDown />
+      <DropDown {...props} />
       <div className="DashboardCardContainer">
-        <DashboardCard dashboardData={dashboardValue?.dashboardData} />
+        <DashboardCard
+          {...props}
+          dashboardData={dashboardValue?.dashboardData}
+        />
       </div>
     </div>
   )

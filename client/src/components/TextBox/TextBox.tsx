@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ITextBoxInterface } from '@Interface/ComponentsInterface/TextBoxInterface'
+import { ITextBoxInterface } from '@Interface/ComponentInterface/TextBoxInterface'
 
 const TextBox: FC<ITextBoxInterface> = props => {
   return (

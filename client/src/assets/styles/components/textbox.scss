@@ -9,6 +9,11 @@
       color: $themeColor !important;
     }
   }
+  input {
+    &::placeholder {
+      font-family: $font-default;
+    }
+  }
 
   .form-control {
     color: $grey;

@@ -56,19 +56,14 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
       <div className="col-5">
         <div className="login-form-container">
           <img src={Logo} className="logo" />
-          <p className="zd-login-desc">
-            {props.t('login.title', {
-              title:
-                'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque',
-            })}
-          </p>
+          <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
             <TextBox
               type="text"
               name="user"
               value={values.user}
-              labelName="Username"
-              placeHolder="Username"
+              labelName={props.t('login.userName')}
+              placeHolder={props.t('login.userName')}
               handleInputChange={handleChange}
             />
 
@@ -82,8 +77,8 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
               type={showPassword ? 'text' : 'password'}
               name="password"
               value={values.password}
-              labelName="Password"
-              placeHolder="Password"
+              labelName={props.t('login.password')}
+              placeHolder={props.t('login.password')}
               handleInputChange={handleChange}
               icon={showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'}
               handleIconClick={onShowPassword}
@@ -95,19 +90,19 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
               </p>
             ) : null}
 
-            <h3 className="token-login">OR</h3>
+            <h3 className="token-login">{props.t('login.or')}</h3>
 
             <TextBox
               type="text"
               name="token"
               className="token-login-field"
               value={values.token}
-              labelName="Token"
-              placeHolder="Token"
+              labelName={props.t('login.token')}
+              placeHolder={props.t('login.token')}
               handleInputChange={handleChange}
             />
 
-            <Button className="login-btn">LOGIN</Button>
+            <Button className="login-btn">{props.t('login.login')}</Button>
           </form>
         </div>
       </div>
