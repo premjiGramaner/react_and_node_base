@@ -1,5 +1,31 @@
 {
   "login": {
-    "title": "{{title}}"
+    "title": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque",
+    "userName": "Username",
+    "password": "Password",
+    "or": "OR",
+    "token": "Token",
+    "login": "LOGIN"
+  },
+  "dashboard": {
+    "endpoint": "Endpoint1",
+    "edgeNodes": "Edge Nodes",
+    "edgeInstances": " Edge App Instances",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "header": {
+    "welcome": "Welcome, {{userName}}"
+  },
+  "navigation": {
+    "home": "Home",
+    "userEvent": "User Event"
+  },
+  "search": {
+    "search": "Search"
+  },
+  "dropdown": {
+    "title": "Descriptive Insights",
+    "value": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ip quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
   }
 }

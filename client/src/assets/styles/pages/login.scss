@@ -31,7 +31,12 @@
     width: 20.5rem;
     margin: auto;
     position: relative;
-    top: 16%;
+    top: 8%;
+    .logo {
+      width: 4.875rem;
+      height: 2rem;
+      margin-bottom: 1.125rem;
+    }
   }
   .token-login {
     font-family: $font-default;

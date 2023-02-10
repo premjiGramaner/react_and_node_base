@@ -1,16 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Varela+Round&display=swap');
+@import url('https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap');
+
 // Base color codes
 $blue: #526fd6;
 $light-blue: #e0e5f8;
 $grey: #757575;
 $white: #ffffff;
 $black: #000000;
+$textColor1: #313131;
+$projectTxtColor: #3d4859;
+$edgeTxtColor: #707070;
+$edgeNumColor: #06746f;
+$descriptiveTxtColor: #3d4859;
+$dashboardBG: #ece7e7;
+$SearchShadowColor: #141414;
+$dashboardBoxShadow: 0 2px 14px 0 rgba(220, 220, 220, 0.5);
+$edgeNodeAppBg: #5f5f5f;
+$edgeNodeBgEnable: #a4d1c7;
+$edgeAppBgEnable: #d5f3e9;
+$edgeNodeBgDisable: #bdc0bf;
+$edgeAppBgDisable: #dde0e0;
+$statusIconColor: #aca8c1;
+$navBackgroundColor: #6f6f6f;
 $red: #ff0000;
 $textColorDefault: #393939;
 $themeColor: #089d96;
 $eyeIconColor: #bebebe;
 $lableColor: #a1a1a1;
+$edgeDisableCount: #413e4d;
+//Status color need to check with client
+$statusOnline: #00883f;
+$statusError: #d1120b;
+$statusProvisioned: #ad3f83;
+$stautsUnprovisioned: #8322c8;
+$statusSuspect: #c97300;
+$stausUnknown: #006acf;
+$statusOther: #7a7879;
+$statusInialzed: #076ac8;
 
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
@@ -44,5 +71,11 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 @import './pages/dashboard.scss';
 @import './pages/pageNotFound.scss';
 
-/* =======----------- Components Styles are must be imported here --------============ */
+/* =======----------- components Styles are must be imported here --------============ */
+@import './components/header.scss';
+@import './components/dashboardCard.scss';
+@import './components/dropDown.scss';
+@import './components/searchbox.scss';
+@import './components/navigation.scss';
+@import './components/tooltip.scss';
 @import './components/textbox.scss';
