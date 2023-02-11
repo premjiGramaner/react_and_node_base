@@ -42,12 +42,12 @@
       }
       &:hover {
         color: $themeColor;
-        background-color: $navbtnBackground;
+        background-color: $navBackground;
         text-decoration: unset;
       }
     }
     .active-tabs {
-      background: $navbtnBackground;
+      background: $navBackground;
     }
     .active-tabs::before {
       content: '';
