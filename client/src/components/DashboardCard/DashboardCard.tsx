@@ -5,6 +5,7 @@ import {
   ISearchData,
 } from '@Utils/interface/ComponentInterface/DashboardCardInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
+import { URLS } from '@Utils/constants'
 
 import {
   EdgeNodeDisable,
@@ -46,7 +47,10 @@ const DashboardCard: React.FC<
                     <div className="edge-app-color edge-nodes-app px-4 pt-2">
                       {props.t('dashboard.edgeNodes')}
                     </div>
-                    <div className="d-flex px-4 edge-app-color align-items-center">
+                    <div
+                      className="d-flex px-4 edge-app-color align-items-center"
+                      onClick={() => props.navigate(URLS.EDGENODE)}
+                    >
                       {data.enabled === true ? (
                         <img src={EdgeNodeEnable} className="edge-node-icon" />
                       ) : (

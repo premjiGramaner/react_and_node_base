@@ -1,5 +1,5 @@
 import React from 'react'
-import { IButtonInterface } from '@Interface/ComponentsInterface/ButtonInterface'
+import { IButtonInterface } from '@Interface/ComponentInterface/ButtonInterface'
 
 const Button: React.FC<IButtonInterface> = props => {
   const { handleButtonClick, className, children } = props

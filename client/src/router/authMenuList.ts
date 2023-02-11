@@ -1,6 +1,12 @@
 import { IMenuItem } from '@Interface/index'
 import { URLS } from '@Utils/constants'
-import { DashboardComponent, LoginComponent, pageNotFound } from '@Pages/index'
+import {
+  DashboardComponent,
+  LoginComponent,
+  EdgeNodeComponent,
+  EdgeInstancesComponent,
+  pageNotFound,
+} from '@Pages/index'
 
 export default [
   {
@@ -31,6 +37,22 @@ export default [
     path: URLS.LOGIN,
     routeName: 'Login Component',
     component: LoginComponent,
+    icon: '',
+    permissions: [],
+    children: [],
+  },
+  {
+    path: URLS.EDGENODE,
+    routeName: 'EdgeNode Component',
+    component: EdgeNodeComponent,
+    icon: '',
+    permissions: [],
+    children: [],
+  },
+  {
+    path: URLS.EDGEAPPINSTANCES,
+    routeName: 'EdgeNode App Instances Component',
+    component: EdgeInstancesComponent,
     icon: '',
     permissions: [],
     children: [],

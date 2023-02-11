@@ -39,6 +39,14 @@ $stausUnknown: #006acf;
 $statusOther: #7a7879;
 $statusInialzed: #076ac8;
 
+$tableBackground: #f9f8f8;
+$tableTextColor: #3d4859;
+$modelTitle: #060606;
+$sessionColor: #2cafa9;
+$sessionTextColor: #178984;
+$sessionBackgroundColor: #c7dedd;
+$navBorder: #e8dfdf;
+
 /* ----- TODO update the below item with requirement ----- */
 // Font family declarations
 $font-default: 'Source Sans Pro', sans-serif;
@@ -70,6 +78,7 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 @import './pages/login.scss';
 @import './pages/dashboard.scss';
 @import './pages/pageNotFound.scss';
+@import './pages/edgeNodes.scss';
 
 /* =======----------- components Styles are must be imported here --------============ */
 @import './components/header.scss';
@@ -79,3 +88,7 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 @import './components/navigation.scss';
 @import './components/tooltip.scss';
 @import './components/textbox.scss';
+@import './components/navPanel.scss';
+@import './components/table.scss';
+@import './components/pagination.scss';
+@import './components/modal.scss';
