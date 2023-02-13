@@ -5,15 +5,19 @@ import { URLS } from '@Utils/constants'
 import coreReducer from './coreReducer'
 import loginReducer from './loginReducer'
 import dashboardReducer from './dashboardReducer'
-
+import edgeNodeReducer from './EdgeNodeReducer'
+import edgeNodeAppInstanceReducer from './edgeNodeAppInstanceReducer'
 /* Actions */
 export * from './coreReducer'
 export * from './dashboardReducer'
+export * from './EdgeNodeReducer'
 
 const allReducers = combineReducers({
   coreReducer,
   loginReducer,
   dashboardReducer,
+  edgeNodeReducer,
+  edgeNodeAppInstanceReducer,
 })
 
 const rootReducer = (state: any, action: any) => {
