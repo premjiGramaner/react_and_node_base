@@ -1,6 +1,7 @@
 const { routes } = require("../helpers/constants")
 const { fetchOptions, post } = require("../helpers/fetch")
 const { loginPayloadOptimize, optmizeReq, bindHeaders } = require("../helpers/index")
+const { loginMock } = require("../helpers/mock/login")
 const getLogedInUserInfo = async (req, res, next) => {
     const request = req['tokenInfo'];
     try {
@@ -31,7 +32,7 @@ const doLogin = async (req, res, next) => {
 
             res.status(200).send({ tokenInfo: req.tokenInfo, data: loginPost.response, message: 'Logged in succesfully!' })
         } else if (payload.token) {
-            res.status(200).send({ data: null, message: 'Token login in succesfully!' })
+            res.status(200).send({ data: loginMock, message: 'Token login in succesfully!' })
         } else {
             res.status(400).send({ data: null, message: 'Credentails are not valid! Fialed to login' })
         }
