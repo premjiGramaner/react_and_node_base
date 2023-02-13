@@ -1,1 +1,70 @@
-.login-page-main-container {}
+.page-body-wrapper {
+  padding-right: 0;
+  padding-left: 0;
+}
+.login-page-main-container {
+  .zd-login-desc {
+    font-family: $font-default;
+    font-size: 1rem !important;
+    line-height: 1.25rem;
+    color: $textColorDefault;
+    margin-bottom: 2.375rem;
+  }
+  .banner-text {
+    position: absolute;
+    bottom: 20%;
+    left: 15%;
+    .logo-text {
+      color: $white;
+      font-size: 2.75rem;
+    }
+    .logo-desc {
+      color: $white;
+      font-size: 2rem;
+      font-family: $font-default;
+    }
+  }
+  .login-banner {
+    height: 100vh;
+  }
+  .login-form-container {
+    width: 20.5rem;
+    margin: auto;
+    position: relative;
+    top: 8%;
+    .logo {
+      width: 4.875rem;
+      height: 2rem;
+      margin-bottom: 1.125rem;
+    }
+  }
+  .token-login {
+    font-family: $font-default;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.019rem;
+    color: $themeColor;
+    margin-top: 2.125rem;
+    margin-bottom: 1.625rem;
+  }
+  .token-login-field {
+    margin-bottom: 1.5rem;
+  }
+  .form-error {
+    .fa-info-circle,
+    .error-msg-txt {
+      color: $red;
+    }
+  }
+  .login-btn {
+    width: 100%;
+    border-radius: 1.313rem;
+    background-color: $themeColor;
+    padding: 0.75rem 0;
+    color: $white;
+    font-family: $font-default;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.019rem;
+  }
+}

@@ -1,0 +1,14 @@
+.navigation-container {
+  background-color: $navBackgroundColor;
+  padding: 0.5rem 2.875rem;
+  .navigation-txt {
+    color: $white;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: $font-default;
+  }
+  .selectedLink {
+    opacity: 0.5;
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,45 @@
+.inputTextField {
+  .label-style {
+    color: $lableColor;
+    font-family: $font-default;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.016rem;
+    &:focus-within {
+      color: $themeColor !important;
+    }
+  }
+  input {
+    &::placeholder {
+      font-family: $font-default;
+    }
+  }
+
+  .form-control {
+    color: $grey;
+    box-shadow: none;
+    &:focus {
+      border-color: $themeColor !important;
+      -webkit-box-shadow: 0 0.063rem 0.063rem -0.063rem $themeColor !important;
+      -moz-box-shadow: 0 0.063rem 0.063rem -0.063rem $themeColor !important;
+      box-shadow: 0 0.063rem 0.063rem -0.063rem $themeColor !important;
+    }
+  }
+
+  &:focus-within {
+    .label-style {
+      color: $themeColor !important;
+    }
+  }
+
+  .eye-icon {
+    float: right;
+    color: $eyeIconColor;
+    right: 0;
+    margin-top: 0.5rem;
+    position: absolute;
+    z-index: 99;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+}
