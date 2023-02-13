@@ -7,8 +7,8 @@ const {
     doLogout
 } = require('../controllers/login')
 
-router.get("/login", doLogin);
-router.get("/logout", doLogout);
+router.post("/", doLogin);
+router.post("/logout", doLogout);
 router.get("/self", getLogedInUserInfo);
 
 module.exports = router;
