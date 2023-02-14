@@ -22,7 +22,7 @@ export const userLogin: any = createAsyncThunk(
           const { data, error } = response
           if (!error) {
             resolve({
-              data: response.data || [],
+              data: data || [],
             })
           }
         })
