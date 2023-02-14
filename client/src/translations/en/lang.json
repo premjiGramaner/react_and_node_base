@@ -5,7 +5,8 @@
     "password": "Password",
     "or": "OR",
     "token": "Token",
-    "login": "LOGIN"
+    "login": "LOGIN",
+    "errorMessage": "Invalid Username or Password"
   },
   "dashboard": {
     "endpoint": "Endpoint1",

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 
 import {
@@ -18,7 +19,17 @@ import { userLogin } from '@Reducers/loginReducer'
 import { LoginBanner, Logo } from '@Assets/images'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
+  const statusCode = useSelector((state: IReducerState) => state.loginReducer)
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showError, setShowError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (statusCode?.statusCode === 400 || statusCode?.statusCode === 403) {
+      setShowError(true)
+    } else {
+      props.navigate(URLS.DASHBOARD)
+    }
+  }, [statusCode])
 
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =
@@ -26,7 +37,6 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
         ? { token: loginValues.token }
         : { user: loginValues.user, password: loginValues.password }
     IS_USER_AUTHENTICATED(true)
-    props.navigate(URLS.DASHBOARD)
     props.dispatch(userLogin(loginPayload))
   }
 
@@ -101,7 +111,9 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
               placeHolder={props.t('login.token')}
               handleInputChange={handleChange}
             />
-
+            {showError && (
+              <p className="error-msg">{props.t('login.errorMessage')}</p>
+            )}
             <Button className="login-btn">{props.t('login.login')}</Button>
           </form>
         </div>

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
+import client from '@Utils/axiosConfig'
+
 import {
   API,
   ILoginReducerState,
@@ -13,13 +15,22 @@ export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
   async (loginPayload: ILoginState) => {
     return new Promise((resolve: any) => {
-      resolve({
-        loginStoreMock,
-      }).catch((response: Error) => {
-        const { data } = reviseData(response)
-        console.log('API Failed!', data)
-        resolve({ data: [] })
-      })
+      client
+        .post(API.users.create, loginPayload)
+        .then(reviseData)
+        .then((response: any) => {
+          const { data, error } = response
+          if (!error) {
+            resolve({
+              data: response.data || [],
+            })
+          }
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
     })
   }
 )
@@ -28,6 +39,8 @@ export const loginReducerInitialState: ILoginReducerState = {
   pending: false,
   userName: '',
   token: '',
+  statusCode: null,
+  userId: '',
 }
 
 const loginReducer = createSlice({
@@ -44,10 +57,11 @@ const loginReducer = createSlice({
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
-        state.token = action.payload.loginStoreMock.loginInfo.token.base64
-        state.userName =
-          action.payload.loginStoreMock.loginInfo.detailedUser.firstName
+        state.token = action.payload.data.token.base64
+        state.userName = action.payload.data.detailedUser.firstName
         state.pending = false
+        state.statusCode = action.payload.statusCode
+        state.userId = action.payload.data.userId
       }
     )
   },

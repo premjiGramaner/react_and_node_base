@@ -1,8 +1,8 @@
 export const API = {
-    users: {
-        get: '/test',
-        create: '/test',
-        update: '/test',
-        delete: '/test/'
-    }
+  users: {
+    get: '/test',
+    create: '/login',
+    update: '/test',
+    delete: '/test/',
+  },
 }
