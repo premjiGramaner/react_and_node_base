@@ -6,6 +6,7 @@ const express = require('express'),
     indexRouter = require('./routes/index'),
     app = express(),
     cors = require('cors'),
+    dotenv = require('dotenv'),
     fileUpload = require('express-fileupload'),
     session = require('express-session');
 const { SESSION_SECRET } = require('./config/constants');
@@ -27,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(fileUpload());
+dotenv.config();
 
 app.use(session({
     genid: () => {
