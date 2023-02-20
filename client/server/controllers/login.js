@@ -59,7 +59,7 @@ const doLogout = async (req, res, next) => {
         const logOutPost = await post(res, routes.logout);
         return formatResponse(res, 200, logOutPost?.data, "Session Logged out successfully!");
     } catch (e) {
-        next(e);
+        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to log out!");
     }
 };
 
