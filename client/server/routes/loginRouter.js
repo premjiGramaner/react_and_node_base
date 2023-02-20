@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { validateToken } = require('../middleware')
+
 const {
     doLogin,
     getLogedInUserInfo,
@@ -8,7 +10,7 @@ const {
 } = require('../controllers/login')
 
 router.post("/", doLogin);
-router.post("/logout", doLogout);
-router.get("/self", getLogedInUserInfo);
+router.post("/logout", validateToken, doLogout);
+router.get("/self", validateToken, getLogedInUserInfo);
 
 module.exports = router;

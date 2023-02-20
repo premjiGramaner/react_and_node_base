@@ -1,5 +1,7 @@
 
 function errorHandler(err, req, res, next) {
+    console.log('********* Middleware error **********', err);
+    console.log('----------------------------------------------------------');
     if (typeof (err) === 'string') {
         return res.status(200).json({ message: err, success: false });
     }
@@ -11,7 +13,7 @@ function errorHandler(err, req, res, next) {
     if (err?.hasOwnProperty('data')) {
         return res.status(200).json({ message: err.message, data: err.data, success: false });
     } else {
-        return res.status(500).json({ message: err.message, success: false });
+        return res.status(500).json({ message: err.message, data: err?.body || err, type: err?.type || null, success: false });
     }
 }
 
@@ -26,22 +28,23 @@ const loginPayloadOptimize = (loginInfo = {}) => {
 
 const optmizeReq = (req, response) => {
     const tokenInfo = {
-        "x-csrf-token": response.headers['x-csrf-token'],
-        "x-content-type-options": response.headers['x-content-type-options'],
-        "x-frame-options": response.headers['x-frame-options'],
-        "cf-cache-status": response.headers['cf-cache-status'],
+        "X-Csrf-Token": response.headers['X-Csrf-Token']
     }
 
     req['tokenInfo'] = tokenInfo;
     return req;
 };
 
+/* Right now x-csrf token concept got removed so binding hard coded! */
 const bindHeaders = (req) => {
     return ({
-        'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*",
-        ...(req?.tokenInfo || {})
+        "content-type": "application/json",
+        "x-csrf-token": "bgXqsfrdH6G2iDmxF7tBPie6LVtKdXR5tWamrE1Bz+eUxG4Vs+xl3md9QSxxNb35ecUKv3E37NC3uqfYcXynqw=="
     })
+}
+
+const formatResponse = (res, code, data, message) => {
+    return res.status(code).send({ statusCode: code, data, message: message });
 }
 
 const convertCircular = () => {
@@ -57,5 +60,4 @@ const convertCircular = () => {
     };
 };
 
-
-module.exports = { errorHandler, loginPayloadOptimize, convertCircular, optmizeReq, bindHeaders };
+module.exports = { errorHandler, formatResponse, loginPayloadOptimize, convertCircular, optmizeReq, bindHeaders };
