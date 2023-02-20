@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ExpandIcon } from '@Assets/images'
+import { ExpandIcon, CollapseIcon } from '@Assets/images'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 
 const DropDown: React.FC<IDefaultPageProps> = props => {
@@ -25,7 +25,7 @@ const DropDown: React.FC<IDefaultPageProps> = props => {
             </button>
 
             <img
-              src={ExpandIcon}
+              src={show ? CollapseIcon : ExpandIcon}
               className="expand-icon"
               onClick={handleCollapse}
             />

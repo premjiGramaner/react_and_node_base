@@ -50,15 +50,15 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     {
       key: 'ip_address',
       name: 'IP Address',
-      sort: true,
+      isSort: true,
     },
     {
       key: 'ports',
-      name: 'Open Ports',
+      name: 'Host Port',
     },
     {
-      key: 'description',
-      name: 'Description',
+      key: 'ports',
+      name: 'Application Port',
     },
   ]
 

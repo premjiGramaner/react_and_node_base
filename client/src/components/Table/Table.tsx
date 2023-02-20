@@ -71,7 +71,7 @@ const Table: React.FC<ITableInterface> = props => {
         <div>
           <div
             id="scrollableDiv"
-            className="table-wrapper w-100 cm-scrollbar cm-table-w-scroll table-responsive bg-white table-area shadow-1"
+            className="table-wrapper w-100 cm-scrollbar cm-table-w-scroll table-responsive table-area shadow-1"
           >
             <table className="table w-100 fs-12">
               <thead>
@@ -84,7 +84,7 @@ const Table: React.FC<ITableInterface> = props => {
                     >
                       <span className="table-header d-flex align-items-center justify-content-center">
                         {_col.name}
-                        {_col.isSort && (
+                        {_col?.isSort && (
                           <img src={SortIcon} className="sort-icon" />
                         )}
                       </span>

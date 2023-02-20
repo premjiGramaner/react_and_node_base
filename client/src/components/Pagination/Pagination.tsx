@@ -53,7 +53,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
   let lastPage = paginationRange[paginationRange?.length - 1]
 
   return (
-    <div className="pagination-wrapper d-flex justify-content-end align-items-center">
+    <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
       <ul className={`pagination-container ${className}`}>
         <li className={`pagination-item `} onClick={onFirst}>
           <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />

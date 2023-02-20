@@ -9,7 +9,7 @@ import {
   IDispatchState,
   ILoginState,
 } from '@Interface/index'
-import { loginStoreMock } from '@Store/mockStore/storeData'
+import { getClientAccessToken, getToken } from '@Utils/storage'
 
 export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
@@ -19,12 +19,33 @@ export const userLogin: any = createAsyncThunk(
         .post(API.users.create, loginPayload)
         .then(reviseData)
         .then((response: any) => {
-          const { data, error } = response
-          if (!error) {
+          const data = response
+          if (!data.error) {
             resolve({
               data: data || [],
             })
           }
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const userLogout: any = createAsyncThunk(
+  'loginReducer/logout',
+  async () => {
+    return new Promise((resolve: any) => {
+      client
+        .post(API.users.logout)
+        .then(reviseData)
+        .then((response: any) => {
+          resolve({
+            loginReducerInitialState,
+          })
         })
         .catch((response: Error) => {
           const { data } = reviseData(response)
@@ -57,11 +78,23 @@ const loginReducer = createSlice({
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
-        state.token = action.payload.data.token.base64
-        state.userName = action.payload.data.detailedUser.firstName
+        getClientAccessToken(action.payload.data?.data?.data?.token.base64)
+        getToken(action.payload.data?.data?.loginToken)
+        state.token = action.payload.data?.data?.loginToken
+        state.userName = action.payload.data.data.data.detailedUser.firstName
         state.pending = false
-        state.statusCode = action.payload.statusCode
-        state.userId = action.payload.data.userId
+        state.statusCode = action.payload.data.statusCode
+        state.userId = action.payload.data.data.data.userId
+      }
+    )
+    builder.addCase(
+      userLogout.fulfilled,
+      (state: ILoginReducerState, action: IDispatchState) => {
+        state.pending = action.payload.loginReducerInitialState.pending
+        state.statusCode = action.payload.loginReducerInitialState.statusCode
+        state.token = action.payload.loginReducerInitialState.token
+        state.userId = action.payload.loginReducerInitialState.userId
+        state.userName = action.payload.loginReducerInitialState.userName
       }
     )
   },

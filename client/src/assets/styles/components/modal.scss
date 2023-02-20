@@ -11,6 +11,7 @@
       font-family: $font-default;
     }
     .close {
+      opacity: 1;
       &:hover {
         color: $white;
       }
@@ -72,7 +73,7 @@
 
     .download,
     .refresh {
-      width: 1.063rem;
+      width: 0.875rem;
       margin-right: 0.375rem;
     }
     .refresh-panel {

@@ -25,19 +25,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
     }
-    getToken(token)
     props.dispatch(fetchUsers())
     props.dispatch(fetchDashboard())
   }, [token])
 
-  const onLogout = () => {
-    IS_USER_AUTHENTICATED('false')
-    props.navigate(URLS.LOGIN)
-  }
-
   return (
     <div className="dashboard-page-main-container">
-      <Header {...props} userName={userName} handleLogout={onLogout} />
+      <Header {...props} userName={userName} />
       <Navigation {...props} />
       <div className="d-flex justify-content-between align-items-center searchContainer">
         <div className="endpoint">{props.t('dashboard.endpoint')}</div>

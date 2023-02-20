@@ -3,6 +3,7 @@ export const API_URL = 'http://localhost:5001/api/'
 export const STORAGE_KEY = {
   AUTH_TOKEN: 'accessToken',
   IS_USER_AUTHENTICATED: 'is-user-auth',
+  CLIENT_ACCESS_TOKEN: 'client-access-token',
   USER_INFO: 'user-info',
 }
 

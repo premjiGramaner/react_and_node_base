@@ -16,18 +16,20 @@ import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
 
+import { LoginBg, openEyeIcon } from '@Assets/svg'
 import { LoginBanner, Logo } from '@Assets/images'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
-  const statusCode = useSelector((state: IReducerState) => state.loginReducer)
+  const { statusCode, token } = useSelector(
+    (state: IReducerState) => state.loginReducer
+  )
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [showError, setShowError] = useState<boolean>(false)
 
   useEffect(() => {
-    if (statusCode?.statusCode === 400 || statusCode?.statusCode === 403) {
-      setShowError(true)
-    } else {
+    if (statusCode === 200) {
       props.navigate(URLS.DASHBOARD)
+      IS_USER_AUTHENTICATED(true)
     }
   }, [statusCode])
 
@@ -35,8 +37,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
     const loginPayload =
       loginValues.token.length > 0
         ? { token: loginValues.token }
-        : { user: loginValues.user, password: loginValues.password }
-    IS_USER_AUTHENTICATED(true)
+        : { username: loginValues.user, password: loginValues.password }
     props.dispatch(userLogin(loginPayload))
   }
 
@@ -57,11 +58,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   return (
     <div className="login-page-main-container w-100 d-flex">
       <div className="col-7 position-relative">
-        <img className="login-banner w-100" src={LoginBanner} alt="" />
-        <div className="banner-text">
-          <h3 className="logo-text">RAA</h3>
-          <p className="logo-desc">Remote Access Application</p>
-        </div>
+        <img className="login-banner w-100" src={LoginBg} alt="" />
       </div>
       <div className="col-5">
         <div className="login-form-container">
