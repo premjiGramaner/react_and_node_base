@@ -1,11 +1,12 @@
 const { baseURL, version } = require('./constants')
 const axios = require("axios")
 
+const apiURL = baseURL()
 
 const fetchOptions = (url, method, params = {}, headers = {}) => {
     if (method === 'get') {
         return axios({
-            url: `${baseURL}${version}${url}`,
+            url: `${apiURL}${version}${url}`,
             method: method,
             params: params,
             headers
@@ -13,15 +14,25 @@ const fetchOptions = (url, method, params = {}, headers = {}) => {
     }
 
     return axios({
-        url: `${baseURL}${version}${url}`,
+        url: `${apiURL}${version}${url}`,
         method: method,
         data: params,
         headers
     })
 }
 
-const get = (url, params = {}, headers = {}) => {
-    return axios.get(`${baseURL}${version}${url}`, params, headers)
+const get = (res, url, params = {}, headers = {}) => {
+
+    if (res?.locals?.client_token) {
+        headers.authorization = `Bearer ${res.locals.client_token}`
+    }
+
+    return axios({
+        url: `${apiURL}${version}${url}`,
+        method: 'get',
+        params,
+        headers
+    })
 }
 
 const post = (res, url, data = undefined, headers = {}) => {
@@ -31,7 +42,7 @@ const post = (res, url, data = undefined, headers = {}) => {
     }
 
     return axios({
-        url: `${baseURL}${version}${url}`,
+        url: `${apiURL}${version}${url}`,
         method: 'post',
         data,
         headers
@@ -39,7 +50,7 @@ const post = (res, url, data = undefined, headers = {}) => {
 }
 
 const put = (url, params = {}, headers = {}) => {
-    return axios.put(`${baseURL}${version}${url}`, params, headers)
+    return axios.put(`${apiURL}${version}${url}`, params, headers)
 }
 
 
