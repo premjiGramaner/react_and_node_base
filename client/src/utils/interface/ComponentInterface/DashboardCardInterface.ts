@@ -1,5 +1,5 @@
 export interface ISearchData {
-  projectName: string
+  title: string
   edgeNodeStatus: string
   enabled: boolean
   projectType: string

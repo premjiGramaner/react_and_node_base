@@ -4,4 +4,7 @@ export const API = {
     create: '/login',
     logout: 'login/logout',
   },
+  dashboard: {
+    projects: '/dashboard/projects',
+  },
 }

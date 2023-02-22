@@ -18,14 +18,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.loginReducer
   )
   const dashboardValue = useSelector(
-    (state: IReducerState) => state.dashboardReducer
+    (state: IReducerState) => state.dashboardReducer.dashboardData
   )
 
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
     }
-    props.dispatch(fetchUsers())
     props.dispatch(fetchDashboard())
   }, [token])
 
@@ -39,10 +38,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       </div>
       <DropDown {...props} />
       <div className="DashboardCardContainer">
-        <DashboardCard
-          {...props}
-          dashboardData={dashboardValue?.dashboardData}
-        />
+        <DashboardCard {...props} dashboardData={dashboardValue?.data} />
       </div>
     </div>
   )

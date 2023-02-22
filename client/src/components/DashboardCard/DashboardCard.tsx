@@ -19,7 +19,7 @@ const DashboardCard: React.FC<
 > = props => {
   return (
     <div className="card-container py-4">
-      {props.dashboardData.length > 0 &&
+      {props.dashboardData?.length > 0 &&
         props.dashboardData?.map((data: ISearchData) => {
           const status =
             data.enabled === true ? 'status-enable' : 'status-disable'
@@ -31,7 +31,7 @@ const DashboardCard: React.FC<
                     <i
                       className={`fa fa-circle status-icon ${data.edgeNodeStatus}`}
                     ></i>
-                    <div className="project-txt px-2">{data.projectName}</div>
+                    <div className="project-txt px-2">{data.title}</div>
                   </div>
 
                   <Tooltip infoData={data.info} />

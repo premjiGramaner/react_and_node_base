@@ -1,7 +1,8 @@
 .header-section {
   padding-right: 2.875rem;
   padding-left: 2.875rem;
-  background-image: linear-gradient(270deg, grey 0%, #050505 100%);
+  background-image: url('~/src/assets/svg/headerBg.svg');
+
   color: $white;
   .header-logo {
     width: 3rem;

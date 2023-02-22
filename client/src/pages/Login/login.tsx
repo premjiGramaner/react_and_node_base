@@ -15,9 +15,7 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-
-import { LoginBg, openEyeIcon } from '@Assets/svg'
-import { LoginBanner, Logo } from '@Assets/images'
+import { Logo, LoginBg } from '@Assets/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   const { statusCode, token } = useSelector(
