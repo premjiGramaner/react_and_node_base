@@ -5,7 +5,7 @@ import Pagination from '@Components/Pagination/Pagination'
 import { SortIcon } from '@Assets/images'
 
 const Table: React.FC<ITableInterface> = props => {
-  const { column, rowContent, pageSize, pageNumber } = props
+  const { column, rowContent, pageSize } = props
   const [order, setOrder] = useState<string>('ASC')
   const [tableData, setTableData] = useState<any[]>(rowContent)
   const [currentPage, setCurrentPage] = useState<number>(1)

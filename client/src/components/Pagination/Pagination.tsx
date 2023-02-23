@@ -27,6 +27,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
     siblingCount,
     pageSize,
   })
+
   const [handlePageCount, setHandlePageCount] = useState<number>(pageSize)
 
   useEffect(() => {
@@ -61,14 +62,6 @@ const Pagination: React.FC<IPaginationInterface> = props => {
   const onLast = () => {
     onPageChange(lastPage)
     paginationValue(`next.pageSize=${handlePageCount}&next.pageNum=${lastPage}`)
-  }
-
-  const handlePage = event => {
-    setHandlePageCount(event.target.value)
-
-    paginationValue(
-      `next.pageSize=${handlePageCount}&next.pageNum=${currentPage}`
-    )
   }
 
   let lastPage = paginationRange[paginationRange?.length - 1]
@@ -122,7 +115,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
           setHandlePageCount(event.target.value)
         }}
       />
-      <p className="pagination-total-count">{`${currentPage}-${pageSize} of ${totalCount}`}</p>
+      <p className="pagination-total-count">{`${currentPage}-${handlePageCount} of ${totalCount}`}</p>
     </div>
   )
 }
