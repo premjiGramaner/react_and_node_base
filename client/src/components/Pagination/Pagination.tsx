@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { IPaginationInterface } from '@Interface/ComponentInterface/PaginationInterface'
 import {
@@ -18,6 +18,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
     currentPage,
     pageSize,
     className,
+    paginationValue,
   } = props
 
   const paginationRange = usePagination({
@@ -26,7 +27,16 @@ const Pagination: React.FC<IPaginationInterface> = props => {
     siblingCount,
     pageSize,
   })
-  const [handlePageCount, setHandlePageCount] = useState<number>(currentPage)
+  const [handlePageCount, setHandlePageCount] = useState<number>(pageSize)
+
+  useEffect(() => {
+    const search = setTimeout(() => {
+      paginationValue(
+        `next.pageSize=${handlePageCount}&next.pageNum=${currentPage}`
+      )
+    }, 3000)
+    return () => clearTimeout(search)
+  }, [handlePageCount])
 
   if (currentPage === 0 || paginationRange?.length < 2) {
     return null
@@ -34,20 +44,31 @@ const Pagination: React.FC<IPaginationInterface> = props => {
 
   const onNext = () => {
     onPageChange(currentPage + 1)
+    paginationValue(
+      `next.pageSize=${handlePageCount}&next.pageNum=${currentPage + 1}`
+    )
   }
-
   const onPrevious = () => {
     onPageChange(currentPage - 1)
+    paginationValue(
+      `prev.pageSize=${handlePageCount}&prev.pageNum=${currentPage - 1}`
+    )
   }
   const onFirst = () => {
     onPageChange(1)
+    paginationValue(`prev.pageSize=${handlePageCount}&prev.pageNum=${1}`)
   }
   const onLast = () => {
     onPageChange(lastPage)
+    paginationValue(`next.pageSize=${handlePageCount}&next.pageNum=${lastPage}`)
   }
 
   const handlePage = event => {
     setHandlePageCount(event.target.value)
+
+    paginationValue(
+      `next.pageSize=${handlePageCount}&next.pageNum=${currentPage}`
+    )
   }
 
   let lastPage = paginationRange[paginationRange?.length - 1]
@@ -70,7 +91,12 @@ const Pagination: React.FC<IPaginationInterface> = props => {
               className={`pagination-item ${
                 pageNumber === currentPage && 'selected'
               }`}
-              onClick={() => onPageChange(pageNumber)}
+              onClick={() => {
+                onPageChange(pageNumber),
+                  paginationValue(
+                    `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}`
+                  )
+              }}
             >
               {pageNumber}
             </li>
@@ -92,7 +118,9 @@ const Pagination: React.FC<IPaginationInterface> = props => {
         type="number"
         className="page-count mx-3"
         value={handlePageCount}
-        onChange={event => handlePage(event)}
+        onChange={event => {
+          setHandlePageCount(event.target.value)
+        }}
       />
       <p className="pagination-total-count">{`${currentPage}-${pageSize} of ${totalCount}`}</p>
     </div>

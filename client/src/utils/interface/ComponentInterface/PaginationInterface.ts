@@ -3,6 +3,7 @@ export interface IPaginationInterface {
   totalCount?: number
   siblingCount?: number
   currentPage?: number
+  paginationValue: (e: string) => void
   pageSize?: number
   className?: string
 }
