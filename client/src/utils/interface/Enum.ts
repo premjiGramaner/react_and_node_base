@@ -6,5 +6,9 @@ export const API = {
   },
   dashboard: {
     projects: '/dashboard/projects',
+    status: '/dashboard/projects/status',
+  },
+  edgeNode: {
+    edgeNodes: 'edgeNodes?next.pageSize=20&next.pageNum=1',
   },
 }

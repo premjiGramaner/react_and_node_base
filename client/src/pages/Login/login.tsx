@@ -15,7 +15,9 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-import { Logo, LoginBg } from '@Assets/svg'
+import { LoginBg } from '@Assets/svg'
+
+import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   const { statusCode, token } = useSelector(
@@ -28,6 +30,8 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
     if (statusCode === 200) {
       props.navigate(URLS.DASHBOARD)
       IS_USER_AUTHENTICATED(true)
+    } else if (statusCode === 401 || statusCode === 400) {
+      setShowError(true)
     }
   }, [statusCode])
 
@@ -60,7 +64,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
       </div>
       <div className="col-5">
         <div className="login-form-container">
-          <img src={Logo} className="logo" />
+          <Logo />
           <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
             <TextBox

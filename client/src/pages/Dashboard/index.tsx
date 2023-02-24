@@ -5,7 +5,7 @@ import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
 
-import { fetchDashboard, fetchUsers } from '@Reducers/index'
+import { fetchDashboard, fetchEdgeDetails } from '@Reducers/index'
 
 import Header from '@Components/Header/Header'
 import DashboardCard from '@Components/DashboardCard/DashboardCard'
@@ -17,16 +17,35 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const { userName, token } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
-  const dashboardValue = useSelector(
+  const projectDetails = useSelector(
     (state: IReducerState) => state.dashboardReducer.dashboardData
   )
+
+  const EdgeDetails = useSelector(
+    (state: IReducerState) => state.dashboardReducer.EdgeDetails
+  )
+
+  let dashboardData = []
+  const dashboarDetails = projectDetails?.data?.forEach((data, i) => {
+    const result = {
+      title: data.title,
+      edgeNodeStatus: EdgeDetails?.list[i].status,
+      enabled: EdgeDetails?.list[i].status,
+      projectType: EdgeDetails?.list[i].type,
+      edgeNodes: '',
+      edgeAppInstance: '',
+      info: '',
+    }
+    dashboardData.push(result)
+  })
 
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
     }
     props.dispatch(fetchDashboard())
-  }, [token])
+    props.dispatch(fetchEdgeDetails())
+  }, [])
 
   return (
     <div className="dashboard-page-main-container">
@@ -38,7 +57,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       </div>
       <DropDown {...props} />
       <div className="DashboardCardContainer">
-        <DashboardCard {...props} dashboardData={dashboardValue?.data} />
+        <DashboardCard {...props} dashboardData={dashboardData} />
       </div>
     </div>
   )
