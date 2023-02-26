@@ -17,7 +17,12 @@ module.exports = {
         },
         edgeNode: {
             list: 'devices/status-config',
-            getById: ''
+            getByFilter: 'devices/status-config'
+        },
+        edgeApp: {
+            list: 'apps/instances/status-config',
+            getByFilter: 'apps/instances/status-config',
+            byID: 'apps/instances/id/'
         },
     }
 };
