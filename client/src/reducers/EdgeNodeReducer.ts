@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
+import client from '@Utils/axiosConfig'
+
 import { API, IDispatchState, IEdgeNodePageState } from '@Interface/index'
 import {
   edgeNodeDeviceList,
@@ -12,15 +14,20 @@ export const fetchEdgeNode: any = createAsyncThunk(
   'edgeNodeReducer/edgeNodeData',
   async () => {
     return new Promise((resolve: any) => {
-      resolve({
-        edgeNodeDeviceList,
-        edgeNodeInfo,
-        tableData,
-      }).catch((response: Error) => {
-        const { data } = reviseData(response)
-        console.log('API Failed!', data)
-        resolve({ data: [] })
-      })
+      client
+        .get(API.edgeNode.edgeNodes)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
     })
   }
 )
@@ -38,9 +45,7 @@ const edgeNodeReducer = createSlice({
     builder.addCase(
       fetchEdgeNode.fulfilled,
       (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.edgeNodeInfo = action.payload.edgeNodeInfo
-        state.edgeNodeDataList = action.payload.tableData
-        state.deviceList = action.payload.edgeNodeDeviceList
+        state.deviceList = action.payload.data.data.data.list
       }
     )
   },

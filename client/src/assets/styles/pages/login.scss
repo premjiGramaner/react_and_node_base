@@ -25,16 +25,14 @@
     }
   }
   .login-banner {
-    height: 100vh;
+    // height: 100vh;
   }
   .login-form-container {
     width: 20.5rem;
     margin: auto;
     position: relative;
     top: 8%;
-    .logo {
-      width: 4.875rem;
-      height: 2rem;
+    .login-logo {
       margin-bottom: 1.125rem;
     }
   }
@@ -66,5 +64,9 @@
     font-size: 0.875rem;
     font-weight: 700;
     letter-spacing: 0.019rem;
+  }
+  .error-msg {
+    color: $red;
+    padding-bottom: 0.875rem;
   }
 }

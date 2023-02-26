@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 
 import {
@@ -14,19 +15,31 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
+import { LoginBg } from '@Assets/svg'
 
-import { LoginBanner, Logo } from '@Assets/images'
+import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
+  const { statusCode, token } = useSelector(
+    (state: IReducerState) => state.loginReducer
+  )
   const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showError, setShowError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (statusCode === 200) {
+      props.navigate(URLS.DASHBOARD)
+      IS_USER_AUTHENTICATED(true)
+    } else if (statusCode === 401 || statusCode === 400) {
+      setShowError(true)
+    }
+  }, [statusCode])
 
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =
       loginValues.token.length > 0
         ? { token: loginValues.token }
-        : { user: loginValues.user, password: loginValues.password }
-    IS_USER_AUTHENTICATED(true)
-    props.navigate(URLS.DASHBOARD)
+        : { username: loginValues.user, password: loginValues.password }
     props.dispatch(userLogin(loginPayload))
   }
 
@@ -47,15 +60,11 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   return (
     <div className="login-page-main-container w-100 d-flex">
       <div className="col-7 position-relative">
-        <img className="login-banner w-100" src={LoginBanner} alt="" />
-        <div className="banner-text">
-          <h3 className="logo-text">RAA</h3>
-          <p className="logo-desc">Remote Access Application</p>
-        </div>
+        <img className="login-banner w-100" src={LoginBg} alt="" />
       </div>
       <div className="col-5">
         <div className="login-form-container">
-          <img src={Logo} className="logo" />
+          <Logo />
           <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
             <TextBox
@@ -101,7 +110,9 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
               placeHolder={props.t('login.token')}
               handleInputChange={handleChange}
             />
-
+            {showError && (
+              <p className="error-msg">{props.t('login.errorMessage')}</p>
+            )}
             <Button className="login-btn">{props.t('login.login')}</Button>
           </form>
         </div>

@@ -154,7 +154,7 @@ export const tableData = [
   {
     status: 'Online',
     eveImageVersion: 'EVE Image Version',
-    location: 'Coimbatore',
+    location: 'Banglore',
     sessionActive: true,
   },
 ]

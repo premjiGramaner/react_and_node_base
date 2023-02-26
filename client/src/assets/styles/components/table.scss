@@ -3,6 +3,7 @@
 
   thead {
     border-top: 0.125rem solid $themeColor;
+    background-color: $white;
     .table-header {
       font-size: 0.875rem;
       color: $tableTextColor;
@@ -67,7 +68,7 @@
       }
       td {
         border-right: 0.063rem solid $navBorder;
-        padding: 0.563rem;
+        padding: 0.625rem;
         border-top: 0;
         &:last-child {
           border-right: 0;
