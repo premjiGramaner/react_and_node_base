@@ -1,5 +1,5 @@
 const { routes } = require("../helpers/constants")
-const { fetchOptions, post, get } = require("../helpers/fetch")
+const { fetchOptions, put, get } = require("../helpers/fetch")
 const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
 const { loginMock } = require("../helpers/mock/login");
 const jwt = require('jsonwebtoken');
@@ -66,7 +66,14 @@ const updateAppStatus = async (req, res, next) => {
     try {
         let url = routes.edgeApp.stateUpdate.replace('{id}', id) + status;
         put(res, url).then((response) => response).then((appInfo) => {
-            formatResponse(res, 200, appInfo?.data, "Device status Updated successfully!");
+            let resOptimized = {};
+            if (appInfo?.data?.httpStatusCode === 200 && appInfo?.data?.httpStatusMsg) {
+                resOptimized = { ...appInfo?.data };
+                resOptimized['httpStatusMsg'] = JSON.parse(appInfo?.data?.httpStatusMsg);
+            } else {
+                resOptimized = appInfo?.data;
+            }
+            formatResponse(res, 200, resOptimized, "Device status Updated successfully!");
         }).catch((err) => {
             formatResponse(res, 400, err, "Failed to Update Device status!");
         });
@@ -85,9 +92,10 @@ const downloadAppScript = async (req, res, next) => {
 
     try {
         let url = routes.edgeApp.downloadScript.replace('{id}', id);
-        get(res, url).then((response) => response).then((appInfo) => {
-            formatResponse(res, 200, appInfo?.data, "Script downloaded successfully!");
+        get(res, url).then((appInfo) => {
+            formatResponse(res, 200, appInfo.data, "Script downloaded successfully!");
         }).catch((err) => {
+            console.log('ewewe', err.message);
             formatResponse(res, 400, err, "Failed to downloaded!");
         });
     } catch (e) {
