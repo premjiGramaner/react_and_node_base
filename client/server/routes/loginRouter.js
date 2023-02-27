@@ -5,12 +5,10 @@ const { validateToken } = require('../middleware')
 
 const {
     doLogin,
-    getLogedInUserInfo,
-    doLogout
+    getLogedInUserInfo
 } = require('../controllers/login')
 
 router.post("/", doLogin);
-router.post("/logout", validateToken, doLogout);
 router.get("/self", validateToken, getLogedInUserInfo);
 
 module.exports = router;

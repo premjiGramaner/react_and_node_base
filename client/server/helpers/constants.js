@@ -22,7 +22,9 @@ module.exports = {
         edgeApp: {
             list: 'apps/instances/status-config',
             getByFilter: 'apps/instances/status-config',
-            byID: 'apps/instances/id/'
+            byID: 'apps/instances/id/',
+            stateUpdate: 'devices/id/{id}/edgeview/',
+            downloadScript: 'devices/id/{id}/edgeview/clientscript',
         },
     }
 };

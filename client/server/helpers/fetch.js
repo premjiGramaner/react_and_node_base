@@ -49,8 +49,18 @@ const post = (res, url, data = undefined, headers = {}) => {
     })
 }
 
-const put = (url, params = {}, headers = {}) => {
-    return axios.put(`${apiURL}${version}${url}`, params, headers)
+const put = (res, url, data = undefined, headers = {}) => {
+
+    if (res?.locals?.client_token) {
+        headers.authorization = `Bearer ${res.locals.client_token}`
+    }
+
+    return axios({
+        url: `${apiURL}${version}${url}`,
+        method: 'put',
+        data,
+        headers
+    })
 }
 
 

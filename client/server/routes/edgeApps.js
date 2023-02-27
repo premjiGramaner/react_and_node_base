@@ -5,10 +5,14 @@ const { validateToken } = require('../middleware')
 
 const {
     getEdgeAppList,
-    getEdgeAppById
+    getEdgeAppById,
+    updateAppStatus,
+    downloadAppScript
 } = require('../controllers/edgeApps')
 
 router.get("/", validateToken, getEdgeAppList);
 router.get("/:id", validateToken, getEdgeAppById);
+router.put("/status/:id/:status", validateToken, updateAppStatus);
+router.get("/download-script/:id", validateToken, downloadAppScript);
 
 module.exports = router;

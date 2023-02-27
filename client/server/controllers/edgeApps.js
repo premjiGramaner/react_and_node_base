@@ -56,7 +56,49 @@ const getEdgeAppById = async (req, res, next) => {
     }
 };
 
+const updateAppStatus = async (req, res, next) => {
+    const { id, status } = req.params || {};
+
+    if (!id) {
+        return formatResponse(res, 400, {}, "Failed to Update Device status!, App id is missing");
+    }
+
+    try {
+        let url = routes.edgeApp.stateUpdate.replace('{id}', id) + status;
+        put(res, url).then((response) => response).then((appInfo) => {
+            formatResponse(res, 200, appInfo?.data, "Device status Updated successfully!");
+        }).catch((err) => {
+            formatResponse(res, 400, err, "Failed to Update Device status!");
+        });
+    } catch (e) {
+        console.log('fail *******', e);
+        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to Update Device status!");
+    }
+};
+
+const downloadAppScript = async (req, res, next) => {
+    const id = req.params?.id;
+
+    if (!id) {
+        return formatResponse(res, 400, {}, "Failed to download!, App id is missing");
+    }
+
+    try {
+        let url = routes.edgeApp.downloadScript.replace('{id}', id);
+        get(res, url).then((response) => response).then((appInfo) => {
+            formatResponse(res, 200, appInfo?.data, "Script downloaded successfully!");
+        }).catch((err) => {
+            formatResponse(res, 400, err, "Failed to downloaded!");
+        });
+    } catch (e) {
+        console.log('fail *******', e);
+        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to get project list!");
+    }
+};
+
 module.exports = {
     getEdgeAppList,
-    getEdgeAppById
+    getEdgeAppById,
+    updateAppStatus,
+    downloadAppScript
 };
