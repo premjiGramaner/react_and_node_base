@@ -22,8 +22,8 @@ const getEdgeNodeList = async (req, res, next) => {
         if (query['prev.pageNum'])
             url += `&prev.pageNum=${query['prev.pageNum']}`;
 
-        if (query['prev.projectName'])
-            url += `&prev.projectNamePattern=${query['prev.projectName']}`;
+        if (query['projectName'])
+            url += `&projectNamePattern=${query['projectName']}`;
 
         get(res, url).then((response) => response).then((projectList) => {
             formatResponse(res, 200, projectList?.data, "EdgeNode list fetched successfully!");

@@ -16,11 +16,11 @@ const getEdgeAppList = async (req, res, next) => {
         if (query['next.pageNum'])
             url += `&next.pageNum=${query['next.pageNum']}`;
 
-        if (query['prev.appName'])
-            url += `&prev.appName=${query['prev.appName']}`;
+        if (query['appName'])
+            url += `&appName=${query['appName']}`;
 
-        if (query['prev.projectName'])
-            url += `&prev.projectNamePattern=${query['prev.projectName']}`;
+        if (query['projectName'])
+            url += `&projectNamePattern=${query['projectName']}`;
 
 
         get(res, url).then((response) => response).then((appList) => {
