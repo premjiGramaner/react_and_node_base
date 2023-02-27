@@ -143,51 +143,56 @@ export const edgeAppInstanceData = [
   {
     ip_address: 'IP Address_1',
     ports: 30,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_2',
     ports: 20,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_3',
     ports: 19,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_4',
     ports: 12,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_5',
     ports: 10,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_6',
     ports: 4,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_7',
     ports: 21,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_8',
     ports: 20,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_9',
     ports: 30,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
   },
   {
     ip_address: 'IP Address_10',
     ports: 22,
-    description: 'Lorem ipsum dolor sit',
+    description: 'Lorem ipsum',
+  },
+  {
+    ip_address: 'IP Address_11',
+    ports: 11,
+    description: 'Lorem ipsum',
   },
 ]

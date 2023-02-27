@@ -17,6 +17,7 @@ import RightLastArrowIcon from './right-last.png'
 import CloseIcon from './close.png'
 import DownloadIcon from './Download.png'
 import RefreshIcon from './Refresh.png'
+import CollapseIcon from './collapse.png'
 
 export {
   SearchIcon,
@@ -38,4 +39,5 @@ export {
   CloseIcon,
   DownloadIcon,
   RefreshIcon,
+  CollapseIcon,
 }

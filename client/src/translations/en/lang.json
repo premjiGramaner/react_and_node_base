@@ -5,7 +5,8 @@
     "password": "Password",
     "or": "OR",
     "token": "Token",
-    "login": "LOGIN"
+    "login": "LOGIN",
+    "errorMessage": "Invalid Credentials."
   },
   "dashboard": {
     "endpoint": "Endpoint1",

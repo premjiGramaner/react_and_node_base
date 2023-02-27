@@ -5,7 +5,7 @@ import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
 
-import { fetchDashboard, fetchUsers } from '@Reducers/index'
+import { fetchDashboard, fetchEdgeDetails } from '@Reducers/index'
 
 import Header from '@Components/Header/Header'
 import DashboardCard from '@Components/DashboardCard/DashboardCard'
@@ -17,27 +17,39 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const { userName, token } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
-  const dashboardValue = useSelector(
-    (state: IReducerState) => state.dashboardReducer
+  const projectDetails = useSelector(
+    (state: IReducerState) => state.dashboardReducer.dashboardData
   )
+
+  const EdgeDetails = useSelector(
+    (state: IReducerState) => state.dashboardReducer.EdgeDetails
+  )
+
+  let dashboardData = []
+  const dashboarDetails = projectDetails?.data?.forEach((data, i) => {
+    const result = {
+      title: data.title,
+      edgeNodeStatus: EdgeDetails?.list[i].status,
+      enabled: EdgeDetails?.list[i].status,
+      projectType: EdgeDetails?.list[i].type,
+      edgeNodes: '',
+      edgeAppInstance: '',
+      info: '',
+    }
+    dashboardData.push(result)
+  })
 
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
     }
-    getToken(token)
-    props.dispatch(fetchUsers())
     props.dispatch(fetchDashboard())
-  }, [token])
-
-  const onLogout = () => {
-    IS_USER_AUTHENTICATED('false')
-    props.navigate(URLS.LOGIN)
-  }
+    props.dispatch(fetchEdgeDetails())
+  }, [])
 
   return (
     <div className="dashboard-page-main-container">
-      <Header {...props} userName={userName} handleLogout={onLogout} />
+      <Header {...props} userName={userName} />
       <Navigation {...props} />
       <div className="d-flex justify-content-between align-items-center searchContainer">
         <div className="endpoint">{props.t('dashboard.endpoint')}</div>
@@ -45,10 +57,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       </div>
       <DropDown {...props} />
       <div className="DashboardCardContainer">
-        <DashboardCard
-          {...props}
-          dashboardData={dashboardValue?.dashboardData}
-        />
+        <DashboardCard {...props} dashboardData={dashboardData} />
       </div>
     </div>
   )

@@ -19,10 +19,12 @@ const DashboardCard: React.FC<
 > = props => {
   return (
     <div className="card-container py-4">
-      {props.dashboardData.length > 0 &&
+      {props.dashboardData?.length > 0 &&
         props.dashboardData?.map((data: ISearchData) => {
           const status =
-            data.enabled === true ? 'status-enable' : 'status-disable'
+            data.enabled === 'TAG_STATUS_ACTIVE'
+              ? 'status-enable'
+              : 'status-disable'
           return (
             <div className="dashboardCard rounded">
               <div className={`${status}`}>
@@ -31,14 +33,14 @@ const DashboardCard: React.FC<
                     <i
                       className={`fa fa-circle status-icon ${data.edgeNodeStatus}`}
                     ></i>
-                    <div className="project-txt px-2">{data.projectName}</div>
+                    <div className="project-txt px-2">{data.title}</div>
                   </div>
 
                   <Tooltip infoData={data.info} />
                 </div>
                 <div className="project-helpertxt px-4">{data.projectType}</div>
                 <div className="enabled px-4">
-                  {data.enabled === true
+                  {data.enabled === 'TAG_STATUS_ACTIVE'
                     ? props.t('dashboard.enabled')
                     : props.t('dashboard.disabled')}
                 </div>
@@ -51,7 +53,7 @@ const DashboardCard: React.FC<
                       className="d-flex px-4 edge-app-color align-items-center"
                       onClick={() => props.navigate(URLS.EDGENODE)}
                     >
-                      {data.enabled === true ? (
+                      {data.enabled === 'TAG_STATUS_ACTIVE' ? (
                         <img src={EdgeNodeEnable} className="edge-node-icon" />
                       ) : (
                         <img src={EdgeNodeDisable} className="edge-node-icon" />
@@ -66,7 +68,7 @@ const DashboardCard: React.FC<
                       {props.t('dashboard.edgeInstances')}
                     </div>
                     <div className="d-flex px-4 edge-node-color align-items-center">
-                      {data.enabled === true ? (
+                      {data.enabled === 'TAG_STATUS_ACTIVE' ? (
                         <img
                           src={EdgeAppInstanceEnable}
                           className="edge-app-icon"

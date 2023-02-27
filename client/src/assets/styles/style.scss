@@ -13,14 +13,14 @@ $projectTxtColor: #3d4859;
 $edgeTxtColor: #707070;
 $edgeNumColor: #06746f;
 $descriptiveTxtColor: #3d4859;
-$dashboardBG: #ece7e7;
+$dashboardBG: #f3f5f5;
 $SearchShadowColor: #141414;
 $dashboardBoxShadow: 0 2px 14px 0 rgba(220, 220, 220, 0.5);
 $edgeNodeAppBg: #5f5f5f;
-$edgeNodeBgEnable: #a4d1c7;
-$edgeAppBgEnable: #d5f3e9;
-$edgeNodeBgDisable: #bdc0bf;
-$edgeAppBgDisable: #dde0e0;
+$edgeNodeBgEnable: #d3ebeb;
+$edgeAppBgEnable: #e2efef;
+$edgeNodeBgDisable: #e3e1e7;
+$edgeAppBgDisable: #ebeaed;
 $statusIconColor: #aca8c1;
 $navBackgroundColor: #6f6f6f;
 $red: #ff0000;
@@ -30,13 +30,13 @@ $eyeIconColor: #bebebe;
 $lableColor: #a1a1a1;
 $edgeDisableCount: #413e4d;
 //Status color need to check with client
-$statusOnline: #00883f;
-$statusError: #d1120b;
-$statusProvisioned: #ad3f83;
-$stautsUnprovisioned: #8322c8;
-$statusSuspect: #c97300;
+$statusOnline: #008c38;
+$statusError: #e10000;
+$statusProvisioned: #bb3284;
+$stautsUnprovisioned: #5d009a;
+$statusSuspect: #d36e00;
+$statusOther: #7b7777;
 $stausUnknown: #006acf;
-$statusOther: #7a7879;
 $statusInialzed: #076ac8;
 
 $tableBackground: #f9f8f8;
@@ -46,7 +46,7 @@ $sessionColor: #2cafa9;
 $sessionTextColor: #178984;
 $sessionBackgroundColor: #c7dedd;
 $navBorder: #e8dfdf;
-$navBackground: #5fe2dc;
+$navBackground: #bfe7e5;
 $paginationItemcolor: #4a4a4a;
 
 /* ----- TODO update the below item with requirement ----- */

@@ -6,6 +6,9 @@
     background-color: $white;
     box-shadow: 0 0 0.313rem 0 rgba(113, 110, 110, 0.19),
       0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.04);
+    margin-right: 1rem;
+    height: max-content;
+
     .nav-header {
       color: $projectTxtColor;
       font-weight: 600;
@@ -65,7 +68,6 @@
     flex-grow: 1;
 
     .content {
-      padding: 0 1.25rem;
       display: none;
     }
     .active-content {
