@@ -14,27 +14,31 @@ const NavPanel: FC<INavPanelInterface & IDefaultPageProps> = props => {
   }
 
   return (
-    <div className="nav-link-container">
-      <div className="tabs-panel">
-        <div className="nav-header">
-          {props.t('edge-nodes.name')}
-          <img src={SortIcon} className="sort-icon" />
+    <div className="nav-link-container w-100">
+      {props.navigationList?.length > 0 && (
+        <div className="tabs-panel">
+          <div className="nav-header">
+            {props.t('edge-nodes.name')}
+            <img src={SortIcon} className="sort-icon" />
+          </div>
+          {props.navigationList?.map((data, index) => {
+            return (
+              <div
+                key={index}
+                className="tabs"
+                onClick={() => {
+                  toggleTab(index),
+                    props.navigatePage && props.navigate(URLS.EDGEAPPINSTANCES),
+                    props.handleDeviceData(data.id),
+                    props.handleListCount()
+                }}
+              >
+                {data?.name}
+              </div>
+            )
+          })}
         </div>
-        {props.navigationList?.map((data, index) => {
-          return (
-            <div
-              className={toggleState === index ? 'tabs active-tabs' : 'tabs'}
-              onClick={() => {
-                toggleTab(index),
-                  props.navigatePage && props.navigate(URLS.EDGEAPPINSTANCES)
-              }}
-            >
-              {data?.device}
-            </div>
-          )
-        })}
-      </div>
-
+      )}
       <div className="content-tabs">
         {props.navigationData?.map((data, index) => {
           return (

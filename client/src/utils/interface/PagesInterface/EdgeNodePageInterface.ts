@@ -6,7 +6,7 @@ export interface IEdgeNodePageState {
 }
 
 export interface IEdgeNodeInfo {
-  projectName?: string
+  title?: string
   edgeNodesCount?: number
 }
 

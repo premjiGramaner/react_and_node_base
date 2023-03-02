@@ -40,5 +40,8 @@
     "deactivateSession": "Deactivate Session",
     "downloadScript": "Download Script",
     "refresh": "Refresh"
+  },
+  "userEvent": {
+    "activityLog": "Activity Logs"
   }
 }

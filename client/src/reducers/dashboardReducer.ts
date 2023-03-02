@@ -11,7 +11,7 @@ export const fetchDashboard: any = createAsyncThunk(
   async () => {
     return new Promise((resolve: any) => {
       client
-        .get(API.dashboard.projects)
+        .get(API.dashboard.projectCounts)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -19,6 +19,7 @@ export const fetchDashboard: any = createAsyncThunk(
             data: data || [],
           })
         })
+
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
@@ -63,7 +64,7 @@ const dashboardReducer = createSlice({
     builder.addCase(
       fetchDashboard.fulfilled,
       (state: IDashboardCardInterface, action: IDispatchState) => {
-        state.dashboardData = action.payload.data.data.data
+        state.dashboardData = action.payload.data.data
       }
     ),
       builder.addCase(

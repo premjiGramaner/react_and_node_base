@@ -41,7 +41,7 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
             </div>
 
             <div className="modal-footer">
-              <div>
+              <div onClick={props.handleDownload} className="download-file">
                 <img src={DownloadIcon} className="download" />
                 {props.t('viewSession.downloadScript')}
               </div>

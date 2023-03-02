@@ -32,6 +32,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
       IS_USER_AUTHENTICATED(true)
     } else if (statusCode === 401 || statusCode === 400) {
       setShowError(true)
+      props.navigate(URLS.DEFAULT)
     }
   }, [statusCode])
 

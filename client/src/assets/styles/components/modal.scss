@@ -71,6 +71,9 @@
   .modal-footer {
     justify-content: start;
 
+    .download-file {
+      cursor: pointer;
+    }
     .download,
     .refresh {
       width: 0.875rem;

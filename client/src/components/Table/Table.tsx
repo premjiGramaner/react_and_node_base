@@ -13,7 +13,7 @@ const Table: React.FC<ITableInterface> = props => {
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
-    return rowContent.slice(firstPageIndex, lastPageIndex)
+    return rowContent?.slice(firstPageIndex, lastPageIndex)
   }, [currentPage])
 
   const TableRowCell = ({ tabelData, tableHeader }) => {
@@ -24,7 +24,7 @@ const Table: React.FC<ITableInterface> = props => {
           {tableHeader?.status ? (
             <>
               <i
-                className={`fa fa-circle status-icon ${tabelData?.status}`}
+                className={`fa fa-circle status-icon ${tabelData?.runState}`}
               ></i>
               {value}
             </>
@@ -38,7 +38,7 @@ const Table: React.FC<ITableInterface> = props => {
               onClick={() => tableHeader?.cell(tabelData)}
             >
               {tabelData?.sessionActive
-                ? 'Activate Session'
+                ? 'ADMIN_STATE_ACTIVE'
                 : 'Deactivate Session'}
             </button>
           ) : (
@@ -65,6 +65,7 @@ const Table: React.FC<ITableInterface> = props => {
       setOrder('ASC')
     }
   }
+
   return (
     <div className={`w-100 ${props.className}`}>
       {currentTableData?.length > 0 ? (

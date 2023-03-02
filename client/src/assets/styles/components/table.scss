@@ -39,6 +39,7 @@
         }
         .active-session {
           background-color: $sessionBackgroundColor;
+          pointer-events: none;
         }
         .deactive-session {
           background-color: $white;
@@ -59,11 +60,14 @@
         .Suspect {
           color: $statusSuspect;
         }
-        .Unkonwn {
+        .RUN_STATE_UNKNOWN {
           color: $stausUnknown;
         }
         .Other {
           color: $statusOther;
+        }
+        .RUN_STATE_PROVISIONED {
+          color: $statusProvisioned;
         }
       }
       td {

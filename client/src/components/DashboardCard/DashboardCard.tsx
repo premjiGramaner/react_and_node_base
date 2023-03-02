@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Tooltip from '@Components/Tooltip/Tooltip'
 import {
   IDashboardCardInterface,
@@ -17,16 +17,21 @@ import {
 const DashboardCard: React.FC<
   IDashboardCardInterface & IDefaultPageProps
 > = props => {
+  const handleEdgeNodeClick = data => {
+    props.projectInfo(data)
+    props.navigate(URLS.EDGENODE)
+  }
+
   return (
     <div className="card-container py-4">
       {props.dashboardData?.length > 0 &&
-        props.dashboardData?.map((data: ISearchData) => {
+        props.dashboardData?.map((data: ISearchData, index: number) => {
           const status =
             data.enabled === 'TAG_STATUS_ACTIVE'
               ? 'status-enable'
               : 'status-disable'
           return (
-            <div className="dashboardCard rounded">
+            <div className="dashboardCard rounded" key={index}>
               <div className={`${status}`}>
                 <div className="d-flex align-items-center px-4 pt-4 justify-content-between">
                   <div className="d-flex align-items-center">
@@ -36,9 +41,8 @@ const DashboardCard: React.FC<
                     <div className="project-txt px-2">{data.title}</div>
                   </div>
 
-                  <Tooltip infoData={data.info} />
+                  {data.info.length !== 0 && <Tooltip infoData={data.info} />}
                 </div>
-                <div className="project-helpertxt px-4">{data.projectType}</div>
                 <div className="enabled px-4">
                   {data.enabled === 'TAG_STATUS_ACTIVE'
                     ? props.t('dashboard.enabled')
@@ -51,7 +55,7 @@ const DashboardCard: React.FC<
                     </div>
                     <div
                       className="d-flex px-4 edge-app-color align-items-center"
-                      onClick={() => props.navigate(URLS.EDGENODE)}
+                      onClick={() => handleEdgeNodeClick(data)}
                     >
                       {data.enabled === 'TAG_STATUS_ACTIVE' ? (
                         <img src={EdgeNodeEnable} className="edge-node-icon" />

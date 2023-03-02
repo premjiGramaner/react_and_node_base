@@ -10,6 +10,7 @@ import {
   ILoginState,
 } from '@Interface/index'
 import { getClientAccessToken, getToken } from '@Utils/storage'
+import { action } from 'typesafe-actions'
 
 export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
@@ -71,7 +72,7 @@ const loginReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(
       userLogin.pending,
-      (state: ILoginReducerState, _action: IDispatchState) => {
+      (state: ILoginReducerState, action: IDispatchState) => {
         state.pending = true
       }
     )
@@ -80,6 +81,10 @@ const loginReducer = createSlice({
       (state: ILoginReducerState, action: IDispatchState) => {
         getClientAccessToken(action.payload.data?.data?.data?.token.base64)
         getToken(action.payload.data?.data?.loginToken)
+        sessionStorage.setItem(
+          'userName',
+          action.payload.data.data.data.detailedUser.firstName
+        )
         state.token = action.payload.data?.data?.loginToken
         state.userName = action.payload.data.data.data.detailedUser.firstName
         state.pending = false

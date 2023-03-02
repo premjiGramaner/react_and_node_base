@@ -1,3 +1,4 @@
+import { IEdgeNodeInfo } from '@Utils/interface/PagesInterface'
 export interface ISearchData {
   title?: string
   edgeNodeStatus?: string
@@ -10,4 +11,5 @@ export interface ISearchData {
 export interface IDashboardCardInterface {
   dashboardData?: any
   EdgeDetails?: any
+  projectInfo?: (e: IEdgeNodeInfo) => void
 }

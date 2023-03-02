@@ -27,6 +27,8 @@
       }
     }
     .tabs {
+      word-break: break-word;
+
       cursor: pointer;
       width: 13.125rem;
       border-bottom: 0.063rem solid $navBorder;

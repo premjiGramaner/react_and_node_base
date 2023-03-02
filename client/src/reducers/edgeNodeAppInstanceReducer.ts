@@ -1,31 +1,54 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
+import client from '@Utils/axiosConfig'
+
 import { API, IDispatchState, IEdgeNodePageState } from '@Interface/index'
-import {
-  edgeAppInstanceData,
-  edgeNodeDeviceList,
-  tableData,
-  edgeNodeAppInfo,
-} from '@Store/mockStore/storeData/edgeAppInstancesMock'
 
 export const fetchEdgeNodeApp: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/edgeNodeAppData',
   async () => {
     return new Promise((resolve: any) => {
-      resolve({
-        edgeAppInstanceData,
-        edgeNodeDeviceList,
-        tableData,
-        edgeNodeAppInfo,
-      }).catch((response: Error) => {
-        const { data } = reviseData(response)
-        console.log('API Failed!', data)
-        resolve({ data: [] })
-      })
+      client
+        .get(API.appInstance.edgeApps)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
     })
   }
 )
+
+export const fetchNetworkData: any = createAsyncThunk(
+  'edgeNodeAppInstancesReducer/networkData',
+  async (id: string) => {
+    return new Promise((resolve: any) => {
+      client
+        .get(`${API.appInstance.network}${id}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeInfo: {},
   edgeNodeDataList: [],
@@ -41,12 +64,18 @@ const edgeNodeAppInstanceReducer = createSlice({
     builder.addCase(
       fetchEdgeNodeApp.fulfilled,
       (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.edgeNodeInfo = action.payload.edgeNodeAppInfo
-        state.edgeNodeDataList = action.payload.tableData
-        state.deviceList = action.payload.edgeNodeDeviceList
-        state.networkList = action.payload.edgeAppInstanceData
+        // state.edgeNodeInfo = action.payload.data
+        state.edgeNodeDataList = action.payload.data.data.data
+        // state.deviceList = action.payload.edgeNodeDeviceList
+        // state.networkList = action.payload.edgeAppInstanceData
       }
-    )
+    ),
+      builder.addCase(
+        fetchNetworkData.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          console.log('action', action)
+        }
+      )
   },
 })
 
