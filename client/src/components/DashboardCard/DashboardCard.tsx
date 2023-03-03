@@ -6,7 +6,7 @@ import {
 } from '@Utils/interface/ComponentInterface/DashboardCardInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { URLS } from '@Utils/constants'
-
+import { fetchProjectInfo, fetchEdgeNode } from '@Reducers/index'
 import {
   EdgeNodeDisable,
   EdgeNodeEnable,
@@ -18,7 +18,15 @@ const DashboardCard: React.FC<
   IDashboardCardInterface & IDefaultPageProps
 > = props => {
   const handleEdgeNodeClick = data => {
-    props.projectInfo(data)
+    props.dispatch(
+      fetchEdgeNode(`next.pageSize=20&next.pageNum=1&projectName=${data.title}`)
+    )
+    props.dispatch(
+      fetchProjectInfo({
+        title: data.title,
+        edgeNodesCount: data.edgeNodes,
+      })
+    )
     props.navigate(URLS.EDGENODE)
   }
 
@@ -27,7 +35,7 @@ const DashboardCard: React.FC<
       {props.dashboardData?.length > 0 &&
         props.dashboardData?.map((data: ISearchData, index: number) => {
           const status =
-            data.enabled === 'TAG_STATUS_ACTIVE'
+            data.projectStatus === 'TAG_STATUS_ACTIVE'
               ? 'status-enable'
               : 'status-disable'
           return (
@@ -36,15 +44,19 @@ const DashboardCard: React.FC<
                 <div className="d-flex align-items-center px-4 pt-4 justify-content-between">
                   <div className="d-flex align-items-center">
                     <i
-                      className={`fa fa-circle status-icon ${data.edgeNodeStatus}`}
+                      className={`fa fa-circle status-icon ${data.projectStatus}`}
                     ></i>
                     <div className="project-txt px-2">{data.title}</div>
                   </div>
 
                   {data.info.length !== 0 && <Tooltip infoData={data.info} />}
                 </div>
-                <div className="enabled px-4">
-                  {data.enabled === 'TAG_STATUS_ACTIVE'
+                <div
+                  className={`edgeView-status px-4 ${
+                    data.edgeViewStatus === true ? 'enabled' : 'disabled'
+                  }`}
+                >
+                  {data.edgeViewStatus === true
                     ? props.t('dashboard.enabled')
                     : props.t('dashboard.disabled')}
                 </div>
@@ -57,7 +69,7 @@ const DashboardCard: React.FC<
                       className="d-flex px-4 edge-app-color align-items-center"
                       onClick={() => handleEdgeNodeClick(data)}
                     >
-                      {data.enabled === 'TAG_STATUS_ACTIVE' ? (
+                      {data.projectStatus === 'TAG_STATUS_ACTIVE' ? (
                         <img src={EdgeNodeEnable} className="edge-node-icon" />
                       ) : (
                         <img src={EdgeNodeDisable} className="edge-node-icon" />
@@ -72,7 +84,7 @@ const DashboardCard: React.FC<
                       {props.t('dashboard.edgeInstances')}
                     </div>
                     <div className="d-flex px-4 edge-node-color align-items-center">
-                      {data.enabled === 'TAG_STATUS_ACTIVE' ? (
+                      {data.projectStatus === 'TAG_STATUS_ACTIVE' ? (
                         <img
                           src={EdgeAppInstanceEnable}
                           className="edge-app-icon"

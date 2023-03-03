@@ -12,6 +12,7 @@ export const API = {
   edgeNode: {
     edgeNodes: 'edgeNodes?',
     downloadScript: 'edgeApps/download-script/',
+    sessionStatus: 'edgeApps/status/',
   },
   appInstance: {
     edgeApps: 'edgeApps?next.pageSize=20&next.pageNum=1',

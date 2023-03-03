@@ -3,13 +3,9 @@ import { useSelector } from 'react-redux'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
-import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
+import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 
-import {
-  fetchDashboard,
-  fetchEdgeDetails,
-  fetchProjectInfo,
-} from '@Reducers/index'
+import { fetchDashboard, fetchEdgeDetails } from '@Reducers/index'
 
 import Header from '@Components/Header/Header'
 import DashboardCard from '@Components/DashboardCard/DashboardCard'
@@ -18,9 +14,6 @@ import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 
 const DashboardComponent: React.FC<IDefaultPageProps> = props => {
-  const { userName, token } = useSelector(
-    (state: IReducerState) => state.loginReducer
-  )
   const projectDetails = useSelector(
     (state: IReducerState) => state.dashboardReducer.dashboardData
   )
@@ -28,20 +21,6 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const EdgeDetails = useSelector(
     (state: IReducerState) => state.dashboardReducer.EdgeDetails
   )
-
-  let dashboardData = []
-  const dashboarDetails = projectDetails?.data?.data?.forEach((data, i) => {
-    const result = {
-      title: data.title,
-      edgeNodeStatus: EdgeDetails?.list[i]?.status,
-      enabled: EdgeDetails?.list[i].status,
-      projectType: EdgeDetails?.list[i].type,
-      edgeNodes: data.edgeNodeCount,
-      edgeAppInstance: data.edgeAppCount,
-      info: data.description,
-    }
-    dashboardData.push(result)
-  })
 
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
@@ -51,6 +30,21 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
   }, [])
+
+  let dashboardData = []
+  const dashboarDetails = projectDetails?.data?.data?.forEach((data, i) => {
+    const projectStatus = EdgeDetails?.list?.filter(d => d.id === data.id)[0]
+
+    const result = {
+      title: data.title,
+      projectStatus: projectStatus?.status,
+      edgeViewStatus: data?.edgeviewPolicy?.edgeviewPolicy?.edgeviewAllow,
+      edgeNodes: data.edgeNodeCount,
+      edgeAppInstance: data.edgeAppCount,
+      info: data.description,
+    }
+    dashboardData.push(result)
+  })
 
   return (
     <div className="dashboard-page-main-container">
@@ -62,13 +56,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         </div>
         <DropDown {...props} />
         <div className="DashboardCardContainer">
-          <DashboardCard
-            {...props}
-            dashboardData={dashboardData}
-            projectInfo={data => {
-              props.dispatch(fetchProjectInfo({ title: data.title }))
-            }}
-          />
+          <DashboardCard {...props} dashboardData={dashboardData} />
         </div>
       </Navigation>
     </div>

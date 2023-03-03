@@ -48,7 +48,7 @@
         .status-icon {
           padding-right: 0.5rem;
         }
-        .Online {
+        .RUN_STATE_ONLINE {
           color: $statusOnline;
         }
         .Error {
@@ -61,7 +61,7 @@
           color: $statusSuspect;
         }
         .RUN_STATE_UNKNOWN {
-          color: $stausUnknown;
+          color: $statusUnknown;
         }
         .Other {
           color: $statusOther;

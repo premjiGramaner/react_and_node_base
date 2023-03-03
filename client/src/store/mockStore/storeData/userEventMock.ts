@@ -9,6 +9,7 @@ export const date = [
 
 export const userEventLog = [
   {
+    date: 'Feb 21, 2023 10:11 AM',
     severity: 'INFO',
     edgeNote: 'Edge Note',
     edgeApp: 'App Instance',
@@ -16,6 +17,7 @@ export const userEventLog = [
     description: 'sfsdfdsf',
   },
   {
+    date: 'Feb 21, 2023 10:11 AM',
     severity: 'INFO',
     edgeNote: 'Edge Note',
     edgeApp: 'App Instance',

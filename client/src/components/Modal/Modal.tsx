@@ -34,7 +34,10 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                 <button className="reactive-session">
                   {props.t('viewSession.reactiveateSession')}
                 </button>
-                <button className="deactive-session">
+                <button
+                  className="deactive-session"
+                  onClick={props.deActivateSession}
+                >
                   {props.t('viewSession.deactivateSession')}
                 </button>
               </div>

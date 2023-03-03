@@ -16,6 +16,14 @@ const Table: React.FC<ITableInterface> = props => {
     return rowContent?.slice(firstPageIndex, lastPageIndex)
   }, [currentPage])
 
+  const statusValue = (stauts: string) => {
+    return stauts === 'RUN_STATE_ONLINE'
+      ? 'Online'
+      : 'RUN_STATE_PROVISIONED'
+      ? 'Provisioned'
+      : ''
+  }
+
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
     return (
@@ -26,7 +34,7 @@ const Table: React.FC<ITableInterface> = props => {
               <i
                 className={`fa fa-circle status-icon ${tabelData?.runState}`}
               ></i>
-              {value}
+              {statusValue(value)}
             </>
           ) : tableHeader?.cell ? (
             <button

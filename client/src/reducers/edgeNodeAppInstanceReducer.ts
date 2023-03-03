@@ -3,7 +3,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { reviseData } from '@Utils/validation'
 import client from '@Utils/axiosConfig'
 
-import { API, IDispatchState, IEdgeNodePageState } from '@Interface/index'
+import {
+  API,
+  IDispatchState,
+  IEdgeNodePageState,
+  IEdgeNodeInfo,
+} from '@Interface/index'
 
 export const fetchEdgeNodeApp: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/edgeNodeAppData',
@@ -49,6 +54,17 @@ export const fetchNetworkData: any = createAsyncThunk(
   }
 )
 
+export const fetchEdgeNodeInfo: any = createAsyncThunk(
+  'edgeAppInstanceReducer/edgeNodeInfo',
+  async (edgeInfo: IEdgeNodeInfo) => {
+    return new Promise((resolve: any) => {
+      resolve({
+        data: edgeInfo,
+      })
+    })
+  }
+)
+
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeInfo: {},
   edgeNodeDataList: [],
@@ -64,16 +80,19 @@ const edgeNodeAppInstanceReducer = createSlice({
     builder.addCase(
       fetchEdgeNodeApp.fulfilled,
       (state: IEdgeNodePageState, action: IDispatchState) => {
-        // state.edgeNodeInfo = action.payload.data
         state.edgeNodeDataList = action.payload.data.data.data
-        // state.deviceList = action.payload.edgeNodeDeviceList
-        // state.networkList = action.payload.edgeAppInstanceData
       }
     ),
       builder.addCase(
         fetchNetworkData.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           console.log('action', action)
+        }
+      ),
+      builder.addCase(
+        fetchEdgeNodeInfo.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.edgeNodeInfo = action.payload.data
         }
       )
   },

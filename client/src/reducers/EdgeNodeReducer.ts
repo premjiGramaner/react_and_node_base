@@ -32,17 +32,6 @@ export const fetchEdgeNode: any = createAsyncThunk(
   }
 )
 
-export const fetchProjectInfo: any = createAsyncThunk(
-  'edgeNodeReducer/edgeProjectName',
-  async (projectInfo: IEdgeNodeInfo) => {
-    return new Promise((resolve: any) => {
-      resolve({
-        data: projectInfo,
-      })
-    })
-  }
-)
-
 export const downloadScript: any = createAsyncThunk(
   'edgeNodeReducer/downloadScript',
   async (id: string) => {
@@ -61,6 +50,39 @@ export const downloadScript: any = createAsyncThunk(
           console.log('API Failed!', data)
           resolve({ data: [] })
         })
+    })
+  }
+)
+
+export const sessionStatus: any = createAsyncThunk(
+  'edgeNodeReducer/sessionStatus',
+  async (status: string) => {
+    return new Promise((resolve: any) => {
+      client
+        .put(`${API.edgeNode.sessionStatus}${status}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const fetchProjectInfo: any = createAsyncThunk(
+  'edgeNodeReducer/edgeProjectName',
+  async (projectInfo: IEdgeNodeInfo) => {
+    return new Promise((resolve: any) => {
+      resolve({
+        data: projectInfo,
+      })
     })
   }
 )
@@ -85,8 +107,7 @@ const edgeNodeReducer = createSlice({
       builder.addCase(
         fetchProjectInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
-          console.log('action', action.payload)
-          state.edgeNodeInfo.title = action.payload?.data?.title
+          state.edgeNodeInfo = action.payload.data
         }
       )
   },

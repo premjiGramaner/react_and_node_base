@@ -4,7 +4,6 @@ import { reviseData } from '@Utils/validation'
 import client from '@Utils/axiosConfig'
 
 import { API, IDispatchState, IDashboardCardInterface } from '@Interface/index'
-import { dashboardPageData } from '@Store/mockStore/storeData/dashboardPageData'
 
 export const fetchDashboard: any = createAsyncThunk(
   'dashboardReducer/dashboardData',

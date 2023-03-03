@@ -29,15 +29,19 @@ $themeColor: #089d96;
 $eyeIconColor: #bebebe;
 $lableColor: #a1a1a1;
 $edgeDisableCount: #413e4d;
-//Status color need to check with client
-$statusOnline: #008c38;
-$statusError: #e10000;
-$statusProvisioned: #bb3284;
-$stautsUnprovisioned: #5d009a;
-$statusSuspect: #d36e00;
-$statusOther: #7b7777;
-$stausUnknown: #006acf;
+//Status colors from Zededa
+$statusOnline: #00883f;
+$statusError: #d1120b;
+$statusProvisioned: #ad3f83;
+$stautsUnprovisioned: #541998;
+$statusSuspect: #c97300;
+$statusOther: #7c7678;
+$statusUnknown: #7732c5;
 $statusInialzed: #076ac8;
+//project status
+$statusActive: #798d03;
+$statusInactive: #7c7678;
+$statusArchived: #a37518;
 
 $tableBackground: #f9f8f8;
 $tableTextColor: #3d4859;
@@ -90,7 +94,6 @@ $mq-retina: '(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)';
 @import './components/navigation.scss';
 @import './components/tooltip.scss';
 @import './components/textbox.scss';
-@import './components/navPanel.scss';
 @import './components/table.scss';
 @import './components/pagination.scss';
 @import './components/modal.scss';

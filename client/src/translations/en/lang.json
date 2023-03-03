@@ -42,6 +42,7 @@
     "refresh": "Refresh"
   },
   "userEvent": {
-    "activityLog": "Activity Logs"
+    "activityLog": "Activity Logs",
+    "date": "Date and Time"
   }
 }
