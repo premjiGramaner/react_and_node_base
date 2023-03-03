@@ -1,10 +1,11 @@
 import React, { FC, useState, useMemo } from 'react'
 import { ITableInterface } from '@Utils/interface/ComponentInterface/TableInterface'
+import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { getValueFromObject } from '@Utils/utils'
 import Pagination from '@Components/Pagination/Pagination'
 import { SortIcon } from '@Assets/images'
 
-const Table: React.FC<ITableInterface> = props => {
+const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
   const { column, rowContent, pageSize } = props
   const [order, setOrder] = useState<string>('ASC')
   const [tableData, setTableData] = useState<any[]>(rowContent)
@@ -25,7 +26,6 @@ const Table: React.FC<ITableInterface> = props => {
   }
 
   const [paginationData, setPaginationData] = useState<string>('')
-  console.log('paginationData', paginationData)
 
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
@@ -42,15 +42,17 @@ const Table: React.FC<ITableInterface> = props => {
           ) : tableHeader?.cell ? (
             <button
               className={`session-btn ${
-                tabelData?.sessionActive ? 'active-session' : 'deactive-session'
+                tabelData?.sessionActive === 'INACTIVE'
+                  ? 'active-session'
+                  : 'deactive-session'
               }`}
               data-toggle="modal"
               data-target="#myModal"
               onClick={() => tableHeader?.cell(tabelData)}
             >
-              {tabelData?.sessionActive
-                ? 'ADMIN_STATE_ACTIVE'
-                : 'Deactivate Session'}
+              {tabelData?.sessionActive === 'INACTIVE'
+                ? props.t('viewSession.activateSession')
+                : props.t('viewSession.deactivateSession')}
             </button>
           ) : (
             value

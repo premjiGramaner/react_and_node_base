@@ -143,16 +143,15 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     }
                     pageSize={10}
                   />
-                  {edgeAppData?.edgeNodeAppInstanceReducer?.networkList.length >
-                    0 && (
-                    <Table
-                      column={networkTableHeader}
-                      rowContent={
-                        edgeAppData?.edgeNodeAppInstanceReducer?.networkList
-                      }
-                      pageSize={10}
-                    />
-                  )}
+
+                  <Table
+                    {...props}
+                    column={networkTableHeader}
+                    rowContent={
+                      [] || edgeAppData?.edgeNodeAppInstanceReducer?.networkList
+                    }
+                    pageSize={10}
+                  />
                 </div>
               </>
             )}

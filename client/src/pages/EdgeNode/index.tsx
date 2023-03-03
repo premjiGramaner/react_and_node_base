@@ -120,6 +120,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                 </div>
                 <div className="col-10 nav-content">
                   <Table
+                    {...props}
                     column={tableHeader}
                     rowContent={edgeNodeData.deviceList?.list}
                     pageSize={10}

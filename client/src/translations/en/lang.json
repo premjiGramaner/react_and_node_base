@@ -38,6 +38,7 @@
     "inactive": "Inactive",
     "reactiveateSession": "Reactivate Session",
     "deactivateSession": "Deactivate Session",
+    "activateSession": "Activate Session",
     "downloadScript": "Download Script",
     "refresh": "Refresh"
   },

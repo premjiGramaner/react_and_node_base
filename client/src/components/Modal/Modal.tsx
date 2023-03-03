@@ -26,28 +26,38 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                   {props.t('viewSession.sessionStatus')}
                 </p>
                 <i className={`fa fa-circle status-icon ${props.status}`}></i>
-                {props.status
+                {props.status === 'INACTIVE'
                   ? props.t('viewSession.active')
                   : props.t('viewSession.inactive')}
               </div>
               <div className="session-btn">
-                <button className="reactive-session">
-                  {props.t('viewSession.reactiveateSession')}
-                </button>
-                <button
-                  className="deactive-session"
-                  onClick={props.deActivateSession}
-                >
-                  {props.t('viewSession.deactivateSession')}
-                </button>
+                {props.status === 'INACTIVE' ? (
+                  <button className="deactive-session">
+                    {props.t('viewSession.activateSession')}
+                  </button>
+                ) : (
+                  <>
+                    <button className="reactive-session">
+                      {props.t('viewSession.reactiveateSession')}
+                    </button>
+                    <button
+                      className="reactive-session"
+                      onClick={props.deActivateSession}
+                    >
+                      {props.t('viewSession.deactivateSession')}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="modal-footer">
-              <div onClick={props.handleDownload} className="download-file">
-                <img src={DownloadIcon} className="download" />
-                {props.t('viewSession.downloadScript')}
-              </div>
+              {props.status !== 'INACTIVE' && (
+                <div onClick={props.handleDownload} className="download-file">
+                  <img src={DownloadIcon} className="download" />
+                  {props.t('viewSession.downloadScript')}
+                </div>
+              )}
               <div className="refresh-panel" onClick={props.handleRefresh}>
                 <img src={RefreshIcon} className="refresh" />
                 {props.t('viewSession.refresh')}
