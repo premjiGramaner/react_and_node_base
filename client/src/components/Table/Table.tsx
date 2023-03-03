@@ -24,6 +24,9 @@ const Table: React.FC<ITableInterface> = props => {
       : ''
   }
 
+  const [paginationData, setPaginationData] = useState<string>('')
+  console.log('paginationData', paginationData)
+
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
     return (
@@ -121,6 +124,7 @@ const Table: React.FC<ITableInterface> = props => {
               totalCount={rowContent.length}
               pageSize={pageSize}
               onPageChange={page => setCurrentPage(page)}
+              paginationValue={data => setPaginationData(data)}
             />
           </div>
         </div>

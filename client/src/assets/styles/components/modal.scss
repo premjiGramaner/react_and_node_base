@@ -71,7 +71,8 @@
   .modal-footer {
     justify-content: start;
 
-    .download-file {
+    .download-file,
+    .refresh-panel {
       cursor: pointer;
     }
     .download,

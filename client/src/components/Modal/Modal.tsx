@@ -48,7 +48,7 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                 <img src={DownloadIcon} className="download" />
                 {props.t('viewSession.downloadScript')}
               </div>
-              <div className="refresh-panel">
+              <div className="refresh-panel" onClick={props.handleRefresh}>
                 <img src={RefreshIcon} className="refresh" />
                 {props.t('viewSession.refresh')}
               </div>

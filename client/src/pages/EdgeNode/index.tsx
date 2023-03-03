@@ -64,6 +64,14 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     props.navigate(URLS.EDGEAPPINSTANCES)
   }
 
+  const handleRefreshClick = () => {
+    props.dispatch(
+      fetchEdgeNode(
+        `next.pageSize=20&next.pageNum=1&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+      )
+    )
+  }
+
   return (
     <div className="edge-nodes-container">
       <Header {...props} />
@@ -128,6 +136,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             statusColor={sessionDetails?.sessionActive}
             handleDownload={handleDownloadScript}
             deActivateSession={handleSession}
+            handleRefresh={handleRefreshClick}
           />
         </div>
       </Navigation>

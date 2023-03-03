@@ -12,8 +12,8 @@
     "endpoint": "Endpoint1",
     "edgeNodes": "Edge Nodes",
     "edgeInstances": " Edge App Instances",
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "enabled": "Edge view - Enabled",
+    "disabled": "Edge View - Disabled"
   },
   "header": {
     "welcome": "Welcome, {{userName}}"

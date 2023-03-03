@@ -3,5 +3,6 @@ export interface IModalInterface {
   statusColor: string
   status: string
   handleDownload: () => void
+  handleRefresh: () => void
   deActivateSession: () => void
 }

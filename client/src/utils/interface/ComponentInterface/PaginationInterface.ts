@@ -5,4 +5,5 @@ export interface IPaginationInterface {
   currentPage?: number
   pageSize?: number
   className?: string
+  paginationValue: (e: any) => void
 }
