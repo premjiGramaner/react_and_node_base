@@ -25,8 +25,27 @@ const getEdgeNodeList = async (req, res, next) => {
         if (query['projectName'])
             url += `&projectNamePattern=${query['projectName']}`;
 
-        get(res, url).then((response) => response).then((projectList) => {
-            formatResponse(res, 200, projectList?.data, "EdgeNode list fetched successfully!");
+        // 7b177964-e2d5-43ee-9ed6-9f6291a4ed71
+
+        get(res, url).then((response) => response).then((deviceList) => {
+            const deviceData = deviceList?.data || null;
+            const deviceInfoList = [];
+            // This function used to get the addional device info
+            if (deviceData?.list?.length) {
+                deviceData.list.forEach(async (item, index) => {
+                    const deviceInfo = await get(res, routes.edgeNode.deviceStatusById.replace('{id}', item.id)); // edgeDevice Info
+                    item['status'] = deviceInfo?.data?.state || null;
+                    deviceInfoList.push(item);
+
+                    // When the loop gets end - We are triggering the Action
+                    if (deviceData.list.length === (index + 1)) {
+                        deviceData["list"] = deviceInfoList;
+                        return formatResponse(res, 200, deviceData, "EdgeNode list with info fetched successfully!");
+                    }
+                })
+            } else {
+                formatResponse(res, 200, deviceData, "EdgeNode list fetched successfully!");
+            }
         }).catch((err) => {
 
             formatResponse(res, 400, err, "Failed to get EdgeNode list!");
