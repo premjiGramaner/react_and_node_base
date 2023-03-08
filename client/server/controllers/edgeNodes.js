@@ -25,8 +25,6 @@ const getEdgeNodeList = async (req, res, next) => {
         if (query['projectName'])
             url += `&projectNamePattern=${query['projectName']}`;
 
-        // 7b177964-e2d5-43ee-9ed6-9f6291a4ed71
-
         get(res, url).then((response) => response).then((deviceList) => {
             const deviceData = deviceList?.data || null;
             const deviceInfoList = [];
@@ -52,11 +50,26 @@ const getEdgeNodeList = async (req, res, next) => {
         });
     } catch (e) {
         console.log('fail *******', e);
-        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to get project list!");
+        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to get EdgeNode list!");
+    }
+};
+
+const getEdgeNodeStatusById = async (req, res, next) => {
+    try {
+        const query = req.query;
+        get(res, routes.edgeNode.deviceStatusById.replace('{id}', query?.id)).then((deviceInfo) => {
+            return formatResponse(res, 200, deviceInfo?.data || null, "EdgeNode info fetched successfully!");
+        }).catch((err) => {
+            formatResponse(res, 400, err, "Failed to get EdgeNode info!");
+        });
+    } catch (e) {
+        console.log('fail *******', e);
+        return formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to get EdgeNode info!");
     }
 };
 
 
 module.exports = {
-    getEdgeNodeList
+    getEdgeNodeList,
+    getEdgeNodeStatusById
 };

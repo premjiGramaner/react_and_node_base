@@ -26,6 +26,9 @@ module.exports = {
             byID: 'apps/instances/id/',
             stateUpdate: 'devices/id/{id}/edgeview/',
             downloadScript: 'devices/id/{id}/edgeview/clientscript',
+
+            deviceStatus: 'apps/instances/id/5e3e429a-d06c-4723-92a9-75244ee6afb1/status', // till now not in use -> can get the device status info by this
+            // instances info - netStatusList -> map -> 
         },
     }
 };
