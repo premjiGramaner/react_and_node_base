@@ -45,6 +45,15 @@ const getEdgeAppById = async (req, res, next) => {
     try {
         let url = routes.edgeApp.byID + id;
         get(res, url).then((response) => response).then((appInfo) => {
+
+            // brgin logic here
+            // interfaces -> map
+            // netinstid -> 468dabff-89b3-499a-9769-e792813ec898(defaultLocal-BG-supermicro-EL1) intfname(eth0)
+
+            // list API - https://zedcontrol.gmwtus.zededa.net/api/v1/netinsts/status-config?next.pageSize=20&next.pageNum=1 -> id, name
+            // https://zedcontrol.gmwtus.zededa.net/api/v1/netinsts/id/468dabff-89b3-499a-9769-e792813ec898
+
+            
             formatResponse(res, 200, appInfo?.data, "EdgeApp info fetched successfully!");
         }).catch((err) => {
 
