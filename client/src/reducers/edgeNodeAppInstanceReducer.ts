@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
-import client from '@Utils/axiosConfig'
+import client, { fetchClient } from '@Utils/axiosConfig'
+import { getClientAccessToken, getToken } from '@Utils/storage'
 
 import {
   API,
@@ -14,7 +15,7 @@ export const fetchEdgeNodeApp: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/edgeNodeAppData',
   async () => {
     return new Promise((resolve: any) => {
-      client
+      fetchClient(getToken(), getClientAccessToken())
         .get(API.appInstance.edgeApps)
         .then(reviseData)
         .then((response: any) => {
@@ -36,7 +37,7 @@ export const fetchNetworkData: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/networkData',
   async (id: string) => {
     return new Promise((resolve: any) => {
-      client
+      fetchClient(getToken(), getClientAccessToken())
         .get(`${API.appInstance.network}${id}`)
         .then(reviseData)
         .then((response: any) => {
@@ -85,9 +86,7 @@ const edgeNodeAppInstanceReducer = createSlice({
     ),
       builder.addCase(
         fetchNetworkData.fulfilled,
-        (state: IEdgeNodePageState, action: IDispatchState) => {
-          console.log('action', action)
-        }
+        (state: IEdgeNodePageState, action: IDispatchState) => {}
       ),
       builder.addCase(
         fetchEdgeNodeInfo.fulfilled,

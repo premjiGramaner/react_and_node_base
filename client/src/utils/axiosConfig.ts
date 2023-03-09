@@ -2,9 +2,9 @@ import axios from 'axios'
 import { API_URL } from '@Utils/constants'
 import { getClientAccessToken, getToken } from '@Utils/storage'
 
-const fetchClient = () => {
-  const tokenString = getToken()
-  const clientAccessToken = getClientAccessToken()
+const fetchClient = (token?: string, client?: string) => {
+  const tokenString = token || getToken()
+  const clientAccessToken = client || getClientAccessToken()
 
   const defaultOptions = {
     baseURL: `${API_URL}`,

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { fetchEdgeNode, downloadScript, sessionStatus } from '@Reducers/index'
+import {
+  fetchEdgeNode,
+  downloadScript,
+  sessionStatus,
+  fetchEdgeViewStatus,
+} from '@Reducers/index'
 import { fetchEdgeNodeInfo } from '@Reducers/edgeNodeAppInstanceReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
+import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
 import { URLS } from '@Utils/constants'
 
 import Header from '@Components/Header/Header'
@@ -21,7 +27,20 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.edgeNodeReducer
   )
 
+  const [edgeNodeList, setEdgeNodeList] = useState<IEdgeNodePageState>()
+
   const [sessionDetails, setSessionDetails] = useState<any>()
+  const [edgeViewSessionStatus, setEdgeViewSessionStatus] = useState<string>('')
+  const [sessionPending, setSessionPending] = useState<boolean>(false)
+
+  useEffect(() => {
+    setEdgeNodeList(edgeNodeData)
+    setSessionPending(edgeNodeData?.sessionPending)
+  }, [edgeNodeData])
+
+  useEffect(() => {
+    setEdgeViewSessionStatus(edgeNodeData?.edgeSessionStatus)
+  }, [edgeNodeData?.edgeSessionStatus])
 
   const tableHeader = [
     {
@@ -38,10 +57,10 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       name: 'Location',
     },
     {
-      key: 'sessionActive',
+      key: 'status',
       name: 'Edge View Sessions',
       cell: data => {
-        setSessionDetails(data)
+        setSessionDetails(data), props.dispatch(fetchEdgeViewStatus(data.id))
       },
     },
   ]
@@ -50,8 +69,22 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     props.dispatch(downloadScript(sessionDetails?.id))
   }
 
-  const handleSession = () => {
+  const handleDeactiveSession = () => {
     props.dispatch(sessionStatus(`${sessionDetails?.id}/disable`))
+    setTimeout(() => {
+      if (!sessionPending) {
+        props.dispatch(fetchEdgeViewStatus(sessionDetails?.id))
+      }
+    }, 1000)
+  }
+
+  const handleActivateSession = () => {
+    props.dispatch(sessionStatus(`${sessionDetails?.id}/enable`))
+    setTimeout(() => {
+      if (!sessionPending) {
+        props.dispatch(fetchEdgeViewStatus(sessionDetails?.id))
+      }
+    }, 1000)
   }
 
   const handleNavClick = data => {
@@ -65,11 +98,11 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const handleRefreshClick = () => {
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=20&next.pageNum=1&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-      )
-    )
+    props.dispatch(fetchEdgeViewStatus(sessionDetails?.id))
+  }
+
+  const popupClose = () => {
+    props.dispatch(fetchEdgeNode(`${edgeNodeData?.edgeNodeInfo?.title}`))
   }
 
   return (
@@ -94,7 +127,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         <DropDown {...props} />
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
-            {edgeNodeData.deviceList?.list?.length > 0 && (
+            {edgeNodeList?.deviceList?.list?.length > 0 && (
               <>
                 <div className="col-2 nav-panel">
                   <div>
@@ -103,7 +136,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                       <img src={SortIcon} className="sort-icon" />
                     </div>
 
-                    {edgeNodeData.deviceList?.list?.map((data, index) => {
+                    {edgeNodeList?.deviceList?.list?.map((data, index) => {
                       return (
                         <div
                           key={index}
@@ -122,8 +155,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                   <Table
                     {...props}
                     column={tableHeader}
-                    rowContent={edgeNodeData.deviceList?.list}
-                    pageSize={10}
+                    rowContent={edgeNodeList?.deviceList?.list}
                   />
                 </div>
               </>
@@ -133,11 +165,14 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           <Modal
             {...props}
             headerName={sessionDetails?.name}
-            status={sessionDetails?.status}
+            status={edgeViewSessionStatus}
             statusColor={sessionDetails?.sessionActive}
             handleDownload={handleDownloadScript}
-            deActivateSession={handleSession}
+            deActivateSession={handleDeactiveSession}
             handleRefresh={handleRefreshClick}
+            handleActivateSession={handleActivateSession}
+            reactiveSession={handleActivateSession}
+            popupClose={popupClose}
           />
         </div>
       </Navigation>

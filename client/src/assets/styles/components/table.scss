@@ -36,10 +36,22 @@
           font-size: 0.75rem;
           letter-spacing: 0.016rem;
           width: 7.375rem;
+
+          &.UNSPECIFIED {
+            background-color: $white;
+            pointer-events: none;
+            opacity: 0.4;
+            border: 0.063rem solid $unspecifiedBtnColor !important;
+          }
+          &.ACTIVATING {
+            background-color: $white;
+          }
+          &.ACTIVE {
+            background-color: $white;
+          }
         }
-        .active-session {
+        .INACTIVE {
           background-color: $sessionBackgroundColor;
-          pointer-events: none;
         }
         .deactive-session {
           background-color: $white;
@@ -51,13 +63,13 @@
         .RUN_STATE_ONLINE {
           color: $statusOnline;
         }
-        .Error {
+        .RUN_STATE_ERROR {
           color: $statusError;
         }
         .Intitilized {
           color: $statusInialzed;
         }
-        .Suspect {
+        .RUN_STATE_SUSPECT {
           color: $statusSuspect;
         }
         .RUN_STATE_UNKNOWN {
@@ -68,6 +80,9 @@
         }
         .RUN_STATE_PROVISIONED {
           color: $statusProvisioned;
+        }
+        .RUN_STATE_UNPROVISIONED {
+          color: $stautsUnprovisioned;
         }
       }
       td {

@@ -10,4 +10,5 @@ export interface ISearchData {
 export interface IDashboardCardInterface {
   dashboardData?: any
   EdgeDetails?: any
+  dashboardPending?: boolean
 }

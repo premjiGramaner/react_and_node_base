@@ -1,16 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
-import client from '@Utils/axiosConfig'
-
+import client, { fetchClient } from '@Utils/axiosConfig'
 import {
   API,
   ILoginReducerState,
   IDispatchState,
   ILoginState,
 } from '@Interface/index'
-import { getClientAccessToken, getToken } from '@Utils/storage'
-import { action } from 'typesafe-actions'
+import {
+  getClientAccessToken,
+  getToken,
+  IS_USER_AUTHENTICATED,
+} from '@Utils/storage'
 
 export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
@@ -21,7 +23,14 @@ export const userLogin: any = createAsyncThunk(
         .then(reviseData)
         .then((response: any) => {
           const data = response
+
           if (!data.error) {
+            getClientAccessToken(data?.data?.data?.token?.base64)
+            getToken(data?.data?.loginToken)
+            sessionStorage.setItem(
+              'userName',
+              data?.data?.data?.detailedUser?.firstName || ''
+            )
             resolve({
               data: data || [],
             })
@@ -39,8 +48,8 @@ export const userLogin: any = createAsyncThunk(
 export const userLogout: any = createAsyncThunk(
   'loginReducer/logout',
   async () => {
-    return new Promise((resolve: any) => {
-      client
+    return new Promise(async (resolve: any) => {
+      await fetchClient(getToken(), getClientAccessToken())
         .post(API.users.logout)
         .then(reviseData)
         .then((response: any) => {
@@ -79,17 +88,10 @@ const loginReducer = createSlice({
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
-        getClientAccessToken(action.payload.data?.data?.data?.token.base64)
-        getToken(action.payload.data?.data?.loginToken)
-        sessionStorage.setItem(
-          'userName',
-          action.payload.data.data.data.detailedUser.firstName
-        )
         state.token = action.payload.data?.data?.loginToken
-        state.userName = action.payload.data.data.data.detailedUser.firstName
         state.pending = false
         state.statusCode = action.payload.data.statusCode
-        state.userId = action.payload.data.data.data.userId
+        state.userId = action.payload.data?.data?.userId
       }
     )
     builder.addCase(
@@ -100,6 +102,9 @@ const loginReducer = createSlice({
         state.token = action.payload.loginReducerInitialState.token
         state.userId = action.payload.loginReducerInitialState.userId
         state.userName = action.payload.loginReducerInitialState.userName
+        sessionStorage.clear()
+        IS_USER_AUTHENTICATED('false')
+        localStorage.clear()
       }
     )
   },

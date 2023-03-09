@@ -1,5 +1,6 @@
 .dashboard-page-main-container {
   background-color: $dashboardBG;
+  min-height: 100vh;
   .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

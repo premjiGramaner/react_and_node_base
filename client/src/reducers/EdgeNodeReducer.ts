@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import fileDownload from 'js-file-download'
 
 import { reviseData } from '@Utils/validation'
-import client from '@Utils/axiosConfig'
+import client, { fetchClient } from '@Utils/axiosConfig'
+import { getClientAccessToken, getToken } from '@Utils/storage'
 
 import {
   API,
@@ -12,10 +14,10 @@ import {
 
 export const fetchEdgeNode: any = createAsyncThunk(
   'edgeNodeReducer/edgeNodeData',
-  async (params: string) => {
+  async (title: string) => {
     return new Promise((resolve: any) => {
-      client
-        .get(`${API.edgeNode.edgeNodes}${params}`)
+      fetchClient(getToken(), getClientAccessToken())
+        .get(`${API.edgeNode.edgeNodes.replace('{projectTitle}', title)}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -36,8 +38,34 @@ export const downloadScript: any = createAsyncThunk(
   'edgeNodeReducer/downloadScript',
   async (id: string) => {
     return new Promise((resolve: any) => {
-      client
+      fetchClient(getToken(), getClientAccessToken())
         .get(`${API.edgeNode.downloadScript}${id}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          fileDownload(
+            data.data.data.client_script,
+            data.data.data.script_filename
+          ),
+            resolve({
+              data: data || [],
+            })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const sessionStatus: any = createAsyncThunk(
+  'edgeNodeReducer/sessionStatus',
+  async (status: string) => {
+    return new Promise((resolve: any) => {
+      fetchClient(getToken(), getClientAccessToken())
+        .put(`${API.edgeNode.sessionStatus}${status}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -54,12 +82,12 @@ export const downloadScript: any = createAsyncThunk(
   }
 )
 
-export const sessionStatus: any = createAsyncThunk(
-  'edgeNodeReducer/sessionStatus',
-  async (status: string) => {
+export const fetchEdgeViewStatus: any = createAsyncThunk(
+  'edgeNodeReducer/edgeViewStatus',
+  async (id: string) => {
     return new Promise((resolve: any) => {
-      client
-        .put(`${API.edgeNode.sessionStatus}${status}`)
+      fetchClient(getToken(), getClientAccessToken())
+        .get(`${API.edgeNode.edgeViewStatus.replace(':id', id)}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -89,8 +117,9 @@ export const fetchProjectInfo: any = createAsyncThunk(
 
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeInfo: { title: '', edgeNodesCount: null },
-  edgeNodeDataList: [],
+  edgeSessionStatus: '',
   deviceList: [],
+  sessionPending: false,
 }
 
 const edgeNodeReducer = createSlice({
@@ -110,6 +139,24 @@ const edgeNodeReducer = createSlice({
           state.edgeNodeInfo = action.payload.data
         }
       )
+    builder.addCase(
+      fetchEdgeViewStatus.fulfilled,
+      (state: IEdgeNodePageState, action: IDispatchState) => {
+        state.edgeSessionStatus = action.payload.data.data.data.state
+      }
+    )
+    builder.addCase(
+      sessionStatus.pending,
+      (state: IEdgeNodePageState, action: IDispatchState) => {
+        state.sessionPending = true
+      }
+    )
+    builder.addCase(
+      sessionStatus.fulfilled,
+      (state: IEdgeNodePageState, action: IDispatchState) => {
+        state.sessionPending = false
+      }
+    )
   },
 })
 

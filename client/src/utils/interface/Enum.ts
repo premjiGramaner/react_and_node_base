@@ -10,9 +10,11 @@ export const API = {
     projectCounts: '/dashboard/projects/counts',
   },
   edgeNode: {
-    edgeNodes: 'edgeNodes?',
+    edgeNodes:
+      'edgeNodes?next.pageSize=20&next.pageNum=1&projectName={projectTitle}',
     downloadScript: 'edgeApps/download-script/',
     sessionStatus: 'edgeApps/status/',
+    edgeViewStatus: 'edgeNodes/info/:id',
   },
   appInstance: {
     edgeApps: 'edgeApps?next.pageSize=20&next.pageNum=1',

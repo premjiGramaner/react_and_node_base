@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import { IHeaderInterface } from '@Utils/interface/ComponentInterface/HeaderInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { userLogout } from '@Reducers/loginReducer'
@@ -9,10 +10,9 @@ import { HelpIcon, HeaderLogo } from '@Assets/images'
 
 const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
   const handleLogout = () => {
-    localStorage.clear()
-    props.navigate(URLS.DEFAULT)
     props.dispatch(userLogout())
-    sessionStorage.clear()
+
+    props.navigate(URLS.DEFAULT)
   }
 
   const [userName, setUserName] = useState<string>('')

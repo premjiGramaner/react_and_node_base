@@ -22,6 +22,10 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.dashboardReducer.EdgeDetails
   )
 
+  const isDashboardPending = useSelector(
+    (state: IReducerState) => state.dashboardReducer.dashboardPending
+  )
+
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
@@ -31,7 +35,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     props.dispatch(fetchEdgeDetails())
   }, [])
 
-  let dashboardData = []
+  let combinedData = []
   const dashboarDetails = projectDetails?.data?.data?.forEach((data, i) => {
     const projectStatus = EdgeDetails?.list?.filter(d => d.id === data.id)[0]
 
@@ -43,9 +47,26 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       edgeAppInstance: data.edgeAppCount,
       info: data.description,
     }
-    dashboardData.push(result)
+    combinedData.push(result)
   })
 
+  const countEdgeEnable = combinedData
+    .filter(d => d.edgeNodes > 0 && d.edgeViewStatus == true)
+    .sort((a, b) => a.title.localeCompare(b.title))
+
+  const countEdgeDisable = combinedData
+    .filter(d => d.edgeNodes > 0 && d.edgeViewStatus == false)
+    .sort((a, b) => a.title.localeCompare(b.title))
+
+  const countDisable = combinedData
+    .filter(d => d.edgeNodes === 0)
+    .sort((a, b) => a.title.localeCompare(b.title))
+
+  const dashboardData = [
+    ...countEdgeEnable,
+    ...countEdgeDisable,
+    ...countDisable,
+  ]
   return (
     <div className="dashboard-page-main-container">
       <Header {...props} />
@@ -56,7 +77,15 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         </div>
         <DropDown {...props} />
         <div className="DashboardCardContainer">
-          <DashboardCard {...props} dashboardData={dashboardData} />
+          {isDashboardPending ? (
+            <div className="d-flex justify-content-center mt-5">
+              <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <DashboardCard {...props} dashboardData={dashboardData} />
+          )}
         </div>
       </Navigation>
     </div>

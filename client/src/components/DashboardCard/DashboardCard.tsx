@@ -18,9 +18,7 @@ const DashboardCard: React.FC<
   IDashboardCardInterface & IDefaultPageProps
 > = props => {
   const handleEdgeNodeClick = data => {
-    props.dispatch(
-      fetchEdgeNode(`next.pageSize=20&next.pageNum=1&projectName=${data.title}`)
-    )
+    props.dispatch(fetchEdgeNode(`${data.title}`))
     props.dispatch(
       fetchProjectInfo({
         title: data.title,
@@ -35,9 +33,7 @@ const DashboardCard: React.FC<
       {props.dashboardData?.length > 0 &&
         props.dashboardData?.map((data: ISearchData, index: number) => {
           const status =
-            data.projectStatus === 'TAG_STATUS_ACTIVE'
-              ? 'status-enable'
-              : 'status-disable'
+            data?.edgeNodes !== 0 ? 'status-enable' : 'status-disable'
           return (
             <div className="dashboardCard rounded" key={index}>
               <div className={`${status}`}>
@@ -61,7 +57,11 @@ const DashboardCard: React.FC<
                     : props.t('dashboard.disabled')}
                 </div>
                 <div className="d-flex align-items-center">
-                  <div className="edge-app-color col-6">
+                  <div
+                    className={`${
+                      data?.edgeNodes !== 0 ? 'pe-auto' : 'pe-none'
+                    } edge-app-color col-6`}
+                  >
                     <div className="edge-app-color edge-nodes-app px-4 pt-2">
                       {props.t('dashboard.edgeNodes')}
                     </div>
@@ -69,7 +69,7 @@ const DashboardCard: React.FC<
                       className="d-flex px-4 edge-app-color align-items-center"
                       onClick={() => handleEdgeNodeClick(data)}
                     >
-                      {data.projectStatus === 'TAG_STATUS_ACTIVE' ? (
+                      {data?.edgeNodes !== 0 ? (
                         <img src={EdgeNodeEnable} className="edge-node-icon" />
                       ) : (
                         <img src={EdgeNodeDisable} className="edge-node-icon" />
@@ -84,7 +84,7 @@ const DashboardCard: React.FC<
                       {props.t('dashboard.edgeInstances')}
                     </div>
                     <div className="d-flex px-4 edge-node-color align-items-center">
-                      {data.projectStatus === 'TAG_STATUS_ACTIVE' ? (
+                      {data?.edgeNodes !== 0 ? (
                         <img
                           src={EdgeAppInstanceEnable}
                           className="edge-app-icon"

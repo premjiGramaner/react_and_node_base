@@ -28,8 +28,8 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
 
   useEffect(() => {
     if (statusCode === 200) {
-      props.navigate(URLS.DASHBOARD)
       IS_USER_AUTHENTICATED(true)
+      props.navigate(URLS.DASHBOARD)
     } else if (statusCode === 401 || statusCode === 400) {
       setShowError(true)
       props.navigate(URLS.DEFAULT)

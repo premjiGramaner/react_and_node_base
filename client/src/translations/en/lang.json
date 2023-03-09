@@ -36,6 +36,7 @@
     "sessionStatus": "Session Status",
     "active": "Active",
     "inactive": "Inactive",
+    "activating": "Activating",
     "reactiveateSession": "Reactivate Session",
     "deactivateSession": "Deactivate Session",
     "activateSession": "Activate Session",

@@ -5,4 +5,7 @@ export interface IModalInterface {
   handleDownload: () => void
   handleRefresh: () => void
   deActivateSession: () => void
+  reactiveSession: () => void
+  handleActivateSession: () => void
+  popupClose: () => void
 }

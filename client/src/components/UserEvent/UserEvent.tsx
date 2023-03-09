@@ -1,8 +1,7 @@
 import React from 'react'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
-import NavPanel from '@Components/NavPanel/NavPanel'
 import Table from '@Components/Table/Table'
-import { userEventLog, date } from '@Store/mockStore/storeData/userEventMock'
+import { userEventLog } from '@Store/mockStore/storeData/userEventMock'
 import { SortIcon } from '@Assets/images'
 
 const UserEvent: React.FC<IDefaultPageProps> = props => {
@@ -53,6 +52,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
               </div>
               <div className="col-10 nav-content">
                 <Table
+                  {...props}
                   column={tableHeader}
                   rowContent={userEventLog}
                   pageSize={10}

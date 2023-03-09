@@ -5,8 +5,10 @@ import { getValueFromObject } from '@Utils/utils'
 import Pagination from '@Components/Pagination/Pagination'
 import { SortIcon } from '@Assets/images'
 
+let pageSize = 10
+
 const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
-  const { column, rowContent, pageSize } = props
+  const { column, rowContent } = props
   const [order, setOrder] = useState<string>('ASC')
   const [tableData, setTableData] = useState<any[]>(rowContent)
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -22,6 +24,14 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
       ? 'Online'
       : 'RUN_STATE_PROVISIONED'
       ? 'Provisioned'
+      : 'RUN_STATE_UNKNOWN'
+      ? 'Unknown'
+      : 'RUN_STATE_UNPROVISIONED'
+      ? 'Unprovisioned'
+      : 'RUN_STATE_SUSPECT'
+      ? 'Suspect'
+      : 'RUN_STATE_ERROR'
+      ? 'Error'
       : ''
   }
 
@@ -41,16 +51,12 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
             </>
           ) : tableHeader?.cell ? (
             <button
-              className={`session-btn ${
-                tabelData?.sessionActive === 'INACTIVE'
-                  ? 'active-session'
-                  : 'deactive-session'
-              }`}
+              className={`session-btn ${tabelData?.status}`}
               data-toggle="modal"
               data-target="#myModal"
               onClick={() => tableHeader?.cell(tabelData)}
             >
-              {tabelData?.sessionActive === 'INACTIVE'
+              {tabelData?.status === 'INACTIVE'
                 ? props.t('viewSession.activateSession')
                 : props.t('viewSession.deactivateSession')}
             </button>
@@ -81,7 +87,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
 
   return (
     <div className={`w-100 ${props.className}`}>
-      {currentTableData?.length > 0 ? (
+      {rowContent?.length > 0 ? (
         <div>
           <div
             id="scrollableDiv"
@@ -107,7 +113,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                 </tr>
               </thead>
               <tbody>
-                {currentTableData?.map((_data, index) => (
+                {rowContent?.map((_data, index) => (
                   <tr key={`table-body-${index}`}>
                     {column.map((column, columnIndex) => (
                       <TableRowCell
