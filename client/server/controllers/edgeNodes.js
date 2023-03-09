@@ -56,8 +56,8 @@ const getEdgeNodeList = async (req, res, next) => {
 
 const getEdgeNodeStatusById = async (req, res, next) => {
     try {
-        const query = req.query;
-        get(res, routes.edgeNode.deviceStatusById.replace('{id}', query?.id)).then((deviceInfo) => {
+        const { id } = req.params;
+        get(res, routes.edgeNode.deviceStatusById.replace('{id}', id)).then((deviceInfo) => {
             return formatResponse(res, 200, deviceInfo?.data || null, "EdgeNode info fetched successfully!");
         }).catch((err) => {
             formatResponse(res, 400, err, "Failed to get EdgeNode info!");
