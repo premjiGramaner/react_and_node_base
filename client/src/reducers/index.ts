@@ -7,10 +7,13 @@ import loginReducer from './loginReducer'
 import dashboardReducer from './dashboardReducer'
 import edgeNodeReducer from './EdgeNodeReducer'
 import edgeNodeAppInstanceReducer from './edgeNodeAppInstanceReducer'
+import userLogEventReducer from './userLogEventReducer'
+
 /* Actions */
 export * from './coreReducer'
 export * from './dashboardReducer'
 export * from './EdgeNodeReducer'
+export * from './userLogEventReducer'
 
 const allReducers = combineReducers({
   coreReducer,
@@ -18,6 +21,7 @@ const allReducers = combineReducers({
   dashboardReducer,
   edgeNodeReducer,
   edgeNodeAppInstanceReducer,
+  userLogEventReducer,
 })
 
 const rootReducer = (state: any, action: any) => {

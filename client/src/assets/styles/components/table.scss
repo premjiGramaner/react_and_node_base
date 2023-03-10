@@ -38,10 +38,10 @@
           width: 7.375rem;
 
           &.UNSPECIFIED {
-            background-color: $white;
+            background-color: $unspecifiedBgColor;
+            color: $unspecifiedTextColor;
             pointer-events: none;
-            opacity: 0.4;
-            border: 0.063rem solid $unspecifiedBtnColor !important;
+            border: 0.063rem solid $unspecifiedBorderColor !important;
           }
           &.ACTIVATING {
             background-color: $white;

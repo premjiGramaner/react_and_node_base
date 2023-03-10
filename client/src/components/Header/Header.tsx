@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 
 import { IReducerState } from '@Utils/interface'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import { IHeaderInterface } from '@Utils/interface/ComponentInterface/HeaderInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { userLogout } from '@Reducers/loginReducer'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
+
 import { URLS } from '@Utils/constants'
 
 import { HelpIcon, HeaderLogo } from '@Assets/images'
@@ -22,6 +25,13 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
 
   useEffect(() => {
     if (logoutStatusCode == 200) {
+      props.dispatch(
+        fetchUserEvents({
+          severity: 'INFO',
+          dateTime: moment().format('LLL'),
+          description: `User ${userName} Logged out`,
+        })
+      )
       props.navigate(URLS.DEFAULT)
     }
   }, [logoutStatusCode])

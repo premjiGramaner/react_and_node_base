@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import moment from 'moment'
+
 import Tooltip from '@Components/Tooltip/Tooltip'
 import {
   IDashboardCardInterface,
@@ -7,6 +9,7 @@ import {
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { URLS } from '@Utils/constants'
 import { fetchProjectInfo, fetchEdgeNode } from '@Reducers/index'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 import {
   EdgeNodeDisable,
   EdgeNodeEnable,
@@ -23,6 +26,14 @@ const DashboardCard: React.FC<
       fetchProjectInfo({
         title: data.title,
         edgeNodesCount: data.edgeNodes,
+      })
+    )
+    props.dispatch(
+      fetchUserEvents({
+        dateTime: moment().format('LLL'),
+        severity: 'INFO',
+        project: data.title,
+        description: `Project ${data.title} selected`,
       })
     )
     props.navigate(URLS.EDGENODE)

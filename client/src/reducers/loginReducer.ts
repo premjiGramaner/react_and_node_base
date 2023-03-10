@@ -109,7 +109,7 @@ const loginReducer = createSlice({
         state.token = action.payload.loginReducerInitialState.token
         state.userId = action.payload.loginReducerInitialState.userId
         state.userName = action.payload.loginReducerInitialState.userName
-        sessionStorage.clear()
+        sessionStorage.removeItem('userName')
         IS_USER_AUTHENTICATED('false')
         localStorage.clear()
       }

@@ -1,18 +1,21 @@
 import React from 'react'
-import { IDefaultPageProps } from '@Interface/PagesInterface'
+import { IDefaultPageProps } from '@Utils/interface'
+
 import Table from '@Components/Table/Table'
 import { userEventLog } from '@Store/mockStore/storeData/userEventMock'
 import { SortIcon } from '@Assets/images'
 
 const UserEvent: React.FC<IDefaultPageProps> = props => {
+  const userEventLogData = sessionStorage.getItem('userEventLogs')
+
   const tableHeader = [
     {
       name: 'Severity',
       key: 'severity',
     },
     {
-      name: 'Edge Note',
-      key: 'edgeNote',
+      name: 'Edge Node',
+      key: 'edgeNode',
     },
     {
       name: 'Edge App Instance',
@@ -28,11 +31,11 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
     },
   ]
   return (
-    <>
+    <div className="user-event-log">
       <div className="event-title">{props.t('userEvent.activityLog')}</div>
       <div className="navigation-panel d-flex">
         <div className="d-flex row w-100 nav-wrapper">
-          {userEventLog.length > 0 && (
+          {JSON.parse(userEventLogData)?.length > 0 && (
             <>
               <div className="col-2 nav-panel">
                 <div>
@@ -41,10 +44,10 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
                     <img src={SortIcon} className="sort-icon" />
                   </div>
 
-                  {userEventLog.map((data, index) => {
+                  {JSON.parse(userEventLogData)?.map((data, index) => {
                     return (
                       <div key={index} className="nav-list">
-                        {data.date}
+                        {data.dateTime}
                       </div>
                     )
                   })}
@@ -54,7 +57,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
                 <Table
                   {...props}
                   column={tableHeader}
-                  rowContent={userEventLog}
+                  rowContent={JSON.parse(userEventLogData) || []}
                   pageSize={10}
                 />
               </div>
@@ -62,7 +65,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
           )}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

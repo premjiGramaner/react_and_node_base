@@ -1,6 +1,7 @@
 import { ICoreReducerState, ILoginReducerState } from './index'
 import { IDashboardCardInterface } from '@Utils/interface/ComponentInterface'
 import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
+import { IUserEventLogInterface } from '@Utils/interface/PagesInterface/UserEventLogInterface'
 export interface IReducerState {
   coreReducer: ICoreReducerState
   loginReducer: ILoginReducerState

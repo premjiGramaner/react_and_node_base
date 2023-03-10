@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 
 import {
   fetchEdgeNode,
@@ -12,6 +13,7 @@ import { fetchEdgeNodeInfo } from '@Reducers/edgeNodeAppInstanceReducer'
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
 import { URLS } from '@Utils/constants'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
 import Header from '@Components/Header/Header'
 import DropDown from '@Components/DropDown/DropDown'
@@ -92,6 +94,15 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeInfo({
         title: data.name,
         edgeNodesCount: data.appInstCount,
+      })
+    )
+    props.dispatch(
+      fetchUserEvents({
+        edgeNode: data.name,
+        dateTime: moment().format('LLL'),
+        severity: 'INFO',
+        project: edgeNodeData?.edgeNodeInfo?.title,
+        description: `EdgeNode ${data.name}' is 'DeviceStartEdgeview'`,
       })
     )
     props.navigate(URLS.EDGEAPPINSTANCES)

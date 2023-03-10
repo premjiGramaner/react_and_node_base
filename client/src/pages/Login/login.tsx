@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
+import moment from 'moment'
 
 import {
   IDefaultPageProps,
@@ -15,12 +16,13 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-import { LoginBg } from '@Assets/svg'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
+import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
-  const { statusCode, token } = useSelector(
+  const { statusCode } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -28,6 +30,13 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
 
   useEffect(() => {
     if (statusCode === 200) {
+      props.dispatch(
+        fetchUserEvents({
+          severity: 'INFO',
+          dateTime: moment().format('LLL'),
+          description: `User ${sessionStorage.getItem('userName')} Logged in `,
+        })
+      )
       IS_USER_AUTHENTICATED(true)
       props.navigate(URLS.DASHBOARD)
     } else if (statusCode === 401 || statusCode === 400) {
