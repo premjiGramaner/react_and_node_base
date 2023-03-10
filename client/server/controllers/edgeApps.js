@@ -55,7 +55,7 @@ const getEdgeAppById = async (req, res, next) => {
                             }
                         }
                     } else if (ipCheck?.data?.kind === networkStatus.switch) {
-                        const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', ipCheck?.data?.deviceId));
+                        const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', id));
                         IPInfo = instanceInfo?.data?.netStatusList || [];
                     }
                 }
