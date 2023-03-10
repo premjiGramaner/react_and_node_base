@@ -1,9 +1,6 @@
-const { routes } = require("../helpers/constants")
+const { routes, networkStatus } = require("../helpers/constants")
 const { fetchOptions, put, get } = require("../helpers/fetch")
 const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
-const { loginMock } = require("../helpers/mock/login");
-const jwt = require('jsonwebtoken');
-const moment = require('moment');
 
 const getEdgeAppList = async (req, res, next) => {
     try {
@@ -45,20 +42,37 @@ const getEdgeAppById = async (req, res, next) => {
     try {
         let url = routes.edgeApp.byID + id;
         get(res, url).then((response) => response).then((appInfo) => {
+            const retrunData = appInfo?.data;
+            let IPInfo = [];
+            retrunData?.interfaces?.forEach(async (item, index) => {
+                const ipCheck = await get(res, routes.edgeApp.localInstanceInfo.replace('{id}', item.netinstid));
+                if (ipCheck?.data) {
+                    if (ipCheck?.data?.kind === networkStatus.local) {
+                        if (ipCheck?.data?.assignedAdapters.length > 0) {
+                            const nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
+                            if (nodeInfo?.data) {
+                                IPInfo = (nodeInfo?.data?.netStatusList || []).filter((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name);
+                            }
+                        }
+                    } else if (ipCheck?.data?.kind === networkStatus.switch) {
+                        const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', ipCheck?.data?.deviceId));
+                        IPInfo = instanceInfo?.data?.netStatusList || [];
+                    }
+                }
 
-            // brgin logic here
-            // interfaces -> map
-            // netinstid -> 468dabff-89b3-499a-9769-e792813ec898(defaultLocal-BG-supermicro-EL1) intfname(eth0)
-
-            // list API - https://zedcontrol.gmwtus.zededa.net/api/v1/netinsts/status-config?next.pageSize=20&next.pageNum=1 -> id, name
-            
-            // https://zedcontrol.gmwtus.zededa.net/api/v1/netinsts/id/468dabff-89b3-499a-9769-e792813ec898
-            // assignedAdapters [0] - name -> kind => "NETWORK_INSTANCE_KIND_LOCAL"
-
-            
-            formatResponse(res, 200, appInfo?.data, "EdgeApp info fetched successfully!");
+                if (retrunData?.interfaces.length === index + 1) {
+                    retrunData['ipInfo'] = IPInfo;
+                    retrunData['network-kind'] = ipCheck?.data ? {
+                        id: ipCheck?.data?.id || "",
+                        name: ipCheck?.data?.name || "",
+                        deviceId: ipCheck?.data?.deviceId || "",
+                        projectId: ipCheck?.data?.projectId || "",
+                        kind: ipCheck?.data?.kind || "",
+                    } : null;
+                    formatResponse(res, 200, retrunData, "EdgeApp info fetched successfully!");
+                }
+            });
         }).catch((err) => {
-
             formatResponse(res, 400, err, "Failed to get EdgeApp info!");
         });
     } catch (e) {
