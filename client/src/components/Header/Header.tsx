@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
+import { IReducerState } from '@Utils/interface'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import { IHeaderInterface } from '@Utils/interface/ComponentInterface/HeaderInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
@@ -9,13 +11,20 @@ import { URLS } from '@Utils/constants'
 import { HelpIcon, HeaderLogo } from '@Assets/images'
 
 const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
+  const { logoutStatusCode } = useSelector(
+    (state: IReducerState) => state.loginReducer
+  )
+  const [userName, setUserName] = useState<string>('')
+
   const handleLogout = () => {
     props.dispatch(userLogout())
-
-    props.navigate(URLS.DEFAULT)
   }
 
-  const [userName, setUserName] = useState<string>('')
+  useEffect(() => {
+    if (logoutStatusCode == 200) {
+      props.navigate(URLS.DEFAULT)
+    }
+  }, [logoutStatusCode])
 
   useEffect(() => {
     setUserName(sessionStorage.getItem('userName'))

@@ -33,6 +33,7 @@ export const userLogin: any = createAsyncThunk(
             )
             resolve({
               data: data || [],
+              loginReducerInitialState,
             })
           }
         })
@@ -53,7 +54,9 @@ export const userLogout: any = createAsyncThunk(
         .post(API.users.logout)
         .then(reviseData)
         .then((response: any) => {
+          const data = response
           resolve({
+            data: data || [],
             loginReducerInitialState,
           })
         })
@@ -72,6 +75,7 @@ export const loginReducerInitialState: ILoginReducerState = {
   token: '',
   statusCode: null,
   userId: '',
+  logoutStatusCode: null,
 }
 
 const loginReducer = createSlice({
@@ -92,11 +96,14 @@ const loginReducer = createSlice({
         state.pending = false
         state.statusCode = action.payload.data.statusCode
         state.userId = action.payload.data?.data?.userId
+        state.logoutStatusCode =
+          action.payload.loginReducerInitialState.logoutStatusCode
       }
     )
     builder.addCase(
       userLogout.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
+        state.logoutStatusCode = action.payload.data.data.statusCode
         state.pending = action.payload.loginReducerInitialState.pending
         state.statusCode = action.payload.loginReducerInitialState.statusCode
         state.token = action.payload.loginReducerInitialState.token
