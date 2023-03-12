@@ -36,7 +36,7 @@ const getEdgeNodeList = async (req, res, next) => {
                     deviceInfoList.push(item);
 
                     // When the loop gets end - We are triggering the Action
-                    if (deviceData.list.length === (index + 1)) {
+                    if (deviceInfoList.length === deviceData.list.length) {
                         deviceData["list"] = deviceInfoList;
                         return formatResponse(res, 200, deviceData, "EdgeNode list with info fetched successfully!");
                     }
@@ -45,7 +45,6 @@ const getEdgeNodeList = async (req, res, next) => {
                 formatResponse(res, 200, deviceData, "EdgeNode list fetched successfully!");
             }
         }).catch((err) => {
-
             formatResponse(res, 400, err, "Failed to get EdgeNode list!");
         });
     } catch (e) {
