@@ -6,7 +6,9 @@ import { userEventLog } from '@Store/mockStore/storeData/userEventMock'
 import { SortIcon } from '@Assets/images'
 
 const UserEvent: React.FC<IDefaultPageProps> = props => {
-  const userEventLogData = sessionStorage.getItem('userEventLogs')
+  const sessionData = sessionStorage.getItem('userEventLogs')
+
+  const userEventLogData = JSON.parse(sessionData)?.flat().filter(Boolean)
 
   const tableHeader = [
     {
@@ -30,12 +32,13 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
       key: 'description',
     },
   ]
+
   return (
     <div className="user-event-log">
       <div className="event-title">{props.t('userEvent.activityLog')}</div>
       <div className="navigation-panel d-flex">
         <div className="d-flex row w-100 nav-wrapper">
-          {JSON.parse(userEventLogData)?.length > 0 && (
+          {userEventLogData?.length > 0 && (
             <>
               <div className="col-2 nav-panel">
                 <div>
@@ -44,7 +47,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
                     <img src={SortIcon} className="sort-icon" />
                   </div>
 
-                  {JSON.parse(userEventLogData)?.map((data, index) => {
+                  {userEventLogData?.map((data, index) => {
                     return (
                       <div key={index} className="nav-list">
                         {data.dateTime}
@@ -57,7 +60,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
                 <Table
                   {...props}
                   column={tableHeader}
-                  rowContent={JSON.parse(userEventLogData) || []}
+                  rowContent={userEventLogData || []}
                   pageSize={10}
                 />
               </div>

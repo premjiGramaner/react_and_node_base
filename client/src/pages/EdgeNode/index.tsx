@@ -69,6 +69,15 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
 
   const handleDownloadScript = () => {
     props.dispatch(downloadScript(sessionDetails?.id))
+    props.dispatch(
+      fetchUserEvents({
+        edgeNode: sessionDetails.name,
+        dateTime: moment().format('LLL'),
+        severity: 'INFO',
+        project: edgeNodeData?.edgeNodeInfo?.title,
+        description: `EdgeNode ${sessionDetails.name}' script download successfully`,
+      })
+    )
   }
 
   const handleDeactiveSession = () => {
@@ -78,6 +87,15 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         props.dispatch(fetchEdgeViewStatus(sessionDetails?.id))
       }
     }, 1000)
+    props.dispatch(
+      fetchUserEvents({
+        edgeNode: sessionDetails.name,
+        dateTime: moment().format('LLL'),
+        severity: 'INFO',
+        project: edgeNodeData?.edgeNodeInfo?.title,
+        description: `EdgeNode ${sessionDetails.name}' is DeviceStopEdgeview`,
+      })
+    )
   }
 
   const handleActivateSession = () => {
@@ -87,6 +105,15 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         props.dispatch(fetchEdgeViewStatus(sessionDetails?.id))
       }
     }, 1000)
+    props.dispatch(
+      fetchUserEvents({
+        edgeNode: sessionDetails.name,
+        dateTime: moment().format('LLL'),
+        severity: 'INFO',
+        project: edgeNodeData?.edgeNodeInfo?.title,
+        description: `EdgeNode ${sessionDetails.name}' is DeviceStartEdgeview`,
+      })
+    )
   }
 
   const handleNavClick = data => {
@@ -102,7 +129,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         dateTime: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `EdgeNode ${data.name}' is 'DeviceStartEdgeview'`,
+        description: `EdgeNode ${data.name}' is selected`,
       })
     )
     props.navigate(URLS.EDGEAPPINSTANCES)

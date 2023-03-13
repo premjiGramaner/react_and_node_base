@@ -32,10 +32,11 @@ const userLogEventReducer = createSlice({
       fetchUserEvents.fulfilled,
       (state: IUserEventLogInterface, action: IDispatchState) => {
         state.userEventLogData = action.payload.data
+
         sessionStorage.setItem(
           'userEventLogs',
           JSON.stringify([
-            ...JSON.parse(sessionStorage.getItem('userEventLogs')),
+            ...(JSON.parse(sessionStorage.getItem('userEventLogs')) ?? []),
             action.payload.data,
           ])
         )
