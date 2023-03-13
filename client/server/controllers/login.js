@@ -1,5 +1,5 @@
 const { routes } = require("../helpers/constants")
-const { fetchOptions, post } = require("../helpers/fetch")
+const { fetchOptions, post, get } = require("../helpers/fetch")
 const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
 const { loginMock } = require("../helpers/mock/login");
 const jwt = require('jsonwebtoken');
@@ -43,10 +43,45 @@ const doLogin = async (req, res, next) => {
             const token = jwt.sign(tokenReq, jwtSecretKey);
 
             res.status(200).send({ loginToken: token, xrf_token: '', statusCode: 200, data: loginPost?.data, message: 'Logged in succesfully!' })
-        } else if (payload.token) {
-            res.status(200).send({ internalToken, statusCode: 200, data: loginMock, message: 'Token login in succesfully!' })
         } else {
-            formatResponse(res, 400, null, "Credentails are not valid! Fialed to login");
+            formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
+        }
+    } catch (e) {
+        console.log('demo test', e)
+        formatResponse(res, e?.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to login!");
+    }
+};
+
+const doLoginWithToken = async (req, res, next) => {
+    try {
+        const payload = req.body || {}
+        if (payload.token) {
+            req = optmizeReq(req, res, payload.token);
+            const loginGet = await get(res, routes.loginWithToken);
+            const data = loginGet?.data || null;
+
+            if (data) {
+                formatResponse(res, 400, data, "The requested resource was not found on this server!");
+            } else {
+                let jwtSecretKey = process.env.JWT_SECRET_KEY;
+                let tokenReq = {
+                    expire: new Date(moment().add(1, "hours")).getTime(),
+                    canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
+                    user: data,
+                }
+
+                const token = jwt.sign(tokenReq, jwtSecretKey);
+
+                if (data) {
+                    data['data'] = {
+                        "base64": payload.token
+                    }
+                };
+
+                res.status(200).send({ loginToken: token, statusCode: 200, data: data, message: 'Token login in succesfully!' })
+            }
+        } else {
+            formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
         }
     } catch (e) {
         console.log('demo test', e)
@@ -66,5 +101,6 @@ const doLogout = async (req, res, next) => {
 module.exports = {
     doLogin,
     getLogedInUserInfo,
-    doLogout
+    doLogout,
+    doLoginWithToken
 };

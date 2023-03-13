@@ -26,9 +26,9 @@ const loginPayloadOptimize = (loginInfo = {}) => {
     })
 }
 
-const optmizeReq = (req, response) => {
+const optmizeReq = (req, response, token) => {
     const tokenInfo = {
-        "X-Csrf-Token": response.headers['X-Csrf-Token']
+        "X-Csrf-Token": token || response?.headers['X-Csrf-Token']
     }
 
     req['tokenInfo'] = tokenInfo;
