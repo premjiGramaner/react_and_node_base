@@ -3,4 +3,9 @@ export interface ITableInterface {
   rowContent?: any[] | null
   pageSize?: number
   className?: string
+  navData?: (e: any) => void
+  isDisplayNavPanel?: boolean
+  navHeaderName?: string
+  sortHandle?: () => void
+  isPagination?: boolean
 }

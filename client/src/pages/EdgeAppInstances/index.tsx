@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import moment from 'moment'
 
-import {
+import edgeNodeAppInstanceReducer, {
   fetchEdgeNodeApp,
   fetchNetworkData,
 } from '@Reducers/edgeNodeAppInstanceReducer'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
@@ -15,19 +17,35 @@ import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 import Table from '@Components/Table/Table'
 
-import { CloseIcon, SortIcon } from '@Assets/images'
+import {
+  LeftArrowIcon,
+  LeftArrowFirstIcon,
+  RightArrowIcon,
+  RightLastArrowIcon,
+  CloseIcon,
+} from '@Assets/images'
 
 const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   const edgeAppData = useSelector((state: IReducerState) => state)
   const edgeNodeData = useSelector(
     (state: IReducerState) => state.edgeNodeReducer
   )
+
   const [instanceName, setInstanceName] = useState<string>('')
-  const [active, setActive] = useState<number>(null)
+  const [order, setOrder] = useState<string>('ASC')
+  const [handlePageCount, setHandlePageCount] = useState<number>(10)
+  const [selectedPage, setSelectedPage] = useState<number>(1)
+  const [instanceData, setInstanceData] = useState<any>()
 
   useEffect(() => {
-    props.dispatch(fetchEdgeNodeApp())
+    props.dispatch(fetchEdgeNodeApp('next.pageSize=10&next.pageNum=1'))
   }, [])
+
+  useEffect(() => {
+    setInstanceData(
+      edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
+    )
+  }, [edgeAppData])
 
   const tableHeader = [
     {
@@ -52,23 +70,214 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       isSort: true,
     },
     {
-      key: 'ports',
-      name: 'Protocal',
+      key: 'protocol',
+      name: 'Protocol',
     },
     {
-      key: 'ports',
+      key: 'host_port',
       name: 'Host Port',
     },
     {
-      key: 'ports',
+      key: 'app_port',
       name: 'Application Port',
     },
   ]
 
-  const handleNavClick = (data, index) => {
-    setActive(index)
+  const handleNavClick = data => {
     props.dispatch(fetchNetworkData(data.id))
     setInstanceName(data.name)
+    props.dispatch(
+      fetchUserEvents({
+        edgeNode: edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title,
+        name: moment().format('LLL'),
+        severity: 'INFO',
+        project: edgeNodeData?.edgeNodeInfo?.title,
+        appInstance: data.name,
+        description: `Edge App ${data.name}' is selected `,
+      })
+    )
+  }
+
+  const networkDataList =
+    edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo
+      .length > 0 &&
+    edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo?.map(
+      (ip, i) => {
+        const getName =
+          edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo?.filter(
+            e => e?.up == true
+          )[i]?.ifName
+
+        const getInterface =
+          getName &&
+          edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.interfaces?.filter(
+            name => name?.intfname === getName
+          )[i]?.acls
+
+        const getHostPort = getInterface?.map(port =>
+          port?.matches.find(t => t?.type === 'host')
+        )[1]?.value
+
+        const getAppPort = getInterface?.map(port =>
+          port?.matches.find(t => t?.type === 'lport')
+        )[2]?.value
+
+        const getProtocol = getInterface?.map(port =>
+          port?.matches.find(t => t?.type === 'protocol')
+        )[2]?.value
+
+        let result = []
+        if (ip.ipAddrs[0].length > 0) {
+          result.push({
+            ip_address: ip.ipAddrs[0],
+            host_port: getHostPort,
+            app_port: getAppPort,
+            protocol: getProtocol,
+          })
+        }
+        return {
+          ip_address: ip.ipAddrs[0],
+          host_port: getHostPort,
+          app_port: getAppPort,
+          protocol: getProtocol,
+        }
+      }
+    )
+
+  const handleSearch = value => {
+    const searchData =
+      edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list?.filter(
+        item => {
+          return Object.values(item.name)
+            .join('')
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        }
+      )
+    setInstanceData(searchData)
+  }
+
+  const sortTable = () => {
+    if (order === 'ASC') {
+      const sorted = [...instanceData].sort((a, b) =>
+        a?.name?.toLowerCase() > b?.name?.toLowerCase() ? 1 : -1
+      )
+      setInstanceData(sorted)
+      setOrder('DSC')
+    }
+    if (order === 'DSC') {
+      const sorted = [...instanceData].sort((a, b) =>
+        a?.name?.toLowerCase() < b?.name?.toLowerCase() ? 1 : -1
+      )
+      setInstanceData(sorted)
+      setOrder('ASC')
+    }
+  }
+
+  const paginationRange = Array.from(
+    {
+      length:
+        edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.next
+          ?.totalPages,
+    },
+    (_, i) => i + 1
+  )
+
+  console.log(
+    'edgeNodeData?.deviceList?.next?.totalPages',
+    edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.next?.totalPages
+  )
+  const onNext = () => {
+    setSelectedPage(selectedPage + 1)
+    props.dispatch(
+      fetchEdgeNodeApp(
+        `next.pageSize=${handlePageCount}&next.pageNum=${
+          selectedPage + 1
+        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+      )
+    )
+  }
+
+  const onPrevious = () => {
+    setSelectedPage(selectedPage - 1)
+    props.dispatch(
+      fetchEdgeNodeApp(
+        `next.pageSize=${handlePageCount}&next.pageNum=${
+          selectedPage - 1
+        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+      )
+    )
+  }
+  const onFirst = () => {
+    setSelectedPage(1)
+    props.dispatch(
+      fetchEdgeNodeApp(
+        `next.pageSize=${handlePageCount}&next.pageNum=${1}&projectName=${
+          edgeNodeData?.edgeNodeInfo?.title
+        }`
+      )
+    )
+  }
+  const onLast = () => {
+    setSelectedPage(paginationRange.length)
+    props.dispatch(
+      fetchEdgeNodeApp(
+        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+      )
+    )
+  }
+
+  const Pagination = () => {
+    return (
+      <>
+        <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
+          <ul className={`pagination-container`}>
+            <li className={`pagination-item `} onClick={onFirst}>
+              <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
+            </li>
+            <li className={`pagination-item `} onClick={onPrevious}>
+              <img src={LeftArrowIcon} className="pagination-nav-arrow" />
+            </li>
+            {paginationRange.map((pageNumber: number) => {
+              return (
+                <li
+                  className={`pagination-number ${
+                    pageNumber === selectedPage && 'selected'
+                  }`}
+                  onClick={() => {
+                    setSelectedPage(pageNumber)
+                    props.dispatch(
+                      fetchEdgeNodeApp(
+                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                      )
+                    )
+                  }}
+                >
+                  {pageNumber}
+                </li>
+              )
+            })}
+            <li onClick={onNext}>
+              <img src={RightArrowIcon} className="pagination-nav-arrow" />
+            </li>
+            <li className={`pagination-item `} onClick={onLast}>
+              <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
+            </li>
+          </ul>
+          <input
+            type="number"
+            className="page-count mx-3"
+            value={handlePageCount}
+            onChange={event => {
+              setTimeout(() => {
+                setHandlePageCount(parseInt(event.target.value))
+              }, 2000)
+            }}
+          />
+          <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.totalCount}`}</p>
+        </div>
+      </>
+    )
   }
 
   return (
@@ -88,10 +297,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             <span className="device-count">
               (
               {
-                edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo
-                  ?.edgeNodesCount
+                edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList
+                  ?.totalCount
               }
-              ) - {instanceName}
+              )
             </span>
             <img
               src={CloseIcon}
@@ -99,7 +308,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               onClick={() => props.navigate(URLS.EDGENODE)}
             />
           </div>
-          <SearchBox {...props} icon="fa fa-search" />
+          <SearchBox
+            {...props}
+            icon="fa fa-search"
+            handleChange={e => handleSearch(e.target.value)}
+          />
         </div>
         <DropDown {...props} />
 
@@ -108,50 +321,43 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             {edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
               ?.length > 0 && (
               <>
-                <div className="col-2 nav-panel">
-                  <div>
-                    <div className="nav-header">
-                      {props.t('edge-nodes.name')}
-                      <img src={SortIcon} className="sort-icon" />
-                    </div>
-
-                    {edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list?.map(
-                      (data, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className={`nav-list ${
-                              active === index && 'active'
-                            }`}
-                            onClick={() => {
-                              handleNavClick(data, index)
-                            }}
-                          >
-                            {data.name}
-                          </div>
-                        )
-                      }
-                    )}
+                <div className="d-flex nav-content">
+                  <div className="application-table">
+                    <Table
+                      {...props}
+                      className="app-instance-table"
+                      column={tableHeader}
+                      rowContent={instanceData || []}
+                      pageSize={10}
+                      navData={data => handleNavClick(data)}
+                      isDisplayNavPanel={true}
+                      navHeaderName={props.t('edge-nodes.name')}
+                      sortHandle={() => sortTable()}
+                    />
+                    <Pagination />
                   </div>
-                </div>
-                <div className="col-10 d-flex nav-content">
-                  <Table
-                    column={tableHeader}
-                    rowContent={
-                      edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList
-                        ?.list
-                    }
-                    pageSize={10}
-                  />
 
-                  <Table
-                    {...props}
-                    column={networkTableHeader}
-                    rowContent={
-                      [] || edgeAppData?.edgeNodeAppInstanceReducer?.networkList
-                    }
-                    pageSize={10}
-                  />
+                  {edgeAppData?.edgeNodeAppInstanceReducer
+                    ?.networkDataPending ? (
+                    <div className="network-spinner d-flex justify-content-center mt-5">
+                      <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="d-flex flex-column app-network-table">
+                      <p className="fw-bold network-title">{instanceName}</p>
+                      <Table
+                        {...props}
+                        className="network-table"
+                        column={networkTableHeader}
+                        rowContent={networkDataList || []}
+                        pageSize={10}
+                        isDisplayNavPanel={false}
+                        isPagination={true}
+                      />
+                    </div>
+                  )}
                 </div>
               </>
             )}

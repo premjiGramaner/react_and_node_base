@@ -33,7 +33,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
       props.dispatch(
         fetchUserEvents({
           severity: 'INFO',
-          dateTime: moment().format('LLL'),
+          name: moment().format('LLL'),
           description: `User ${sessionStorage.getItem('userName')} Logged in `,
         })
       )

@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IDefaultPageProps } from '@Utils/interface'
-
 import Table from '@Components/Table/Table'
-import { userEventLog } from '@Store/mockStore/storeData/userEventMock'
-import { SortIcon } from '@Assets/images'
 
 const UserEvent: React.FC<IDefaultPageProps> = props => {
   const sessionData = sessionStorage.getItem('userEventLogs')
 
   const userEventLogData = JSON.parse(sessionData)?.flat().filter(Boolean)
+  const [order, setOrder] = useState<string>('ASC')
+  const [userEventData, setUserEventData] = useState(userEventLogData)
 
   const tableHeader = [
     {
@@ -21,7 +20,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
     },
     {
       name: 'Edge App Instance',
-      key: 'edgeApp',
+      key: 'appInstance',
     },
     {
       name: 'Project',
@@ -33,37 +32,40 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
     },
   ]
 
+  const sortTable = () => {
+    if (order === 'ASC') {
+      const sortedArray = userEventLogData.sort(
+        (a, b) => Date.parse(a.name) - Date.parse(b.name)
+      )
+      setUserEventData(sortedArray)
+      setOrder('DSC')
+    }
+    if (order === 'DSC') {
+      const sortedArray = userEventLogData.sort(
+        (a, b) => Date.parse(b.name) - Date.parse(a.name)
+      )
+      setUserEventData(sortedArray)
+      setOrder('ASC')
+    }
+  }
   return (
     <div className="user-event-log">
       <div className="event-title">{props.t('userEvent.activityLog')}</div>
-      <div className="navigation-panel d-flex">
+      <div className="navigation-panel d-flex pb-5">
         <div className="d-flex row w-100 nav-wrapper">
           {userEventLogData?.length > 0 && (
             <>
-              <div className="col-2 nav-panel">
-                <div>
-                  <div className="nav-header">
-                    {props.t('userEvent.date')}
-                    <img src={SortIcon} className="sort-icon" />
-                  </div>
-
-                  {userEventLogData?.map((data, index) => {
-                    return (
-                      <div key={index} className="nav-list">
-                        {data.dateTime}
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-              <div className="col-10 nav-content">
-                <Table
-                  {...props}
-                  column={tableHeader}
-                  rowContent={userEventLogData || []}
-                  pageSize={10}
-                />
-              </div>
+              <Table
+                {...props}
+                className="user-event-table"
+                column={tableHeader}
+                rowContent={userEventData || []}
+                pageSize={10}
+                isDisplayNavPanel={true}
+                navHeaderName={props.t('userEvent.date')}
+                isPagination={true}
+                sortHandle={() => sortTable()}
+              />
             </>
           )}
         </div>

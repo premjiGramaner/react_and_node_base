@@ -25,7 +25,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const isDashboardPending = useSelector(
     (state: IReducerState) => state.dashboardReducer.dashboardPending
   )
-
+  const [searchInput, setSearchInput] = useState<string>('')
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
@@ -50,15 +50,22 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     combinedData.push(result)
   })
 
-  const countEdgeEnable = combinedData
+  const filteredData = combinedData.filter(item => {
+    return Object.values(item)
+      .join('')
+      .toLowerCase()
+      .includes(searchInput.toLowerCase())
+  })
+
+  const countEdgeEnable = filteredData
     .filter(d => d.edgeNodes > 0 && d.edgeViewStatus == true)
     .sort((a, b) => a.title.localeCompare(b.title))
 
-  const countEdgeDisable = combinedData
+  const countEdgeDisable = filteredData
     .filter(d => d.edgeNodes > 0 && d.edgeViewStatus == false)
     .sort((a, b) => a.title.localeCompare(b.title))
 
-  const countDisable = combinedData
+  const countDisable = filteredData
     .filter(d => d.edgeNodes === 0)
     .sort((a, b) => a.title.localeCompare(b.title))
 
@@ -72,8 +79,11 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       <Header {...props} />
       <Navigation {...props}>
         <div className="d-flex justify-content-between align-items-center searchContainer">
-          <div className="endpoint">{props.t('dashboard.endpoint')}</div>
-          <SearchBox {...props} icon="fa fa-search" />
+          <SearchBox
+            {...props}
+            icon="fa fa-search"
+            handleChange={e => setSearchInput(e.target.value)}
+          />
         </div>
         <DropDown {...props} />
         <div className="DashboardCardContainer">

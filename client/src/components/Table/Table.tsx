@@ -8,34 +8,43 @@ import { SortIcon } from '@Assets/images'
 let pageSize = 10
 
 const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
-  const { column, rowContent } = props
+  const {
+    column,
+    rowContent,
+    navData,
+    isDisplayNavPanel,
+    navHeaderName,
+    sortHandle,
+    isPagination,
+  } = props
   const [order, setOrder] = useState<string>('ASC')
   const [tableData, setTableData] = useState<any[]>(rowContent)
   const [currentPage, setCurrentPage] = useState<number>(1)
+  const [active, setActive] = useState<number>(null)
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return rowContent?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage])
+  }, [currentPage, rowContent])
 
-  const statusValue = (stauts: string) => {
-    return stauts === 'RUN_STATE_ONLINE'
-      ? 'Online'
-      : 'RUN_STATE_PROVISIONED'
+  const statusValue = (status: string) => {
+    return status == 'RUN_STATE_PROVISIONED'
       ? 'Provisioned'
-      : 'RUN_STATE_UNKNOWN'
-      ? 'Unknown'
-      : 'RUN_STATE_UNPROVISIONED'
-      ? 'Unprovisioned'
-      : 'RUN_STATE_SUSPECT'
-      ? 'Suspect'
-      : 'RUN_STATE_ERROR'
+      : status == 'RUN_STATE_ONLINE'
+      ? 'Online'
+      : status == 'RUN_STATE_ERROR'
       ? 'Error'
+      : status == 'RUN_STATE_UNKNOWN'
+      ? 'Unknown'
+      : status == 'RUN_STATE_SUSPECT'
+      ? 'Suspect'
+      : status == 'RUN_STATE_UNPROVISIONED'
+      ? 'Unprovisioned'
+      : status == 'RUN_STATE_OFFLINE'
+      ? 'Offline'
       : ''
   }
-
-  const [paginationData, setPaginationData] = useState<string>('')
 
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
@@ -87,8 +96,36 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
 
   return (
     <div className={`w-100 ${props.className}`}>
-      {rowContent?.length > 0 ? (
-        <div>
+      {(isPagination ? currentTableData : rowContent)?.length > 0 ? (
+        <div className="d-flex">
+          <div className="col-2 nav-panel">
+            <div className="nav-header">
+              {navHeaderName}
+              <img
+                src={SortIcon}
+                className="sort-icon"
+                onClick={() => sortHandle()}
+              />
+            </div>
+
+            {isDisplayNavPanel === true &&
+              (isPagination ? currentTableData : rowContent)?.map(
+                (data, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`nav-list ${active === index && 'active'}`}
+                      onClick={() => {
+                        setActive(index)
+                        navData(data)
+                      }}
+                    >
+                      {data.name}
+                    </div>
+                  )
+                }
+              )}
+          </div>
           <div
             id="scrollableDiv"
             className="table-wrapper w-100 cm-scrollbar cm-table-w-scroll table-responsive table-area shadow-1"
@@ -113,27 +150,31 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                 </tr>
               </thead>
               <tbody>
-                {rowContent?.map((_data, index) => (
-                  <tr key={`table-body-${index}`}>
-                    {column.map((column, columnIndex) => (
-                      <TableRowCell
-                        key={`table-row-cell-${columnIndex}`}
-                        tabelData={_data}
-                        tableHeader={column}
-                      />
-                    ))}
-                  </tr>
-                ))}
+                {(isPagination ? currentTableData : rowContent)?.map(
+                  (_data, index) => (
+                    <tr key={`table-body-${index}`}>
+                      {column.map((column, columnIndex) => (
+                        <TableRowCell
+                          key={`table-row-cell-${columnIndex}`}
+                          tabelData={_data}
+                          tableHeader={column}
+                        />
+                      ))}
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
-            <Pagination
-              className="pagination-bar"
-              currentPage={currentPage}
-              totalCount={rowContent.length}
-              pageSize={pageSize}
-              onPageChange={page => setCurrentPage(page)}
-              paginationValue={data => setPaginationData(data)}
-            />
+            {isPagination && (
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={rowContent.length}
+                pageSize={pageSize}
+                onPageChange={page => setCurrentPage(page)}
+                paginationValue={data => data}
+              />
+            )}
           </div>
         </div>
       ) : (

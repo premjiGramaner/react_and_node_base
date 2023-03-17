@@ -23,9 +23,33 @@
     .nav-wrapper {
       margin-left: 0;
       margin-right: 0;
+      .edgeNode-table {
+        padding: 0;
+      }
     }
     .nav-content {
       padding-right: 0;
+      .application-table {
+        width: 60%;
+      }
+      .app-network-table {
+        width: 40%;
+        margin-left: 1rem;
+      }
+      .network-table {
+        .nav-panel {
+          display: none;
+        }
+      }
+      .app-instance-table .nav-panel {
+        width: 32%;
+      }
+      .network-spinner {
+        width: 40%;
+      }
+      .network-title {
+        margin-left: 1rem;
+      }
     }
     .nav-panel {
       background-color: $white;
@@ -63,8 +87,8 @@
       font-family: $font-default;
       padding-left: 1.25rem;
       font-weight: 700;
-      padding-top: 0.625rem;
-      padding-bottom: 0.625rem;
+      padding-top: 0.688rem;
+      padding-bottom: 0.688rem;
       &:last-child {
         border-bottom: 0;
       }
@@ -77,9 +101,5 @@
         background: $navBackground;
       }
     }
-  }
-
-  .network-table {
-    margin-right: 1.25rem;
   }
 }

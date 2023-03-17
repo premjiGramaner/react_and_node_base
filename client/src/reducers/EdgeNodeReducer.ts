@@ -17,7 +17,7 @@ export const fetchEdgeNode: any = createAsyncThunk(
   async (title: string) => {
     return new Promise((resolve: any) => {
       fetchClient(getToken(), getClientAccessToken())
-        .get(`${API.edgeNode.edgeNodes.replace('{projectTitle}', title)}`)
+        .get(`${API.edgeNode.edgeNodes}${title}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -120,6 +120,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeSessionStatus: '',
   deviceList: [],
   sessionPending: false,
+  edgeNodePending: false,
 }
 
 const edgeNodeReducer = createSlice({
@@ -128,11 +129,18 @@ const edgeNodeReducer = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(
-      fetchEdgeNode.fulfilled,
+      fetchEdgeNode.pending,
       (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.deviceList = action.payload.data.data.data
+        state.edgeNodePending = true
       }
     ),
+      builder.addCase(
+        fetchEdgeNode.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.deviceList = action.payload.data.data.data
+          state.edgeNodePending = false
+        }
+      ),
       builder.addCase(
         fetchProjectInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {

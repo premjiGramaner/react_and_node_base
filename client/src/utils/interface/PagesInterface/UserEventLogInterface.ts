@@ -3,7 +3,7 @@ export interface IUserEventLogInterface {
 }
 
 export interface IUserEventLogData {
-  dateTime?: string
+  name?: string
   severity?: string
   edgeNode?: string
   appInstance?: string

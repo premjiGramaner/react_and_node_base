@@ -13,10 +13,10 @@ import {
 
 export const fetchEdgeNodeApp: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/edgeNodeAppData',
-  async () => {
+  async (payload: string) => {
     return new Promise((resolve: any) => {
       fetchClient(getToken(), getClientAccessToken())
-        .get(API.appInstance.edgeApps)
+        .get(`${API.appInstance.edgeApps}${payload}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -71,6 +71,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeDataList: [],
   deviceList: [],
   networkList: [],
+  networkDataPending: false,
 }
 
 const edgeNodeAppInstanceReducer = createSlice({
@@ -85,8 +86,17 @@ const edgeNodeAppInstanceReducer = createSlice({
       }
     ),
       builder.addCase(
+        fetchNetworkData.pending,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.networkDataPending = true
+        }
+      ),
+      builder.addCase(
         fetchNetworkData.fulfilled,
-        (state: IEdgeNodePageState, action: IDispatchState) => {}
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.networkList = action.payload.data
+          state.networkDataPending = false
+        }
       ),
       builder.addCase(
         fetchEdgeNodeInfo.fulfilled,

@@ -28,8 +28,11 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
       props.dispatch(
         fetchUserEvents({
           severity: 'INFO',
-          dateTime: moment().format('LLL'),
+          name: moment().format('LLL'),
           description: `User ${userName} Logged out`,
+          edgeNode: '',
+          appInstance: '',
+          project: '',
         })
       )
       props.navigate(URLS.DEFAULT)
