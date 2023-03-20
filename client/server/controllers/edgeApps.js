@@ -51,12 +51,12 @@ const getEdgeAppById = async (req, res, next) => {
                         if (ipCheck?.data?.assignedAdapters.length > 0) {
                             const nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
                             if (nodeInfo?.data) {
-                                IPInfo = (nodeInfo?.data?.netStatusList || []).filter((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name);
+                                IPInfo = [...IPInfo, ...(nodeInfo?.data?.netStatusList || []).filter((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name)];
                             }
                         }
                     } else if (ipCheck?.data?.kind === networkStatus.switch) {
                         const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', id));
-                        IPInfo = instanceInfo?.data?.netStatusList || [];
+                        IPInfo = [...IPInfo, ...(instanceInfo?.data?.netStatusList || [])];
                     }
                 }
 
