@@ -77,104 +77,87 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
     )
   }
 
-  const sorting = (col: string) => {
-    if (order === 'ASC') {
-      const sorted = [...rowContent].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      )
-      setTableData(sorted)
-      setOrder('DSC')
-    }
-    if (order === 'DSC') {
-      const sorted = [...rowContent].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      )
-      setTableData(sorted)
-      setOrder('ASC')
-    }
-  }
-
   return (
     <div className={`w-100 ${props.className}`}>
       {(isPagination ? currentTableData : rowContent)?.length > 0 ? (
         <div className="d-flex">
-          <div className="col-2 nav-panel">
-            <div className="nav-header">
-              {navHeaderName}
-              <img
-                src={SortIcon}
-                className="sort-icon"
-                onClick={() => sortHandle()}
-              />
-            </div>
-
-            {isDisplayNavPanel === true &&
-              (isPagination ? currentTableData : rowContent)?.map(
-                (data, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`nav-list ${active === index && 'active'}`}
-                      onClick={() => {
-                        setActive(index)
-                        navData(data)
-                      }}
-                    >
-                      {data.name}
-                    </div>
-                  )
-                }
-              )}
-          </div>
           <div
             id="scrollableDiv"
-            className="table-wrapper w-100 cm-scrollbar cm-table-w-scroll table-responsive table-area shadow-1"
+            className="table-wrapper d-flex w-100 cm-scrollbar cm-table-w-scroll  table-area shadow-1"
           >
-            <table className="table w-100 fs-12">
-              <thead>
-                <tr>
-                  {column.map((_col, _colIdx) => (
-                    <th
-                      scope="col"
-                      key={_colIdx}
-                      onClick={() => sorting(_col.key)}
-                    >
-                      <span className="table-header d-flex align-items-center justify-content-center">
-                        {_col.name}
-                        {_col?.isSort && (
-                          <img src={SortIcon} className="sort-icon" />
-                        )}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {(isPagination ? currentTableData : rowContent)?.map(
-                  (_data, index) => (
-                    <tr key={`table-body-${index}`}>
-                      {column.map((column, columnIndex) => (
-                        <TableRowCell
-                          key={`table-row-cell-${columnIndex}`}
-                          tabelData={_data}
-                          tableHeader={column}
-                        />
-                      ))}
-                    </tr>
-                  )
+            <div className="col-2 nav-panel">
+              <div className="nav-header">
+                {navHeaderName}
+                <img
+                  src={SortIcon}
+                  className="sort-icon"
+                  onClick={() => sortHandle()}
+                />
+              </div>
+
+              {isDisplayNavPanel === true &&
+                (isPagination ? currentTableData : rowContent)?.map(
+                  (data, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`nav-list ${active === index && 'active'} ${
+                          isPagination && 'pe-none'
+                        }`}
+                        onClick={() => {
+                          setActive(index)
+                          navData(data)
+                        }}
+                      >
+                        {data.name}
+                      </div>
+                    )
+                  }
                 )}
-              </tbody>
-            </table>
-            {isPagination && (
-              <Pagination
-                className="pagination-bar"
-                currentPage={currentPage}
-                totalCount={rowContent.length}
-                pageSize={pageSize}
-                onPageChange={page => setCurrentPage(page)}
-                paginationValue={data => data}
-              />
-            )}
+            </div>
+            <div className="w-100">
+              <table className="table h-100 fs-12">
+                <thead>
+                  <tr>
+                    {column.map((_col, _colIdx) => (
+                      <th scope="col" key={_colIdx}>
+                        <span className="table-header d-flex align-items-center justify-content-center">
+                          {_col.name}
+                          {_col?.isSort && (
+                            <img src={SortIcon} className="sort-icon" />
+                          )}
+                        </span>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {(isPagination ? currentTableData : rowContent)?.map(
+                    (_data, index) => (
+                      <tr key={`table-body-${index}`}>
+                        {column.map((column, columnIndex) => (
+                          <TableRowCell
+                            key={`table-row-cell-${columnIndex}`}
+                            tabelData={_data}
+                            tableHeader={column}
+                          />
+                        ))}
+                      </tr>
+                    )
+                  )}
+                </tbody>
+              </table>
+              {isPagination && (
+                <Pagination
+                  className="pagination-bar"
+                  currentPage={currentPage}
+                  totalCount={rowContent.length}
+                  pageSize={pageSize}
+                  onPageChange={page => setCurrentPage(page)}
+                  paginationValue={data => data}
+                />
+              )}
+            </div>
           </div>
         </div>
       ) : (

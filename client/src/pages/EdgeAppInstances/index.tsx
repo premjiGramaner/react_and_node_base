@@ -38,10 +38,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   const [instanceData, setInstanceData] = useState<any>()
 
   useEffect(() => {
-    props.dispatch(fetchEdgeNodeApp('next.pageSize=10&next.pageNum=1'))
-  }, [])
-
-  useEffect(() => {
     setInstanceData(
       edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
     )
@@ -109,32 +105,22 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           )[i]?.ifName
 
         const getInterface =
-          getName &&
           edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.interfaces?.filter(
             name => name?.intfname === getName
           )[i]?.acls
 
-        const getHostPort = getInterface?.map(port =>
-          port?.matches.find(t => t?.type === 'host')
+        const getHostPort = getInterface?.map(host =>
+          host?.matches.find(t => t?.type === 'host')
         )[1]?.value
 
         const getAppPort = getInterface?.map(port =>
-          port?.matches.find(t => t?.type === 'lport')
+          port?.matches.find(port => port?.type === 'lport')
         )[2]?.value
 
         const getProtocol = getInterface?.map(port =>
           port?.matches.find(t => t?.type === 'protocol')
         )[2]?.value
 
-        let result = []
-        if (ip.ipAddrs[0].length > 0) {
-          result.push({
-            ip_address: ip.ipAddrs[0],
-            host_port: getHostPort,
-            app_port: getAppPort,
-            protocol: getProtocol,
-          })
-        }
         return {
           ip_address: ip.ipAddrs[0],
           host_port: getHostPort,
@@ -183,16 +169,14 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     (_, i) => i + 1
   )
 
-  console.log(
-    'edgeNodeData?.deviceList?.next?.totalPages',
-    edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.next?.totalPages
-  )
   const onNext = () => {
     setSelectedPage(selectedPage + 1)
     props.dispatch(
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage + 1
+        }&appName=${
+          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
         }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
@@ -204,6 +188,8 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage - 1
+        }&appName=${
+          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
         }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
@@ -212,9 +198,9 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setSelectedPage(1)
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${1}&projectName=${
-          edgeNodeData?.edgeNodeInfo?.title
-        }`
+        `next.pageSize=${handlePageCount}&next.pageNum=${1}&appName=${
+          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
+        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
   }
@@ -222,7 +208,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setSelectedPage(paginationRange.length)
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&appName=${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
   }
@@ -232,10 +218,16 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       <>
         <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
           <ul className={`pagination-container`}>
-            <li className={`pagination-item `} onClick={onFirst}>
+            <li
+              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
+              onClick={onFirst}
+            >
               <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
             </li>
-            <li className={`pagination-item `} onClick={onPrevious}>
+            <li
+              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
+              onClick={onPrevious}
+            >
               <img src={LeftArrowIcon} className="pagination-nav-arrow" />
             </li>
             {paginationRange.map((pageNumber: number) => {
@@ -248,7 +240,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     setSelectedPage(pageNumber)
                     props.dispatch(
                       fetchEdgeNodeApp(
-                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&appName=${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                       )
                     )
                   }}
@@ -257,10 +249,20 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                 </li>
               )
             })}
-            <li onClick={onNext}>
+            <li
+              onClick={onNext}
+              className={`${
+                selectedPage === paginationRange.length && 'pe-none'
+              }`}
+            >
               <img src={RightArrowIcon} className="pagination-nav-arrow" />
             </li>
-            <li className={`pagination-item `} onClick={onLast}>
+            <li
+              className={`pagination-item ${
+                selectedPage === paginationRange.length && 'pe-none'
+              }`}
+              onClick={onLast}
+            >
               <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
             </li>
           </ul>
@@ -319,7 +321,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
             {edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
-              ?.length > 0 && (
+              ?.length > 0 ? (
               <>
                 <div className="d-flex nav-content">
                   <div className="application-table">
@@ -360,6 +362,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                   )}
                 </div>
               </>
+            ) : (
+              <div className="d-flex justify-content-center no-records-found">
+                No Records Found
+              </div>
             )}
           </div>
         </div>

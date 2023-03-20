@@ -8,7 +8,10 @@ import {
   sessionStatus,
   fetchEdgeViewStatus,
 } from '@Reducers/index'
-import { fetchEdgeNodeInfo } from '@Reducers/edgeNodeAppInstanceReducer'
+import {
+  fetchEdgeNodeInfo,
+  fetchEdgeNodeApp,
+} from '@Reducers/edgeNodeAppInstanceReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
@@ -138,6 +141,11 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       })
     )
     props.dispatch(
+      fetchEdgeNodeApp(
+        `next.pageSize=10&next.pageNum=1&appName=${data.name}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+      )
+    )
+    props.dispatch(
       fetchUserEvents({
         edgeNode: data.name,
         name: moment().format('LLL'),
@@ -233,36 +241,22 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     )
   }
 
-  useEffect(() => {
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=${handlePageCount}&next.pageNum=${1}&projectName=${
-          edgeNodeData?.edgeNodeInfo?.title
-        }`
-      )
-    )
-  }, [handlePageCount])
-
   const Pagination = () => {
     return (
       <>
         <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
           <ul className={`pagination-container`}>
-            <li className={`pagination-item `} onClick={onFirst}>
-              <img
-                src={LeftArrowFirstIcon}
-                className={`pagination-nav-arrow ${
-                  selectedPage === 1 && 'disabled'
-                }`}
-              />
+            <li
+              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
+              onClick={onFirst}
+            >
+              <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
             </li>
-            <li className={`pagination-item `} onClick={onPrevious}>
-              <img
-                src={LeftArrowIcon}
-                className={`pagination-nav-arrow ${
-                  selectedPage === 1 && 'disabled'
-                }`}
-              />
+            <li
+              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
+              onClick={onPrevious}
+            >
+              <img src={LeftArrowIcon} className="pagination-nav-arrow " />
             </li>
             {paginationRange.map((pageNumber: number) => {
               return (
@@ -283,21 +277,21 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                 </li>
               )
             })}
-            <li onClick={onNext}>
-              <img
-                src={RightArrowIcon}
-                className={`pagination-nav-arrow ${
-                  selectedPage === paginationRange.length && 'disabled'
-                }`}
-              />
+            <li
+              onClick={onNext}
+              className={`${
+                selectedPage === paginationRange.length && 'pe-none'
+              }`}
+            >
+              <img src={RightArrowIcon} className="pagination-nav-arrow" />
             </li>
-            <li className={`pagination-item `} onClick={onLast}>
-              <img
-                src={RightLastArrowIcon}
-                className={`pagination-nav-arrow ${
-                  selectedPage === paginationRange.length && 'disabled'
-                } `}
-              />
+            <li
+              className={`pagination-item ${
+                selectedPage === paginationRange.length && 'pe-none'
+              }`}
+              onClick={onLast}
+            >
+              <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
             </li>
           </ul>
           <input
