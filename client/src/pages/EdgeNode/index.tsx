@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
@@ -14,10 +14,7 @@ import {
 } from '@Reducers/edgeNodeAppInstanceReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
-import {
-  IEdgeNodePageState,
-  IEdgeData,
-} from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
+import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
 import { URLS } from '@Utils/constants'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
@@ -54,7 +51,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   useEffect(() => {
     setEdgeNodeList(edgeNodeData)
     setSessionPending(edgeNodeData?.sessionPending)
-    setEdgeNodeTableData(edgeNodeData?.deviceList.list)
+    setEdgeNodeTableData(edgeNodeData?.deviceList?.list)
   }, [edgeNodeData])
 
   useEffect(() => {
@@ -263,20 +260,29 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onFirst}
             >
-              <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
+              <img
+                src={LeftArrowFirstIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onPrevious}
             >
-              <img src={LeftArrowIcon} className="pagination-nav-arrow " />
+              <img
+                src={LeftArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
-            {paginationRange.map((pageNumber: number) => {
+            {paginationRange.map((pageNumber: number, index) => {
               return (
                 <li
                   className={`pagination-number ${
                     pageNumber === selectedPage && 'selected'
                   }`}
+                  key={index}
                   onClick={() => {
                     setSelectedPage(pageNumber)
                     props.dispatch(
@@ -296,7 +302,11 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
             >
-              <img src={RightArrowIcon} className="pagination-nav-arrow" />
+              <img
+                src={RightArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
             <li
               className={`pagination-item ${
@@ -304,7 +314,11 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
               }`}
               onClick={onLast}
             >
-              <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
+              <img
+                src={RightLastArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
           </ul>
           <input
@@ -313,9 +327,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             value={handlePageCount}
             onChange={event => {
               setHandlePageCount(parseInt(event.target.value))
-            }}
-            onBlur={e => {
-              console.log('Triggered because this input lost focus')
             }}
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeNodeData?.deviceList?.totalCount}`}</p>

@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import moment from 'moment'
 
 import { IReducerState } from '@Utils/interface'
-import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import { IHeaderInterface } from '@Utils/interface/ComponentInterface/HeaderInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { userLogout } from '@Reducers/loginReducer'
@@ -45,7 +44,7 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
 
   return (
     <div className="header-section d-flex py-3 align-items-center justify-content-between">
-      <img src={HeaderLogo} className="header-logo" />
+      <img src={HeaderLogo} className="header-logo" alt="" />
       <div className="d-flex align-items-center text-white">
         <p className="user-name mb-0 fw-bold fs-12">
           {props.t('header.welcome', { userName: userName })}

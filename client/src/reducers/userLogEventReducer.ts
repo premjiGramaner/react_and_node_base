@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import client from '@Utils/axiosConfig'
 
-import { reviseData } from '@Utils/validation'
 import {
   IUserEventLogInterface,
   IUserEventLogData,

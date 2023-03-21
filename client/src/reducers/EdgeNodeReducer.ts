@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import fileDownload from 'js-file-download'
 
 import { reviseData } from '@Utils/validation'
-import client, { fetchClient } from '@Utils/axiosConfig'
+import { fetchClient } from '@Utils/axiosConfig'
 import { getClientAccessToken, getToken } from '@Utils/storage'
 
 import {
@@ -118,7 +118,6 @@ export const fetchProjectInfo: any = createAsyncThunk(
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeInfo: { title: '', edgeNodesCount: null },
   edgeSessionStatus: '',
-  deviceList: [],
   sessionPending: false,
   edgeNodePending: false,
 }
@@ -128,12 +127,9 @@ const edgeNodeReducer = createSlice({
   initialState: edgeNodeReducerInitialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(
-      fetchEdgeNode.pending,
-      (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.edgeNodePending = true
-      }
-    ),
+    builder.addCase(fetchEdgeNode.pending, (state: IEdgeNodePageState) => {
+      state.edgeNodePending = true
+    }),
       builder.addCase(
         fetchEdgeNode.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
@@ -153,18 +149,12 @@ const edgeNodeReducer = createSlice({
         state.edgeSessionStatus = action.payload.data.data.data.state
       }
     )
-    builder.addCase(
-      sessionStatus.pending,
-      (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.sessionPending = true
-      }
-    )
-    builder.addCase(
-      sessionStatus.fulfilled,
-      (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.sessionPending = false
-      }
-    )
+    builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {
+      state.sessionPending = true
+    })
+    builder.addCase(sessionStatus.fulfilled, (state: IEdgeNodePageState) => {
+      state.sessionPending = false
+    })
   },
 })
 

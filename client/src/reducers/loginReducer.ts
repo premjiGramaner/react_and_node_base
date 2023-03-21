@@ -83,12 +83,9 @@ const loginReducer = createSlice({
   initialState: loginReducerInitialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(
-      userLogin.pending,
-      (state: ILoginReducerState, action: IDispatchState) => {
-        state.pending = true
-      }
-    )
+    builder.addCase(userLogin.pending, (state: ILoginReducerState) => {
+      state.pending = true
+    })
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {

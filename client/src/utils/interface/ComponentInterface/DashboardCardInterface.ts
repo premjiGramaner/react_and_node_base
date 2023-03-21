@@ -1,4 +1,3 @@
-import { IEdgeNodeInfo } from '@Utils/interface/PagesInterface'
 export interface ISearchData {
   title?: string
   projectStatus?: string

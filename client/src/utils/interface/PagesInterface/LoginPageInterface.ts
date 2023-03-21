@@ -1,1 +1,1 @@
-export interface ILoginPageProps { }
+export interface ILoginPageProps {}

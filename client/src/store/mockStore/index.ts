@@ -1,1 +1,1 @@
-export * as dashboardPageData from './dashboardPageData'
+export * as dashboardPageData from './storeData/dashboardPageData'

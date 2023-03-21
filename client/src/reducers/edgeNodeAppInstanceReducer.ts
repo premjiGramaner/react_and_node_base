@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { reviseData } from '@Utils/validation'
-import client, { fetchClient } from '@Utils/axiosConfig'
+import { fetchClient } from '@Utils/axiosConfig'
 import { getClientAccessToken, getToken } from '@Utils/storage'
 
 import {
@@ -84,12 +84,9 @@ const edgeNodeAppInstanceReducer = createSlice({
         state.edgeNodeDataList = action.payload.data.data.data
       }
     ),
-      builder.addCase(
-        fetchNetworkData.pending,
-        (state: IEdgeNodePageState, action: IDispatchState) => {
-          state.networkDataPending = true
-        }
-      ),
+      builder.addCase(fetchNetworkData.pending, (state: IEdgeNodePageState) => {
+        state.networkDataPending = true
+      }),
       builder.addCase(
         fetchNetworkData.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {

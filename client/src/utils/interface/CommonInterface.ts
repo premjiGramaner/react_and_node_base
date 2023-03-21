@@ -1,4 +1,2 @@
 // ---- Main Component Interfaces --//
-export interface IDefaultProps {
-
-}
+export interface IDefaultProps {}

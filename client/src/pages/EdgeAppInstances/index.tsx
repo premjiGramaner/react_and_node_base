@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
-import edgeNodeAppInstanceReducer, {
+import {
   fetchEdgeNodeApp,
   fetchNetworkData,
 } from '@Reducers/edgeNodeAppInstanceReducer'
@@ -217,20 +217,29 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onFirst}
             >
-              <img src={LeftArrowFirstIcon} className="pagination-nav-arrow" />
+              <img
+                src={LeftArrowFirstIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onPrevious}
             >
-              <img src={LeftArrowIcon} className="pagination-nav-arrow" />
+              <img
+                src={LeftArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
-            {paginationRange.map((pageNumber: number) => {
+            {paginationRange.map((pageNumber: number, index) => {
               return (
                 <li
                   className={`pagination-number ${
                     pageNumber === selectedPage && 'selected'
                   }`}
+                  key={index}
                   onClick={() => {
                     setSelectedPage(pageNumber)
                     props.dispatch(
@@ -250,7 +259,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
             >
-              <img src={RightArrowIcon} className="pagination-nav-arrow" />
+              <img
+                src={RightArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
             <li
               className={`pagination-item ${
@@ -258,7 +271,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               }`}
               onClick={onLast}
             >
-              <img src={RightLastArrowIcon} className="pagination-nav-arrow" />
+              <img
+                src={RightLastArrowIcon}
+                className="pagination-nav-arrow"
+                alt=""
+              />
             </li>
           </ul>
           <input
@@ -296,6 +313,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               src={CloseIcon}
               className="close-icon"
               onClick={() => props.navigate(URLS.EDGENODE)}
+              alt=""
             />
           </div>
           <SearchBox

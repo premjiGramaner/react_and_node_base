@@ -1,11 +1,11 @@
-import React, { FC, useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { ITableInterface } from '@Utils/interface/ComponentInterface/TableInterface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { getValueFromObject } from '@Utils/utils'
 import Pagination from '@Components/Pagination/Pagination'
 import { SortIcon } from '@Assets/images'
 
-let pageSize = 10
+const pageSize = 10
 
 const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
   const {
@@ -17,8 +17,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
     sortHandle,
     isPagination,
   } = props
-  const [order, setOrder] = useState<string>('ASC')
-  const [tableData, setTableData] = useState<any[]>(rowContent)
+
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [active, setActive] = useState<number>(null)
 
@@ -92,6 +91,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                   src={SortIcon}
                   className="sort-icon"
                   onClick={() => sortHandle()}
+                  alt=""
                 />
               </div>
 

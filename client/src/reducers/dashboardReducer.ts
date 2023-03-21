@@ -64,7 +64,7 @@ const dashboardReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(
       fetchDashboard.pending,
-      (state: IDashboardCardInterface, action: IDispatchState) => {
+      (state: IDashboardCardInterface) => {
         state.dashboardPending = true
       }
     ),

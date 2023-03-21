@@ -11,7 +11,7 @@ import {
 } from '@Utils/interface'
 
 import { URLS } from '@Utils/constants'
-import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
+import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'

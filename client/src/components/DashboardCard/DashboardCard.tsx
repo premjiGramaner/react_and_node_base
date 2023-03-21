@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import moment from 'moment'
 
 import Tooltip from '@Components/Tooltip/Tooltip'
@@ -83,11 +83,20 @@ const DashboardCard: React.FC<
                     <div
                       className="d-flex px-4 edge-app-color align-items-center"
                       onClick={() => handleEdgeNodeClick(data)}
+                      onKeyDown={() => handleEdgeNodeClick(data)}
                     >
                       {data?.edgeNodes !== 0 ? (
-                        <img src={EdgeNodeEnable} className="edge-node-icon" />
+                        <img
+                          src={EdgeNodeEnable}
+                          className="edge-node-icon"
+                          alt=""
+                        />
                       ) : (
-                        <img src={EdgeNodeDisable} className="edge-node-icon" />
+                        <img
+                          src={EdgeNodeDisable}
+                          className="edge-node-icon"
+                          alt=""
+                        />
                       )}
                       <div className="node-count node-app fw-bold px-2">
                         {data.edgeNodes}
@@ -103,11 +112,13 @@ const DashboardCard: React.FC<
                         <img
                           src={EdgeAppInstanceEnable}
                           className="edge-app-icon"
+                          alt=""
                         />
                       ) : (
                         <img
                           src={EdgeAppInstanceDisable}
                           className="edge-app-icon"
+                          alt=""
                         />
                       )}
                       <div className="node-count node-app fw-bold px-2">
