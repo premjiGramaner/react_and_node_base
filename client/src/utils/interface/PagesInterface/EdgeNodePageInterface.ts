@@ -1,6 +1,6 @@
 export interface IEdgeNodePageState {
   edgeNodeInfo: IEdgeNodeInfo
-  deviceList: IEdgeNodeDeviceList[]
+  deviceList?: IEdgeNodeDeviceList
   edgeSessionStatus?: string
   edgeNodeDataList?: any
   networkList?: any[]
@@ -14,6 +14,20 @@ export interface IEdgeNodeInfo {
   edgeNodesCount?: number
 }
 
+export interface IEdgeData {
+  name: string
+  runState: boolean
+  eveImageName: string
+  location: string
+  status: string
+}
+
+export interface IEdgePagination {
+  totalPages: number
+}
 export interface IEdgeNodeDeviceList {
+  list: IEdgeData[]
   device?: string
+  totalCount: number
+  next: IEdgePagination
 }

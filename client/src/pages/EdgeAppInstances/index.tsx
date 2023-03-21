@@ -26,7 +26,9 @@ import {
 } from '@Assets/images'
 
 const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
-  const edgeAppData = useSelector((state: IReducerState) => state)
+  const edgeAppData = useSelector(
+    (state: IReducerState) => state.edgeNodeAppInstanceReducer
+  )
   const edgeNodeData = useSelector(
     (state: IReducerState) => state.edgeNodeReducer
   )
@@ -38,9 +40,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   const [instanceData, setInstanceData] = useState<any>()
 
   useEffect(() => {
-    setInstanceData(
-      edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
-    )
+    setInstanceData(edgeAppData?.edgeNodeDataList?.list)
   }, [edgeAppData])
 
   const tableHeader = [
@@ -84,14 +84,14 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setInstanceName(data.name)
     props.dispatch(
       fetchUserEvents({
-        edgeNode: edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title,
+        edgeNode: edgeAppData?.edgeNodeInfo?.title,
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
         appInstance: data.name,
         description: `User ${sessionStorage.getItem(
           'userName'
-        )} selected Edge App '${data.name}' on project '${
+        )} - selected Edge App '${data.name}' on project '${
           edgeNodeData?.edgeNodeInfo?.title
         }'`,
       })
@@ -99,51 +99,44 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const networkDataList =
-    edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo
-      .length > 0 &&
-    edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo?.map(
-      (ip, i) => {
-        const getName =
-          edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.ipInfo?.filter(
-            e => e?.up == true
-          )[i]?.ifName
+    edgeAppData?.networkList?.data?.data?.ipInfo.length > 0 &&
+    edgeAppData.networkList?.data?.data?.ipInfo?.map((ip, i) => {
+      const getName = edgeAppData?.networkList?.data?.data?.ipInfo?.filter(
+        e => e?.up == true
+      )[i]?.ifName
 
-        const getInterface =
-          edgeAppData?.edgeNodeAppInstanceReducer?.networkList?.data?.data?.interfaces?.filter(
-            name => name?.intfname === getName
-          )[i]?.acls
+      const getInterface =
+        edgeAppData?.networkList?.data?.data?.interfaces?.filter(
+          name => name?.intfname === getName
+        )[i]?.acls
 
-        const getHostPort = getInterface?.map(host =>
-          host?.matches.find(t => t?.type === 'host')
-        )[1]?.value
+      const getHostPort = getInterface?.map(host =>
+        host?.matches.find(t => t?.type === 'host')
+      )[1]?.value
 
-        const getAppPort = getInterface?.map(port =>
-          port?.matches.find(port => port?.type === 'lport')
-        )[2]?.value
+      const getAppPort = getInterface?.map(port =>
+        port?.matches.find(port => port?.type === 'lport')
+      )[2]?.value
 
-        const getProtocol = getInterface?.map(port =>
-          port?.matches.find(t => t?.type === 'protocol')
-        )[2]?.value
+      const getProtocol = getInterface?.map(port =>
+        port?.matches.find(t => t?.type === 'protocol')
+      )[2]?.value
 
-        return {
-          ip_address: ip.ipAddrs[0],
-          host_port: getHostPort,
-          app_port: getAppPort,
-          protocol: getProtocol,
-        }
+      return {
+        ip_address: ip.ipAddrs[0],
+        host_port: getHostPort,
+        app_port: getAppPort,
+        protocol: getProtocol,
       }
-    )
+    })
 
   const handleSearch = value => {
-    const searchData =
-      edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list?.filter(
-        item => {
-          return Object.values(item.name)
-            .join('')
-            .toLowerCase()
-            .includes(value.toLowerCase())
-        }
-      )
+    const searchData = edgeAppData?.edgeNodeDataList?.list?.filter(item => {
+      return Object.values(item.name)
+        .join('')
+        .toLowerCase()
+        .includes(value.toLowerCase())
+    })
     setInstanceData(searchData)
   }
 
@@ -166,9 +159,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
   const paginationRange = Array.from(
     {
-      length:
-        edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.next
-          ?.totalPages,
+      length: edgeAppData?.edgeNodeDataList?.next?.totalPages,
     },
     (_, i) => i + 1
   )
@@ -179,9 +170,9 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage + 1
-        }&appName=${
-          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
-        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        }&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+          edgeNodeData?.edgeNodeInfo?.title
+        }`
       )
     )
   }
@@ -192,9 +183,9 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage - 1
-        }&appName=${
-          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
-        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        }&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+          edgeNodeData?.edgeNodeInfo?.title
+        }`
       )
     )
   }
@@ -203,7 +194,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     props.dispatch(
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${1}&appName=${
-          edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title
+          edgeAppData?.edgeNodeInfo?.title
         }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
@@ -212,7 +203,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setSelectedPage(paginationRange.length)
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&appName=${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
   }
@@ -244,7 +235,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     setSelectedPage(pageNumber)
                     props.dispatch(
                       fetchEdgeNodeApp(
-                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&appName=${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                       )
                     )
                   }}
@@ -280,7 +271,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               }, 2000)
             }}
           />
-          <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.totalCount}`}</p>
+          <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeAppData?.edgeNodeDataList?.totalCount}`}</p>
         </div>
       </>
     )
@@ -297,16 +288,9 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             <span className="device-count">
               ({edgeNodeData?.edgeNodeInfo?.edgeNodesCount}) -
             </span>
-            <span className="edge-node">
-              {edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeInfo?.title}
-            </span>
+            <span className="edge-node">{edgeAppData?.edgeNodeInfo.title}</span>
             <span className="device-count">
-              (
-              {
-                edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList
-                  ?.totalCount
-              }
-              )
+              ({edgeAppData?.edgeNodeDataList?.totalCount})
             </span>
             <img
               src={CloseIcon}
@@ -324,8 +308,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
-            {edgeAppData?.edgeNodeAppInstanceReducer?.edgeNodeDataList?.list
-              ?.length > 0 ? (
+            {edgeAppData?.edgeNodeDataList?.list?.length > 0 ? (
               <>
                 <div className="d-flex nav-content">
                   <div className="application-table">
@@ -343,8 +326,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     <Pagination />
                   </div>
 
-                  {edgeAppData?.edgeNodeAppInstanceReducer
-                    ?.networkDataPending ? (
+                  {edgeAppData?.networkDataPending ? (
                     <div className="network-spinner d-flex justify-content-center mt-5">
                       <div className="spinner-border" role="status">
                         <span className="sr-only">Loading...</span>

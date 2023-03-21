@@ -14,7 +14,10 @@ import {
 } from '@Reducers/edgeNodeAppInstanceReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
-import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
+import {
+  IEdgeNodePageState,
+  IEdgeData,
+} from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
 import { URLS } from '@Utils/constants'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
@@ -51,7 +54,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   useEffect(() => {
     setEdgeNodeList(edgeNodeData)
     setSessionPending(edgeNodeData?.sessionPending)
-    setEdgeNodeTableData(edgeNodeData?.deviceList?.list)
+    setEdgeNodeTableData(edgeNodeData?.deviceList.list)
   }, [edgeNodeData])
 
   useEffect(() => {
@@ -91,7 +94,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+        description: `User ${sessionStorage.getItem('userName')} - EdgeNode '${
           sessionDetails.name
         }' script download successfully on project  '${
           edgeNodeData?.edgeNodeInfo?.title
@@ -113,7 +116,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+        description: `User ${sessionStorage.getItem('userName')} - EdgeNode '${
           sessionDetails.name
         }' is deactivated on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
@@ -134,7 +137,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+        description: `User ${sessionStorage.getItem('userName')} - EdgeNode '${
           sessionDetails.name
         }' is activated on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
@@ -159,7 +162,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+        description: `User ${sessionStorage.getItem('userName')} - EdgeNode '${
           data.name
         }' is selected`,
       })
@@ -310,12 +313,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             value={handlePageCount}
             onChange={event => {
               setHandlePageCount(parseInt(event.target.value))
-
-              setTimeout(() => {
-                // fetchEdgeNode(
-                //   `next.pageSize=${handlePageCount}&next.pageNum=${selectedPage}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-                // )
-              }, 2000)
             }}
             onBlur={e => {
               console.log('Triggered because this input lost focus')

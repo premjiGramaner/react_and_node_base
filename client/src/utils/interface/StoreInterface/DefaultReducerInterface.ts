@@ -7,7 +7,7 @@ export interface IReducerState {
   loginReducer: ILoginReducerState
   dashboardReducer: IDashboardCardInterface
   edgeNodeReducer: IEdgeNodePageState
-  edgeNodeAppInstancesReducer: IEdgeAppInstanceState
+  edgeNodeAppInstanceReducer: IEdgeNodePageState
 }
 
 export interface IEdgeAppInstanceState {

@@ -37,7 +37,7 @@ const DashboardCard: React.FC<
         project: data.title,
         description: `User ${sessionStorage.getItem(
           'userName'
-        )} selected project '${data.title}'`,
+        )} - selected project '${data.title}'`,
       })
     )
     props.navigate(URLS.EDGENODE)

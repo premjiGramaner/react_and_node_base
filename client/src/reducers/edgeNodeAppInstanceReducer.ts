@@ -69,7 +69,6 @@ export const fetchEdgeNodeInfo: any = createAsyncThunk(
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeInfo: {},
   edgeNodeDataList: [],
-  deviceList: [],
   networkList: [],
   networkDataPending: false,
 }
