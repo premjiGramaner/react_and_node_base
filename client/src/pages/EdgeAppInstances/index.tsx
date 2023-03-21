@@ -89,7 +89,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
         appInstance: data.name,
-        description: `Edge App ${data.name}' is selected `,
+        description: `User ${sessionStorage.getItem(
+          'userName'
+        )} selected Edge App '${data.name}' on project '${
+          edgeNodeData?.edgeNodeInfo?.title
+        }'`,
       })
     )
   }

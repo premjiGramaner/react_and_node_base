@@ -11,22 +11,6 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
 
   const tableHeader = [
     {
-      name: 'Severity',
-      key: 'severity',
-    },
-    {
-      name: 'Edge Node',
-      key: 'edgeNode',
-    },
-    {
-      name: 'Edge App Instance',
-      key: 'appInstance',
-    },
-    {
-      name: 'Project',
-      key: 'project',
-    },
-    {
       name: 'Description',
       key: 'description',
     },

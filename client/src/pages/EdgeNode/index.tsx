@@ -91,7 +91,11 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `EdgeNode ${sessionDetails.name}' script download successfully`,
+        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+          sessionDetails.name
+        }' script download successfully on project  '${
+          edgeNodeData?.edgeNodeInfo?.title
+        }'`,
       })
     )
   }
@@ -109,7 +113,9 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `EdgeNode ${sessionDetails.name}' is DeviceStopEdgeview`,
+        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+          sessionDetails.name
+        }' is deactivated on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
     )
     setStatusUpdate(true)
@@ -128,7 +134,9 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `EdgeNode ${sessionDetails.name}' is DeviceStartEdgeview`,
+        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+          sessionDetails.name
+        }' is activated on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
     )
     setStatusUpdate(true)
@@ -151,7 +159,9 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         name: moment().format('LLL'),
         severity: 'INFO',
         project: edgeNodeData?.edgeNodeInfo?.title,
-        description: `EdgeNode ${data.name}' is selected`,
+        description: `User ${sessionStorage.getItem('userName')} EdgeNode '${
+          data.name
+        }' is selected`,
       })
     )
     props.navigate(URLS.EDGEAPPINSTANCES)
@@ -299,9 +309,16 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             className="page-count mx-3"
             value={handlePageCount}
             onChange={event => {
+              setHandlePageCount(parseInt(event.target.value))
+
               setTimeout(() => {
-                setHandlePageCount(parseInt(event.target.value))
+                // fetchEdgeNode(
+                //   `next.pageSize=${handlePageCount}&next.pageNum=${selectedPage}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                // )
               }, 2000)
+            }}
+            onBlur={e => {
+              console.log('Triggered because this input lost focus')
             }}
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeNodeData?.deviceList?.totalCount}`}</p>

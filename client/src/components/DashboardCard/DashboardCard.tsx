@@ -35,7 +35,9 @@ const DashboardCard: React.FC<
         name: moment().format('LLL'),
         severity: 'INFO',
         project: data.title,
-        description: `Project ${data.title} selected`,
+        description: `User ${sessionStorage.getItem(
+          'userName'
+        )} selected project '${data.title}'`,
       })
     )
     props.navigate(URLS.EDGENODE)
