@@ -18,8 +18,13 @@ export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
   async (loginPayload: ILoginState) => {
     return new Promise((resolve: any) => {
+      console.log('loginPayload', loginPayload)
+
       client
-        .post(API.users.create, loginPayload)
+        .post(
+          loginPayload.token ? API.users.tokenLogin : API.users.create,
+          loginPayload
+        )
         .then(reviseData)
         .then((response: any) => {
           const data = response

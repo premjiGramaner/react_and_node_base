@@ -293,6 +293,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                       )
                     )
                   }}
+                  aria-hidden="true"
                 >
                   {pageNumber}
                 </li>

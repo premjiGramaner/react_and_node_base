@@ -48,7 +48,7 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =
       loginValues.token.length > 0
-        ? { token: loginValues.token }
+        ? { token: loginValues.token, accessWithToken: true }
         : { username: loginValues.user, password: loginValues.password }
     props.dispatch(userLogin(loginPayload))
   }

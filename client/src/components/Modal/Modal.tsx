@@ -10,7 +10,7 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
 
   useEffect(() => {
     setSessionState(props?.status)
-  })
+  }, [props?.status])
 
   return (
     <div className="modal-container">

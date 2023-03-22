@@ -83,12 +83,13 @@ const Pagination: React.FC<IPaginationInterface> = props => {
         >
           <img src={LeftArrowIcon} className="pagination-nav-arrow" alt="" />
         </li>
-        {paginationRange.map((pageNumber: number) => {
+        {paginationRange.map((pageNumber: number, index: number) => {
           return (
             <li
               className={`pagination-item ${
                 pageNumber === currentPage && 'selected'
               }`}
+              key={index}
               onClick={() => {
                 onPageChange(pageNumber),
                   paginationValue(
@@ -123,7 +124,6 @@ const Pagination: React.FC<IPaginationInterface> = props => {
         className="page-count mx-3"
         value={handlePageCount}
         onChange={event => {
-          console.log('event', event)
           setHandlePageCount(parseInt(event.target.value))
         }}
       />
