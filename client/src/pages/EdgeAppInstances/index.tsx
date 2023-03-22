@@ -99,16 +99,15 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const networkDataList =
-    edgeAppData?.networkList?.data?.data?.ipInfo.length > 0 &&
-    edgeAppData.networkList?.data?.data?.ipInfo?.map((ip, i) => {
-      const getName = edgeAppData?.networkList?.data?.data?.ipInfo?.filter(
+    edgeAppData?.networkList?.ipInfo.length > 0 &&
+    edgeAppData.networkList?.ipInfo?.map((ip, i) => {
+      const getName = edgeAppData?.networkList?.ipInfo?.filter(
         e => e?.up == true
       )[i]?.ifName
 
-      const getInterface =
-        edgeAppData?.networkList?.data?.data?.interfaces?.filter(
-          name => name?.intfname === getName
-        )[i]?.acls
+      const getInterface = edgeAppData?.networkList?.interfaces?.filter(
+        name => name?.intfname === getName
+      )[i]?.acls
 
       const getHostPort = getInterface?.map(host =>
         host?.matches.find(t => t?.type === 'host')
