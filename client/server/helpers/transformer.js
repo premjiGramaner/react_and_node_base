@@ -6,9 +6,7 @@ const transform = (url, type, data) => {
             return transformProjects('zed', data);
         }
     }
-
-    console.log('premji ********8', url, type, data);
-
+    
     return data;
 }
 
