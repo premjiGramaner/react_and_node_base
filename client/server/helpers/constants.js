@@ -10,7 +10,7 @@ module.exports = {
     version: "v1/",
     routes: {
         login: 'login',
-        loginWithToken: 'user/self',
+        loginWithToken: 'users/self',
         logout: 'logout',
         projects: {
             list: 'projects',
