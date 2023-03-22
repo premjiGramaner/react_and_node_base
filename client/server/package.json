@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon ./bin/www",
+    "server": "SET NODE_ENV=development&& nodemon -r dotenv/config ./bin/www",
+    "prod": "SET NODE_ENV=production&& nodemon -r dotenv/config ./bin/www",
     "client": "cd client && npm install && npm run build",
     "linux": "cd client && npm install && npm run build",
-    "heroku-postbuild": "cd client && npm install && npm run build",
     "dev": "node --inspect app.js"
   },
   "author": "shankar",
