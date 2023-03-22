@@ -3,7 +3,7 @@ export interface IEdgeNodePageState {
   deviceList?: IEdgeNodeDeviceList
   edgeSessionStatus?: string
   edgeNodeDataList?: any
-  networkList?: any[]
+  networkList?: INetworkData
   sessionPending?: boolean
   networkDataPending?: boolean
   edgeNodePending?: boolean
@@ -14,6 +14,10 @@ export interface IEdgeNodeInfo {
   edgeNodesCount?: number
 }
 
+export interface INetworkData {
+  ipInfo: []
+  interfaces: []
+}
 export interface IEdgeData {
   name: string
   runState: boolean

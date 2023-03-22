@@ -7,7 +7,6 @@ import {
   fetchNetworkData,
 } from '@Reducers/edgeNodeAppInstanceReducer'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
-
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
 
@@ -99,7 +98,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const networkDataList =
-    edgeAppData?.networkList?.ipInfo.length > 0 &&
+    edgeAppData?.networkList?.ipInfo?.length > 0 &&
     edgeAppData.networkList?.ipInfo?.map((ip, i) => {
       const getName = edgeAppData?.networkList?.ipInfo?.filter(
         e => e?.up == true
@@ -122,7 +121,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       )[2]?.value
 
       return {
-        ip_address: ip.ipAddrs[0],
+        ip_address: ip?.ipAddrs[0],
         host_port: getHostPort,
         app_port: getAppPort,
         protocol: getProtocol,
@@ -285,11 +284,20 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           <input
             type="number"
             className="page-count mx-3"
-            value={handlePageCount}
-            onChange={event => {
-              setTimeout(() => {
+            onBlur={event => {
+              if (event.target.value !== '') {
+                props.dispatch(
+                  fetchEdgeNodeApp(
+                    `next.pageSize=${parseInt(
+                      event.target.value
+                    )}&next.pageNum=1&appName=${
+                      edgeAppData?.edgeNodeInfo?.title
+                    }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                  )
+                )
                 setHandlePageCount(parseInt(event.target.value))
-              }, 2000)
+                setSelectedPage(1)
+              }
             }}
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeAppData?.edgeNodeDataList?.totalCount}`}</p>

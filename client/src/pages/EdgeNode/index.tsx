@@ -328,9 +328,20 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           <input
             type="number"
             className="page-count mx-3"
-            value={handlePageCount}
-            onChange={event => {
-              setHandlePageCount(parseInt(event.target.value))
+            onBlur={event => {
+              if (event.target.value !== '') {
+                props.dispatch(
+                  fetchEdgeNode(
+                    `next.pageSize=${parseInt(
+                      event.target.value
+                    )}&next.pageNum=1&projectName=${
+                      edgeNodeData?.edgeNodeInfo?.title
+                    }`
+                  )
+                )
+                setHandlePageCount(parseInt(event.target.value))
+                setSelectedPage(1)
+              }
             }}
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeNodeData?.deviceList?.totalCount}`}</p>
