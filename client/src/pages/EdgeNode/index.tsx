@@ -259,6 +259,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onFirst}
+              aria-hidden="true"
             >
               <img
                 src={LeftArrowFirstIcon}
@@ -269,6 +270,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onPrevious}
+              aria-hidden="true"
             >
               <img
                 src={LeftArrowIcon}
@@ -301,6 +303,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
               className={`${
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
+              aria-hidden="true"
             >
               <img
                 src={RightArrowIcon}
@@ -313,6 +316,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
               onClick={onLast}
+              aria-hidden="true"
             >
               <img
                 src={RightLastArrowIcon}
@@ -349,7 +353,9 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             <img
               src={CloseIcon}
               className="close-icon"
+              alt=""
               onClick={() => props.navigate(URLS.DASHBOARD)}
+              aria-hidden="true"
             />
           </div>
           <SearchBox

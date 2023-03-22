@@ -53,6 +53,7 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
         <i
           className="icon-size las la-sign-out-alt px-2"
           onClick={handleLogout}
+          aria-hidden="true"
         ></i>
       </div>
     </div>

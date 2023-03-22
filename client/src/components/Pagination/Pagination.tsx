@@ -69,7 +69,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
   return (
     <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
       <ul className={`pagination-container ${className}`}>
-        <li className={`pagination-item `} onClick={onFirst}>
+        <li className={`pagination-item `} onClick={onFirst} aria-hidden="true">
           <img
             src={LeftArrowFirstIcon}
             className="pagination-nav-arrow"
@@ -79,6 +79,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
         <li
           className={`pagination-item ${currentPage === 1 && 'disabled'} `}
           onClick={onPrevious}
+          aria-hidden="true"
         >
           <img src={LeftArrowIcon} className="pagination-nav-arrow" alt="" />
         </li>
@@ -94,6 +95,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
                     `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}`
                   )
               }}
+              aria-hidden="true"
             >
               {pageNumber}
             </li>
@@ -104,10 +106,11 @@ const Pagination: React.FC<IPaginationInterface> = props => {
             currentPage === lastPage && 'disabled'
           }`}
           onClick={onNext}
+          aria-hidden="true"
         >
           <img src={RightArrowIcon} className="pagination-nav-arrow" alt="" />
         </li>
-        <li className={`pagination-item `} onClick={onLast}>
+        <li className={`pagination-item `} onClick={onLast} aria-hidden="true">
           <img
             src={RightLastArrowIcon}
             className="pagination-nav-arrow"

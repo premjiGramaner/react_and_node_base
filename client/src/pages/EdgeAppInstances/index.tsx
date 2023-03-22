@@ -215,6 +215,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onFirst}
+              aria-hidden="true"
             >
               <img
                 src={LeftArrowFirstIcon}
@@ -225,6 +226,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             <li
               className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
               onClick={onPrevious}
+              aria-hidden="true"
             >
               <img
                 src={LeftArrowIcon}
@@ -247,6 +249,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                       )
                     )
                   }}
+                  aria-hidden="true"
                 >
                   {pageNumber}
                 </li>
@@ -257,6 +260,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               className={`${
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
+              aria-hidden="true"
             >
               <img
                 src={RightArrowIcon}
@@ -269,6 +273,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                 selectedPage === paginationRange.length && 'pe-none'
               }`}
               onClick={onLast}
+              aria-hidden="true"
             >
               <img
                 src={RightLastArrowIcon}
@@ -313,6 +318,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               className="close-icon"
               onClick={() => props.navigate(URLS.EDGENODE)}
               alt=""
+              aria-hidden="true"
             />
           </div>
           <SearchBox

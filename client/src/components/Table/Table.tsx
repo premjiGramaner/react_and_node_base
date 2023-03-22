@@ -92,6 +92,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                   className="sort-icon"
                   onClick={() => sortHandle()}
                   alt=""
+                  aria-hidden="true"
                 />
               </div>
 
@@ -108,6 +109,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                           setActive(index)
                           navData(data)
                         }}
+                        aria-hidden="true"
                       >
                         {data.name}
                       </div>
@@ -124,7 +126,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                         <span className="table-header d-flex align-items-center justify-content-center">
                           {_col.name}
                           {_col?.isSort && (
-                            <img src={SortIcon} className="sort-icon" />
+                            <img src={SortIcon} className="sort-icon" alt="" />
                           )}
                         </span>
                       </th>

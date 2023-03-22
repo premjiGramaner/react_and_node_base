@@ -84,6 +84,7 @@ const DashboardCard: React.FC<
                       className="d-flex px-4 edge-app-color align-items-center"
                       onClick={() => handleEdgeNodeClick(data)}
                       onKeyDown={() => handleEdgeNodeClick(data)}
+                      aria-hidden="true"
                     >
                       {data?.edgeNodes !== 0 ? (
                         <img

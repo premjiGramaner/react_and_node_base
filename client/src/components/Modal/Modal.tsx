@@ -25,6 +25,7 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                 data-dismiss="modal"
                 onClick={props.popupClose}
                 alt=""
+                aria-hidden="true"
               />
             </div>
 
@@ -80,12 +81,20 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
 
             <div className="modal-footer">
               {sessionState === 'ACTIVE' && (
-                <div onClick={props.handleDownload} className="download-file">
+                <div
+                  onClick={props.handleDownload}
+                  className="download-file"
+                  aria-hidden="true"
+                >
                   <img src={DownloadIcon} className="download" alt="" />
                   {props.t('viewSession.downloadScript')}
                 </div>
               )}
-              <div className="refresh-panel" onClick={props.handleRefresh}>
+              <div
+                className="refresh-panel"
+                onClick={props.handleRefresh}
+                aria-hidden="true"
+              >
                 <img src={RefreshIcon} className="refresh" alt="" />
                 {props.t('viewSession.refresh')}
               </div>
