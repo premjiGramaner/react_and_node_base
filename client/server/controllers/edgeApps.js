@@ -55,14 +55,14 @@ const getEdgeAppById = async (req, res, next) => {
                 if (ipCheck?.data) {
                     if (ipCheck?.data?.kind === networkStatus.local) {
                         if (ipCheck?.data?.assignedAdapters.length > 0) {
-                            if (!nodeInfo) nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
+                            if (!nodeInfo) nodeInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id));
                             if (nodeInfo?.data) {
                                 IPInfo = (nodeInfo?.data?.netStatusList || []).find((data) => data.ifName === item.intfname);
                                 if (IPInfo) IPInfo = { ...IPInfo, isMemberActive: IPInfo.ifName === ipCheck?.data?.assignedAdapters[0].name };
                             }
                         }
                     } else if (ipCheck?.data?.kind === networkStatus.switch) {
-                        const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', id));
+                        const instanceInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id));
                         IPInfo = (instanceInfo?.data?.netStatusList || []);
                     }
 

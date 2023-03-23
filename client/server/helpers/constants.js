@@ -30,7 +30,7 @@ module.exports = {
 
             deviceStatus: 'devices/id/{id}/status/info', // till now not in use -> can get the device status info by this
             localInstanceInfo: 'netinsts/id/{id}/status',
-            switchInstanceInfo: 'apps/instances/id/{id}/status'
+            endgeInstanceInfo: 'apps/instances/id/{id}/status'
         },
     },
     networkStatus: {
