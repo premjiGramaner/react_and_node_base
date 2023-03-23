@@ -40,7 +40,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     const projectStatus = EdgeDetails?.list?.filter(d => d.id === data.id)[0]
 
     const result = {
-      title: data.title,
+      title: data.name,
       projectStatus: projectStatus?.status,
       edgeViewStatus: data?.edgeviewPolicy?.edgeviewPolicy?.edgeviewAllow,
       edgeNodes: data.edgeNodeCount,
