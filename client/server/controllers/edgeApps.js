@@ -16,6 +16,9 @@ const getEdgeAppList = async (req, res, next) => {
         if (query['appName'])
             url += `&appName=${query['appName']}`;
 
+        if (query['deviceName'])
+            url += `&deviceNamePattern=${query['deviceNamePattern']}`;
+
         if (query['projectName'])
             url += `&projectNamePattern=${query['projectName']}`;
 
