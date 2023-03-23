@@ -71,6 +71,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeNodeDataList: [],
   networkList: [],
   networkDataPending: false,
+  edgeAppPending: false,
 }
 
 const edgeNodeAppInstanceReducer = createSlice({
@@ -78,12 +79,16 @@ const edgeNodeAppInstanceReducer = createSlice({
   initialState: edgeNodeReducerInitialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(
-      fetchEdgeNodeApp.fulfilled,
-      (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.edgeNodeDataList = action.payload.data.data.data
-      }
-    ),
+    builder.addCase(fetchEdgeNodeApp.pending, (state: IEdgeNodePageState) => {
+      state.edgeAppPending = true
+    }),
+      builder.addCase(
+        fetchEdgeNodeApp.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.edgeNodeDataList = action.payload.data.data.data
+          state.edgeAppPending = false
+        }
+      ),
       builder.addCase(fetchNetworkData.pending, (state: IEdgeNodePageState) => {
         state.networkDataPending = true
       }),

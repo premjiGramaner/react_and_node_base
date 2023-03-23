@@ -33,6 +33,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
+    dashboarDetails
   }, [])
 
   const combinedData = []

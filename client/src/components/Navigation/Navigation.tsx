@@ -1,6 +1,7 @@
 import React from 'react'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import UserEvent from '@Components/UserEvent/UserEvent'
+import { URLS } from '@Utils/constants'
 
 const Navigation: React.FC<IDefaultPageProps> = props => {
   return (
@@ -19,6 +20,7 @@ const Navigation: React.FC<IDefaultPageProps> = props => {
             role="tab"
             aria-controls="pills-home"
             aria-selected="true"
+            onClick={() => props.navigate(URLS.DASHBOARD)}
           >
             {props.t('navigation.home')}
           </a>

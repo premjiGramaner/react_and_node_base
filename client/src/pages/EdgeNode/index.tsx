@@ -43,7 +43,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const [edgeViewSessionStatus, setEdgeViewSessionStatus] = useState<string>('')
   const [sessionPending, setSessionPending] = useState<boolean>(false)
   const [statusUpdate, setStatusUpdate] = useState<boolean>(false)
-  const [order, setOrder] = useState<string>('ASC')
+  const [order, setOrder] = useState<string>('DSC')
   const [handlePageCount, setHandlePageCount] = useState<number>(10)
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [edgeNodeTableData, setEdgeNodeTableData] = useState<any>()
@@ -51,7 +51,12 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   useEffect(() => {
     setEdgeNodeList(edgeNodeData)
     setSessionPending(edgeNodeData?.sessionPending)
-    setEdgeNodeTableData(edgeNodeData?.deviceList?.list)
+    if (edgeNodeData?.deviceList?.list) {
+      const sorted = [...edgeNodeData?.deviceList?.list].sort((a, b) =>
+        a?.name?.toLowerCase() > b?.name?.toLowerCase() ? 1 : -1
+      )
+      setEdgeNodeTableData(sorted)
+    }
   }, [edgeNodeData])
 
   useEffect(() => {
