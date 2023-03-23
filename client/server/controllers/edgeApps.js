@@ -17,12 +17,12 @@ const getEdgeAppList = async (req, res, next) => {
             url += `&appName=${query['appName']}`;
 
         if (query['deviceName'])
-            url += `&deviceNamePattern=${query['deviceNamePattern']}`;
+            url += `&deviceNamePattern=${query['deviceName']}`;
 
         if (query['projectName'])
             url += `&projectNamePattern=${query['projectName']}`;
 
-
+        console.log('********', url)
         get(res, url).then((response) => response).then((appList) => {
             formatResponse(res, 200, appList?.data, "EdgeApp list fetched successfully!");
         }).catch((err) => {
@@ -57,7 +57,8 @@ const getEdgeAppById = async (req, res, next) => {
                         if (ipCheck?.data?.assignedAdapters.length > 0) {
                             if (!nodeInfo) nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
                             if (nodeInfo?.data) {
-                                IPInfo = (nodeInfo?.data?.netStatusList || []).find((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name);
+                                IPInfo = (nodeInfo?.data?.netStatusList || []).find((data) => data.ifName === item.intfname);
+                                if (IPInfo) IPInfo = { ...IPInfo, isMemberActive: IPInfo.ifName === ipCheck?.data?.assignedAdapters[0].name };
                             }
                         }
                     } else if (ipCheck?.data?.kind === networkStatus.switch) {
