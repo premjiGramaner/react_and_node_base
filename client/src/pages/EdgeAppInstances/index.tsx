@@ -168,7 +168,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage + 1
-        }&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+        }&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
           edgeNodeData?.edgeNodeInfo?.title
         }`
       )
@@ -181,7 +181,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${
           selectedPage - 1
-        }&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+        }&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
           edgeNodeData?.edgeNodeInfo?.title
         }`
       )
@@ -191,7 +191,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setSelectedPage(1)
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${1}&appName=${
+        `next.pageSize=${handlePageCount}&next.pageNum=${1}&deviceName=${
           edgeAppData?.edgeNodeInfo?.title
         }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
@@ -201,7 +201,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setSelectedPage(paginationRange.length)
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
   }
@@ -244,7 +244,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     setSelectedPage(pageNumber)
                     props.dispatch(
                       fetchEdgeNodeApp(
-                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&appName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                       )
                     )
                   }}
@@ -290,7 +290,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                   fetchEdgeNodeApp(
                     `next.pageSize=${parseInt(
                       event.target.value
-                    )}&next.pageNum=1&appName=${
+                    )}&next.pageNum=1&deviceName=${
                       edgeAppData?.edgeNodeInfo?.title
                     }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                   )

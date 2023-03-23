@@ -146,6 +146,9 @@
         .RUN_STATE_UNPROVISIONED {
           color: $stautsUnprovisioned;
         }
+        .RUN_STATE_HALTED {
+          color: $statusHalted;
+        }
       }
       td {
         border-right: 0.063rem solid $navBorder;

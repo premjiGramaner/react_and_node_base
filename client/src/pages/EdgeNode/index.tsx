@@ -65,7 +65,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       status: true,
     },
     {
-      key: 'eveImageName',
+      key: 'shortVersion',
       name: 'EVE Image Version',
     },
     {
@@ -150,7 +150,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     )
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=10&next.pageNum=1&appName=${data.name}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        `next.pageSize=10&next.pageNum=1&deviceName=${data.name}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
     props.dispatch(

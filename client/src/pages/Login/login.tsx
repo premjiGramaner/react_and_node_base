@@ -34,7 +34,9 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
         fetchUserEvents({
           severity: 'INFO',
           name: moment().format('LLL'),
-          description: `User ${sessionStorage.getItem('userName')} Logged in `,
+          description: `User ${sessionStorage.getItem(
+            'userName'
+          )} - Logged in `,
         })
       )
       IS_USER_AUTHENTICATED(true)

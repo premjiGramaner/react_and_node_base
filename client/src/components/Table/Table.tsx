@@ -42,6 +42,8 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
       ? 'Unprovisioned'
       : status == 'RUN_STATE_OFFLINE'
       ? 'Offline'
+      : status == 'RUN_STATE_HALTED'
+      ? 'Halted'
       : ''
   }
 

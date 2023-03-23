@@ -28,7 +28,7 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
         fetchUserEvents({
           severity: 'INFO',
           name: moment().format('LLL'),
-          description: `User ${userName} Logged out`,
+          description: `User ${userName} - Logged out`,
           edgeNode: '',
           appInstance: '',
           project: '',
