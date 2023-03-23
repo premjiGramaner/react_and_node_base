@@ -32,6 +32,7 @@ const getEdgeAppList = async (req, res, next) => {
     }
 };
 
+const delay = timeToWait => new Promise(resolve => setTimeout(resolve, timeToWait));
 const getEdgeAppById = async (req, res, next) => {
     const id = req.params?.id;
 
@@ -43,35 +44,41 @@ const getEdgeAppById = async (req, res, next) => {
         let url = routes.edgeApp.byID + id;
         get(res, url).then((response) => response).then((appInfo) => {
             const retrunData = appInfo?.data;
-            let IPInfo = [];
+            let loopDataCount = 0;
             retrunData?.interfaces?.forEach(async (item, index) => {
-                const ipCheck = await get(res, routes.edgeApp.localInstanceInfo.replace('{id}', item.netinstid));
+                let IPInfo = null, nodeInfo = null;
+                let ipCheck = await get(res, routes.edgeApp.localInstanceInfo.replace('{id}', retrunData?.interfaces[index].netinstid));
+                await delay(1000)
                 if (ipCheck?.data) {
                     if (ipCheck?.data?.kind === networkStatus.local) {
                         if (ipCheck?.data?.assignedAdapters.length > 0) {
-                            const nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
+                            if (!nodeInfo) nodeInfo = await get(res, routes.edgeApp.deviceStatus.replace('{id}', ipCheck?.data?.deviceId));
                             if (nodeInfo?.data) {
-                                IPInfo = [...IPInfo, ...(nodeInfo?.data?.netStatusList || []).filter((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name)];
+                                IPInfo = (nodeInfo?.data?.netStatusList || []).find((data) => data.ifName === ipCheck?.data?.assignedAdapters[0].name);
                             }
                         }
                     } else if (ipCheck?.data?.kind === networkStatus.switch) {
                         const instanceInfo = await get(res, routes.edgeApp.switchInstanceInfo.replace('{id}', id));
-                        IPInfo = [...IPInfo, ...(instanceInfo?.data?.netStatusList || [])];
+                        IPInfo = (instanceInfo?.data?.netStatusList || []);
                     }
-                }
 
-                if (retrunData?.interfaces.length === index + 1) {
-                    retrunData['ipInfo'] = IPInfo;
-                    retrunData['network-kind'] = ipCheck?.data ? {
+                    item['ipInfo'] = IPInfo;
+                    item['network-kind'] = ipCheck?.data ? {
                         id: ipCheck?.data?.id || "",
                         name: ipCheck?.data?.name || "",
                         deviceId: ipCheck?.data?.deviceId || "",
                         projectId: ipCheck?.data?.projectId || "",
                         kind: ipCheck?.data?.kind || "",
                     } : null;
+                    loopDataCount += 1;
+                }
+                console.log('***********', ipCheck?.data, nodeInfo?.data, loopDataCount);
+                ipCheck = null;
+                if (retrunData?.interfaces.length === loopDataCount) {
                     formatResponse(res, 200, retrunData, "EdgeApp info fetched successfully!");
                 }
             });
+
         }).catch((err) => {
             formatResponse(res, 400, err, "Failed to get EdgeApp info!");
         });
