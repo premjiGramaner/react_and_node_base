@@ -26,10 +26,13 @@
     justify-content: flex-start;
   }
   .modal-body {
-    .Online {
+    .ACTIVATING {
+      color: $sessionActivating;
+    }
+    .ACTIVE {
       color: $statusOnline;
     }
-    .inactive {
+    .INACTIVE {
       color: $statusOther;
     }
     .status-icon {
@@ -49,7 +52,8 @@
       justify-content: space-between;
 
       .reactive-session,
-      .deactive-session {
+      .deactivate-session,
+      .inactive-session {
         border: 0.063rem solid $sessionColor;
         border-radius: 0.25rem;
         color: $sessionTextColor;
@@ -59,18 +63,40 @@
         height: 1.5rem;
         width: 100%;
       }
-      .deactive-session {
+      .ACTIVATING {
+        pointer-events: none;
+        opacity: 0.6;
+        margin-right: 0.625rem;
+      }
+      .inactive-session {
         background-color: $sessionBackgroundColor;
+        margin-right: 0.625rem;
+      }
+      .reactive-session,
+      .deactivate-session {
+        background-color: $white;
       }
       .reactive-session {
-        background-color: $white;
-        margin-right: 0.5rem;
+        margin-right: 0.625rem;
+      }
+      .deactivate-session {
+        &.INACTIVE {
+          pointer-events: none;
+          opacity: 0.6;
+        }
       }
     }
   }
   .modal-footer {
     justify-content: start;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
 
+    .download-file,
+    .refresh-panel {
+      cursor: pointer;
+      margin: 0;
+    }
     .download,
     .refresh {
       width: 0.875rem;

@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
+import moment from 'moment'
 
-import {
-  IDefaultPageProps,
-  ILoginPageProps,
-  IReducerState,
-  ILoginState,
-} from '@Utils/interface'
+import { IDefaultPageProps, IReducerState, ILoginState } from '@Utils/interface'
 
 import { URLS } from '@Utils/constants'
-import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
+import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-import { LoginBg } from '@Assets/svg'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
+import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
-const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
-  const { statusCode, token } = useSelector(
+const LoginComponent: React.FC<IDefaultPageProps> = props => {
+  const { statusCode } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -28,17 +25,27 @@ const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
 
   useEffect(() => {
     if (statusCode === 200) {
-      props.navigate(URLS.DASHBOARD)
+      props.dispatch(
+        fetchUserEvents({
+          severity: 'INFO',
+          name: moment().format('LLL'),
+          description: `User ${sessionStorage.getItem(
+            'userName'
+          )} - Logged in `,
+        })
+      )
       IS_USER_AUTHENTICATED(true)
+      props.navigate(URLS.DASHBOARD)
     } else if (statusCode === 401 || statusCode === 400) {
       setShowError(true)
+      props.navigate(URLS.DEFAULT)
     }
   }, [statusCode])
 
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =
       loginValues.token.length > 0
-        ? { token: loginValues.token }
+        ? { token: loginValues.token, accessWithToken: true }
         : { username: loginValues.user, password: loginValues.password }
     props.dispatch(userLogin(loginPayload))
   }

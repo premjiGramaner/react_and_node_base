@@ -28,6 +28,8 @@ const DropDown: React.FC<IDefaultPageProps> = props => {
               src={show ? CollapseIcon : ExpandIcon}
               className="expand-icon"
               onClick={handleCollapse}
+              alt=""
+              aria-hidden="true"
             />
           </div>
         </div>

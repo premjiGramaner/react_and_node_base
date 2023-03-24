@@ -1,5 +1,6 @@
 .dashboard-page-main-container {
   background-color: $dashboardBG;
+  min-height: 100vh;
   .card-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -16,10 +17,5 @@
     font-size: 1.25rem;
     font-weight: 700;
     font-family: $font-default;
-  }
-  .DashboardCardContainer,
-  .searchContainer {
-    padding-right: 2.875rem;
-    padding-left: 2.875rem;
   }
 }

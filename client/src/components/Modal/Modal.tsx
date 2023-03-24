@@ -1,10 +1,17 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
+
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { IModalInterface } from '@Interface/ComponentInterface'
 
 import { CloseIcon, DownloadIcon, RefreshIcon } from '@Assets/images'
 
 const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
+  const [sessionState, setSessionState] = useState<string>('')
+
+  useEffect(() => {
+    setSessionState(props?.status)
+  }, [props?.status])
+
   return (
     <div className="modal-container">
       <div className="modal" id="myModal">
@@ -12,11 +19,13 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title">{props.headerName}</h4>
-
               <img
                 src={CloseIcon}
                 className="close close-icon"
                 data-dismiss="modal"
+                onClick={props.popupClose}
+                alt=""
+                aria-hidden="true"
               />
             </div>
 
@@ -25,28 +34,68 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                 <p className="sessionStatus">
                   {props.t('viewSession.sessionStatus')}
                 </p>
-                <i className={`fa fa-circle status-icon ${props.status}`}></i>
-                {props.status
+                <i className={`fa fa-circle status-icon ${sessionState}`}></i>
+                {sessionState === 'ACTIVATING'
+                  ? props.t('viewSession.activating')
+                  : sessionState === 'INACTIVE'
+                  ? props.t('viewSession.inactive')
+                  : sessionState === 'ACTIVE'
                   ? props.t('viewSession.active')
-                  : props.t('viewSession.inactive')}
+                  : ''}
               </div>
+
               <div className="session-btn">
-                <button className="reactive-session">
-                  {props.t('viewSession.reactiveateSession')}
-                </button>
-                <button className="deactive-session">
-                  {props.t('viewSession.deactivateSession')}
-                </button>
+                {sessionState === 'INACTIVE' ? (
+                  <>
+                    <button
+                      className="inactive-session"
+                      onClick={props.handleActivateSession}
+                    >
+                      {props.t('viewSession.activateSession')}
+                    </button>
+                    <button
+                      className={`deactivate-session ${sessionState}`}
+                      onClick={props.deActivateSession}
+                    >
+                      {props.t('viewSession.deactivateSession')}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className={`reactive-session ${sessionState}`}
+                      onClick={props.reactiveSession}
+                    >
+                      {props.t('viewSession.reactiveateSession')}
+                    </button>
+                    <button
+                      className="reactive-session"
+                      onClick={props.deActivateSession}
+                    >
+                      {props.t('viewSession.deactivateSession')}
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="modal-footer">
-              <div>
-                <img src={DownloadIcon} className="download" />
-                {props.t('viewSession.downloadScript')}
-              </div>
-              <div className="refresh-panel">
-                <img src={RefreshIcon} className="refresh" />
+              {sessionState === 'ACTIVE' && (
+                <div
+                  onClick={props.handleDownload}
+                  className="download-file"
+                  aria-hidden="true"
+                >
+                  <img src={DownloadIcon} className="download" alt="" />
+                  {props.t('viewSession.downloadScript')}
+                </div>
+              )}
+              <div
+                className="refresh-panel"
+                onClick={props.handleRefresh}
+                aria-hidden="true"
+              >
+                <img src={RefreshIcon} className="refresh" alt="" />
                 {props.t('viewSession.refresh')}
               </div>
             </div>

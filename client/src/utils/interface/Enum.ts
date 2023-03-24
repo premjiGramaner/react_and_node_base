@@ -2,13 +2,22 @@ export const API = {
   users: {
     get: '/test',
     create: '/login',
-    logout: 'login/logout',
+    tokenLogin: 'login/with-token',
+    logout: '/logout',
   },
   dashboard: {
     projects: '/dashboard/projects',
     status: '/dashboard/projects/status',
+    projectCounts: '/dashboard/projects/counts',
   },
   edgeNode: {
-    edgeNodes: 'edgeNodes?next.pageSize=20&next.pageNum=1',
+    edgeNodes: 'edgeNodes?',
+    downloadScript: 'edgeApps/download-script/',
+    sessionStatus: 'edgeApps/status/',
+    edgeViewStatus: 'edgeNodes/info/:id',
+  },
+  appInstance: {
+    edgeApps: 'edgeApps?',
+    network: 'edgeApps/',
   },
 }

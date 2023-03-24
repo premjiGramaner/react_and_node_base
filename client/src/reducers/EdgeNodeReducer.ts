@@ -1,21 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import fileDownload from 'js-file-download'
 
 import { reviseData } from '@Utils/validation'
-import client from '@Utils/axiosConfig'
+import { fetchClient } from '@Utils/axiosConfig'
+import { getClientAccessToken, getToken } from '@Utils/storage'
 
-import { API, IDispatchState, IEdgeNodePageState } from '@Interface/index'
 import {
-  edgeNodeDeviceList,
-  edgeNodeInfo,
-  tableData,
-} from '@Store/mockStore/storeData/edgeNodesStoreMock'
+  API,
+  IDispatchState,
+  IEdgeNodePageState,
+  IEdgeNodeInfo,
+} from '@Interface/index'
 
 export const fetchEdgeNode: any = createAsyncThunk(
   'edgeNodeReducer/edgeNodeData',
-  async () => {
+  async (title: string) => {
     return new Promise((resolve: any) => {
-      client
-        .get(API.edgeNode.edgeNodes)
+      fetchClient(getToken(), getClientAccessToken())
+        .get(`${API.edgeNode.edgeNodes}${title}`)
         .then(reviseData)
         .then((response: any) => {
           const data = response
@@ -31,10 +33,93 @@ export const fetchEdgeNode: any = createAsyncThunk(
     })
   }
 )
+
+export const downloadScript: any = createAsyncThunk(
+  'edgeNodeReducer/downloadScript',
+  async (id: string) => {
+    return new Promise((resolve: any) => {
+      fetchClient(getToken(), getClientAccessToken())
+        .get(`${API.edgeNode.downloadScript}${id}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          fileDownload(
+            data.data.data.client_script,
+            data.data.data.script_filename
+          ),
+            resolve({
+              data: data || [],
+            })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const sessionStatus: any = createAsyncThunk(
+  'edgeNodeReducer/sessionStatus',
+  async (status: string) => {
+    return new Promise((resolve: any) => {
+      fetchClient(getToken(), getClientAccessToken())
+        .put(`${API.edgeNode.sessionStatus}${status}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const fetchEdgeViewStatus: any = createAsyncThunk(
+  'edgeNodeReducer/edgeViewStatus',
+  async (id: string) => {
+    return new Promise((resolve: any) => {
+      fetchClient(getToken(), getClientAccessToken())
+        .get(`${API.edgeNode.edgeViewStatus.replace(':id', id)}`)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+        .catch((response: Error) => {
+          const { data } = reviseData(response)
+          console.log('API Failed!', data)
+          resolve({ data: [] })
+        })
+    })
+  }
+)
+
+export const fetchProjectInfo: any = createAsyncThunk(
+  'edgeNodeReducer/edgeProjectName',
+  async (projectInfo: IEdgeNodeInfo) => {
+    return new Promise((resolve: any) => {
+      resolve({
+        data: projectInfo,
+      })
+    })
+  }
+)
+
 export const edgeNodeReducerInitialState: IEdgeNodePageState = {
-  edgeNodeInfo: {},
-  edgeNodeDataList: [],
-  deviceList: [],
+  edgeNodeInfo: { title: '', edgeNodesCount: null },
+  edgeSessionStatus: '',
+  sessionPending: false,
+  edgeNodePending: false,
 }
 
 const edgeNodeReducer = createSlice({
@@ -42,12 +127,34 @@ const edgeNodeReducer = createSlice({
   initialState: edgeNodeReducerInitialState,
   reducers: {},
   extraReducers: builder => {
+    builder.addCase(fetchEdgeNode.pending, (state: IEdgeNodePageState) => {
+      state.edgeNodePending = true
+    }),
+      builder.addCase(
+        fetchEdgeNode.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.deviceList = action.payload.data.data.data
+          state.edgeNodePending = false
+        }
+      ),
+      builder.addCase(
+        fetchProjectInfo.fulfilled,
+        (state: IEdgeNodePageState, action: IDispatchState) => {
+          state.edgeNodeInfo = action.payload.data
+        }
+      )
     builder.addCase(
-      fetchEdgeNode.fulfilled,
+      fetchEdgeViewStatus.fulfilled,
       (state: IEdgeNodePageState, action: IDispatchState) => {
-        state.deviceList = action.payload.data.data.data.list
+        state.edgeSessionStatus = action.payload.data.data.data.state
       }
     )
+    builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {
+      state.sessionPending = true
+    })
+    builder.addCase(sessionStatus.fulfilled, (state: IEdgeNodePageState) => {
+      state.sessionPending = false
+    })
   },
 })
 

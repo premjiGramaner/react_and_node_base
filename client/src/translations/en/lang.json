@@ -12,8 +12,8 @@
     "endpoint": "Endpoint1",
     "edgeNodes": "Edge Nodes",
     "edgeInstances": " Edge App Instances",
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "enabled": "Edge view - Enabled",
+    "disabled": "Edge View - Disabled"
   },
   "header": {
     "welcome": "Welcome, {{userName}}"
@@ -36,9 +36,15 @@
     "sessionStatus": "Session Status",
     "active": "Active",
     "inactive": "Inactive",
+    "activating": "Activating",
     "reactiveateSession": "Reactivate Session",
     "deactivateSession": "Deactivate Session",
+    "activateSession": "Activate Session",
     "downloadScript": "Download Script",
     "refresh": "Refresh"
+  },
+  "userEvent": {
+    "activityLog": "Activity Logs",
+    "date": "Date and Time"
   }
 }
