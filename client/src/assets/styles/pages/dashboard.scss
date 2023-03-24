@@ -1,29 +1,25 @@
 .dashboard-page-main-container {
-    margin-top: 3rem;
+  background-color: $dashboardBG;
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.875rem;
 
-    .sample-header {
-        display: flex;
-        justify-content: space-between;
-        height: 4rem;
-        align-items: center;
+    .edge-node-icon {
+      width: 1.625rem;
     }
-
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-        margin-top: 5rem;
+    .edge-app-icon {
+      width: 1.438rem;
     }
-
-    td,
-    th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
+  }
+  .endpoint {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: $font-default;
+  }
+  .DashboardCardContainer,
+  .searchContainer {
+    padding-right: 2.875rem;
+    padding-left: 2.875rem;
+  }
 }

@@ -1,89 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
-import { IDefaultPageProps, IReducerState } from '@Utils/interface';
-import { URLS } from '@Utils/constants';
-import { IS_USER_AUTHENTICATED } from '@Utils/storage';
-import { fetchUsers, updateUser, deleteUser } from "@Reducers/index";
+import { IDefaultPageProps, IReducerState } from '@Utils/interface'
+import { URLS } from '@Utils/constants'
+import { IS_USER_AUTHENTICATED, getToken } from '@Utils/storage'
 
+import { fetchDashboard, fetchEdgeDetails } from '@Reducers/index'
 
-const DashboardComponent: React.FC<IDefaultPageProps> = (props) => {
-    const [usersList, setusersList] = useState<{
-        name: string;
-        id: number;
-    }[]>([]);
-    const [name, setName] = useState<string>("")
+import Header from '@Components/Header/Header'
+import DashboardCard from '@Components/DashboardCard/DashboardCard'
+import DropDown from '@Components/DropDown/DropDown'
+import SearchBox from '@Components/SearchBox/SearchBox'
+import Navigation from '@Components/Navigation/Navigation'
 
-    const { userList, usersLoading } = useSelector((state: IReducerState) => state.coreReducer)
+const DashboardComponent: React.FC<IDefaultPageProps> = props => {
+  const { userName, token } = useSelector(
+    (state: IReducerState) => state.loginReducer
+  )
+  const projectDetails = useSelector(
+    (state: IReducerState) => state.dashboardReducer.dashboardData
+  )
 
-    useEffect(() => {
-        if (!IS_USER_AUTHENTICATED()) {
-            props.navigate(URLS.LOGIN)
-        }
-        props.dispatch(fetchUsers())
-    }, [])
+  const EdgeDetails = useSelector(
+    (state: IReducerState) => state.dashboardReducer.EdgeDetails
+  )
 
-    useEffect(() => {
-        if (!usersLoading && userList.length) {
-            setusersList(userList);
-        }
-    }, [usersLoading])
-
-    const onLogout = () => {
-        IS_USER_AUTHENTICATED("false");
-        props.navigate(URLS.LOGIN)
+  let dashboardData = []
+  const dashboarDetails = projectDetails?.data?.forEach((data, i) => {
+    const result = {
+      title: data.title,
+      edgeNodeStatus: EdgeDetails?.list[i].status,
+      enabled: EdgeDetails?.list[i].status,
+      projectType: EdgeDetails?.list[i].type,
+      edgeNodes: '',
+      edgeAppInstance: '',
+      info: '',
     }
+    dashboardData.push(result)
+  })
 
-    const onSave = async (item: any) => {
-        await updateUser(item);
-        props.dispatch(fetchUsers())
+  useEffect(() => {
+    if (!IS_USER_AUTHENTICATED()) {
+      props.navigate(URLS.LOGIN)
     }
+    props.dispatch(fetchDashboard())
+    props.dispatch(fetchEdgeDetails())
+  }, [])
 
-    const onDelete = async (id: any) => {
-        await deleteUser(id);
-        props.dispatch(fetchUsers())
-    }
+  return (
+    <div className="dashboard-page-main-container">
+      <Header {...props} userName={userName} />
+      <Navigation {...props} />
+      <div className="d-flex justify-content-between align-items-center searchContainer">
+        <div className="endpoint">{props.t('dashboard.endpoint')}</div>
+        <SearchBox {...props} icon="fa fa-search" />
+      </div>
+      <DropDown {...props} />
+      <div className="DashboardCardContainer">
+        <DashboardCard {...props} dashboardData={dashboardData} />
+      </div>
+    </div>
+  )
+}
 
-    return (
-        <div className='dashboard-page-main-container'>
-            <div className='sample-header'>
-                <h3>Dashboard Component</h3>
-                <button className='btn btn-primary' onClick={onLogout}>Logout</button>
-            </div>
-            <div>
-                name: <input name="name-input" value={name} onChange={({ target }) => setName(target.value)} />
-                <button onClick={() => onSave({ name })} disabled={name.length < 3}>Save</button>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {usersList.map((item, index) => {
-                        return (
-                            <tr key={item.name + item.id}>
-                                <td>{item.id}</td>
-                                <td><input name={item.id + '1'} value={item.name} onChange={({ target }) => {
-                                    const mockUsers = JSON.parse(JSON.stringify(usersList));
-                                    mockUsers[index]["name"] = target.value;
-                                    setusersList(mockUsers);
-                                }} /></td>
-                                <td>
-                                    <button onClick={() => onSave(item)}>Save</button>
-                                    <button onClick={() => onDelete(item.id)}>Delete</button>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-
-            </table>
-        </div>
-    )
-};
-
-export default DashboardComponent;
+export default DashboardComponent

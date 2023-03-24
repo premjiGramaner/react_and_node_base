@@ -1,0 +1,91 @@
+.table-wrapper table {
+  margin-bottom: 0 !important;
+
+  thead {
+    border-top: 0.125rem solid $themeColor;
+    background-color: $white;
+    .table-header {
+      font-size: 0.875rem;
+      color: $tableTextColor;
+      font-weight: 600;
+      font-family: $font-default;
+    }
+    th {
+      border: 0;
+      padding: 0.75rem;
+    }
+    .sort-icon {
+      width: 0.75rem;
+      margin-left: 0.375rem;
+    }
+  }
+  tbody {
+    background-color: $tableBackground;
+
+    tr {
+      .table-data {
+        font-size: 0.875rem;
+        color: $tableTextColor;
+        font-family: $font-default;
+        .session-btn {
+          border: 0.063rem solid $sessionColor !important;
+          border-radius: 0.25rem;
+          color: $sessionColor;
+          font-family: $font-default;
+          padding: 0.125rem 0;
+          font-size: 0.75rem;
+          letter-spacing: 0.016rem;
+          width: 7.375rem;
+        }
+        .active-session {
+          background-color: $sessionBackgroundColor;
+        }
+        .deactive-session {
+          background-color: $white;
+        }
+
+        .status-icon {
+          padding-right: 0.5rem;
+        }
+        .Online {
+          color: $statusOnline;
+        }
+        .Error {
+          color: $statusError;
+        }
+        .Intitilized {
+          color: $statusInialzed;
+        }
+        .Suspect {
+          color: $statusSuspect;
+        }
+        .Unkonwn {
+          color: $stausUnknown;
+        }
+        .Other {
+          color: $statusOther;
+        }
+      }
+      td {
+        border-right: 0.063rem solid $navBorder;
+        padding: 0.625rem;
+        border-top: 0;
+        &:last-child {
+          border-right: 0;
+        }
+        &:first-child {
+          padding-left: 2.5rem;
+          .table-data {
+            justify-content: start !important;
+          }
+        }
+      }
+      &:last-child {
+        td {
+          border-top: 0;
+          border-bottom: 0;
+        }
+      }
+    }
+  }
+}

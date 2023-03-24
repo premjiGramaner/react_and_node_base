@@ -57,14 +57,14 @@ const coreReducer = createSlice({
     name: "coreReducer",
     initialState: coreReducerInitialState,
     reducers: {},
-    extraReducers: {
-        [fetchUsers.pending]: (state: ICoreReducerState) => {
+    extraReducers: (builder) => {
+        builder.addCase(fetchUsers.pending, (state: ICoreReducerState, _action: IDispatchState) => {
             state.usersLoading = true;
-        },
-        [fetchUsers.fulfilled]: (state: ICoreReducerState, action: IDispatchState) => {
+        });
+        builder.addCase(fetchUsers.fulfilled, (state: ICoreReducerState, action: IDispatchState) => {
             state.userList = action.payload.data;
             state.usersLoading = false;
-        },
+        });
     }
 })
 

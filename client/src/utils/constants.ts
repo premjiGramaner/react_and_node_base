@@ -1,15 +1,18 @@
 export const API_URL = 'http://localhost:5001/api/'
 
 export const STORAGE_KEY = {
-    AUTH_TOKEN: "accessToken",
-    IS_USER_AUTHENTICATED: "is-user-auth",
-    USER_INFO: 'user-info',
+  AUTH_TOKEN: 'accessToken',
+  IS_USER_AUTHENTICATED: 'is-user-auth',
+  CLIENT_ACCESS_TOKEN: 'client-access-token',
+  USER_INFO: 'user-info',
 }
 
 export const enum URLS {
-    DEFAULT = '/',
-    LOGIN = '/login',
-    PAGE_NOT_FOUND = '*',
-    DASHBOARD = '/dashboard',
-    LOGOUT = '/logout',
+  DEFAULT = '/',
+  LOGIN = '/login',
+  PAGE_NOT_FOUND = '*',
+  DASHBOARD = '/dashboard',
+  LOGOUT = '/logout',
+  EDGENODE = '/egde-nodes',
+  EDGEAPPINSTANCES = '/edge-app-instances',
 }

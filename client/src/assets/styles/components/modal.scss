@@ -1,0 +1,84 @@
+.modal-container {
+  .modal-dialog {
+    width: 17.875rem;
+  }
+  .modal-header {
+    border-bottom: 0;
+    .modal-title {
+      font-size: 0.875rem;
+      font-weight: bold;
+      color: $modelTitle;
+      font-family: $font-default;
+    }
+    .close {
+      opacity: 1;
+      &:hover {
+        color: $white;
+      }
+    }
+    .close-icon {
+      position: absolute;
+      right: 0.75rem;
+      width: 1.25rem;
+      top: 0.875rem;
+    }
+
+    justify-content: flex-start;
+  }
+  .modal-body {
+    .Online {
+      color: $statusOnline;
+    }
+    .inactive {
+      color: $statusOther;
+    }
+    .status-icon {
+      margin-right: 0.5rem;
+    }
+    .sessionStatus {
+      color: $projectTxtColor;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: $font-default;
+      margin-bottom: 0.25rem;
+    }
+    .session-btn {
+      display: flex;
+      margin-top: 1.25rem;
+      margin-bottom: 0.75rem;
+      justify-content: space-between;
+
+      .reactive-session,
+      .deactive-session {
+        border: 0.063rem solid $sessionColor;
+        border-radius: 0.25rem;
+        color: $sessionTextColor;
+        font-family: $font-default;
+        font-size: 0.75rem;
+        letter-spacing: 0.016rem;
+        height: 1.5rem;
+        width: 100%;
+      }
+      .deactive-session {
+        background-color: $sessionBackgroundColor;
+      }
+      .reactive-session {
+        background-color: $white;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+  .modal-footer {
+    justify-content: start;
+
+    .download,
+    .refresh {
+      width: 0.875rem;
+      margin-right: 0.375rem;
+    }
+    .refresh-panel {
+      position: absolute;
+      right: 0.688rem;
+    }
+  }
+}

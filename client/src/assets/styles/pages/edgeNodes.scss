@@ -1,0 +1,29 @@
+.edge-nodes-container {
+  background: $dashboardBG;
+
+  .endpoint {
+    font-size: 1.25rem;
+    font-weight: 700;
+    font-family: $font-default;
+    .edge-node,
+    .device-count {
+      font-weight: 400;
+    }
+    .close-icon {
+      width: 1.438rem;
+      cursor: pointer;
+    }
+    .device-count {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+    }
+  }
+  .searchContainer,
+  .navigation-panel {
+    padding-right: 2.875rem;
+    padding-left: 2.875rem;
+  }
+  .network-table {
+    margin-right: 1.25rem;
+  }
+}
