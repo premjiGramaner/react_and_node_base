@@ -23,7 +23,7 @@ const fetchOptions = (url, method, params = {}, headers = {}) => {
 
 const get = (res, url, params = {}, headers = {}) => {
 
-    if (res?.locals?.client_token) {
+    if (res.locals.client_token) {
         headers.authorization = `Bearer ${res.locals.client_token}`
     }
 
@@ -37,7 +37,7 @@ const get = (res, url, params = {}, headers = {}) => {
 
 const post = (res, url, data = undefined, headers = {}) => {
 
-    if (res?.locals?.client_token) {
+    if (res.locals.client_token) {
         headers.authorization = `Bearer ${res.locals.client_token}`
     }
 
@@ -51,7 +51,7 @@ const post = (res, url, data = undefined, headers = {}) => {
 
 const put = (res, url, data = undefined, headers = {}) => {
 
-    if (res?.locals?.client_token) {
+    if (res.locals.client_token) {
         headers.authorization = `Bearer ${res.locals.client_token}`
     }
 
