@@ -1,13 +1,13 @@
 
 const baseURL = (type) => {
     if (!type) {
-        return process.env.API_END_POINT + "/api/";
+        return "https://zedcontrol.gmwtus.zededa.net/api/";
     }
 }
 
 module.exports = {
     baseURL,
-    version: process.env.API_END_POINT_VERSION + "/",
+    version: "v1/",
     routes: {
         login: 'login',
         loginWithToken: 'users/self',

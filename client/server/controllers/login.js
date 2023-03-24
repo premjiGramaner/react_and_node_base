@@ -33,7 +33,7 @@ const doLogin = async (req, res, next) => {
                 "password": payload.password
             }), bindHeaders(req));
 
-            let jwtSecretKey = process.env.JWT_SECRET_KEY;
+            let jwtSecretKey = process.env.JWT_SECRET_KEY||"test-jwt@2020$";
             let tokenReq = {
                 expire: new Date(moment().add(1, "hours")).getTime(),
                 canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
@@ -64,7 +64,7 @@ const doLoginWithToken = async (req, res, next) => {
                 formatResponse(res, 400, data, "The requested resource was not found on this server!");
             } else {
                 const userResponse = {};
-                let jwtSecretKey = process.env.JWT_SECRET_KEY;
+                let jwtSecretKey = process.env.JWT_SECRET_KEY||"test-jwt@2020$";
                 let tokenReq = {
                     expire: new Date(moment().add(1, "hours")).getTime(),
                     canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
