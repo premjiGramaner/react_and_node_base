@@ -1,4 +1,4 @@
-declare module '*.css';
+declare module '*.css'
 declare module '*.scss' {
   const content: { [className: string]: string }
   export = content
@@ -12,7 +12,7 @@ declare module '*.png'
 declare module '*.jpg'
 declare module '*.svg' {
   import React = require('react')
-  const ReactComponent: String<React.SVGProps<SVGSVGElement>>
+  const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>
   export default ReactComponent
 }
 

@@ -3,12 +3,7 @@ import { useSelector } from 'react-redux'
 import { useFormik } from 'formik'
 import moment from 'moment'
 
-import {
-  IDefaultPageProps,
-  ILoginPageProps,
-  IReducerState,
-  ILoginState,
-} from '@Utils/interface'
+import { IDefaultPageProps, IReducerState, ILoginState } from '@Utils/interface'
 
 import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
@@ -21,7 +16,7 @@ import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
-const LoginComponent: React.FC<IDefaultPageProps & ILoginPageProps> = props => {
+const LoginComponent: React.FC<IDefaultPageProps> = props => {
   const { statusCode } = useSelector(
     (state: IReducerState) => state.loginReducer
   )

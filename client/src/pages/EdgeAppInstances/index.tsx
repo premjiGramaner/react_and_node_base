@@ -60,9 +60,13 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
   const networkTableHeader = [
     {
-      key: 'ip_address',
+      key: 'ipAddres',
       name: 'IP Address',
       isSort: true,
+    },
+    {
+      key: 'intfname',
+      name: 'Environment Name',
     },
     {
       key: 'protocol',
@@ -73,7 +77,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       name: 'Host Port',
     },
     {
-      key: 'app_port',
+      key: 'lport',
       name: 'Application Port',
     },
   ]
@@ -90,43 +94,43 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         appInstance: data.name,
         description: `User ${sessionStorage.getItem(
           'userName'
-        )} - selected Edge App '${data.name}' on project '${
-          edgeNodeData?.edgeNodeInfo?.title
-        }'`,
+        )} - selected Edge App '${data.name}' of Edge Node '${
+          edgeAppData?.edgeNodeInfo.title
+        }' on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
     )
   }
 
-  const networkDataList =
-    edgeAppData?.networkList?.ipInfo?.length > 0 &&
-    edgeAppData.networkList?.ipInfo?.map((ip, i) => {
-      const getName = edgeAppData?.networkList?.ipInfo?.filter(
-        e => e?.up == true
-      )[i]?.ifName
+  const matchesData = []
 
-      const getInterface = edgeAppData?.networkList?.interfaces?.filter(
-        name => name?.intfname === getName
-      )[i]?.acls
-
-      const getHostPort = getInterface?.map(host =>
-        host?.matches.find(t => t?.type === 'host')
-      )[1]?.value
-
-      const getAppPort = getInterface?.map(port =>
-        port?.matches.find(port => port?.type === 'lport')
-      )[2]?.value
-
-      const getProtocol = getInterface?.map(port =>
-        port?.matches.find(t => t?.type === 'protocol')
-      )[2]?.value
-
-      return {
-        ip_address: ip?.ipAddrs[0],
-        host_port: getHostPort,
-        app_port: getAppPort,
-        protocol: getProtocol,
+  const networkDataList = edgeAppData?.networkList?.interfaces?.map(
+    (d, index) => {
+      if (d?.acls?.length > 0) {
+        matchesData.push(d.acls)
       }
-    })
+
+      const finalData = matchesData[index].map(element => {
+        if (element.matches.length) {
+          const port = element.matches.find(
+            t =>
+              t?.type === 'lport' ||
+              t?.type === 'protocol' ||
+              t?.type === 'host'
+          )
+
+          if (port) {
+            return {
+              intfname: d?.intfname,
+              ipAddres: d?.ipInfo?.ipAddrs[0],
+              [port.type]: port.value,
+            }
+          }
+        }
+      })
+
+      return finalData.filter(Boolean)
+    }
+  )
 
   const handleSearch = value => {
     const searchData = edgeAppData?.edgeNodeDataList?.list?.filter(item => {
@@ -324,7 +328,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             <img
               src={CloseIcon}
               className="close-icon"
-              onClick={() => props.navigate(URLS.EDGENODE)}
+              onClick={() => {
+                props.navigate(URLS.EDGENODE),
+                  props.dispatch(fetchNetworkData('123'))
+              }}
               alt=""
               aria-hidden="true"
             />
@@ -342,20 +349,30 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             {edgeAppData?.edgeNodeDataList?.list?.length > 0 ? (
               <>
                 <div className="d-flex nav-content">
-                  <div className="application-table">
-                    <Table
-                      {...props}
-                      className="app-instance-table"
-                      column={tableHeader}
-                      rowContent={instanceData || []}
-                      pageSize={10}
-                      navData={data => handleNavClick(data)}
-                      isDisplayNavPanel={true}
-                      navHeaderName={props.t('edge-nodes.name')}
-                      sortHandle={() => sortTable()}
-                    />
-                    <Pagination />
-                  </div>
+                  {edgeAppData?.edgeAppPending ? (
+                    <div className="network-spinner d-flex justify-content-center mt-5">
+                      <div className="spinner-border" role="status">
+                        <span className="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="application-table">
+                      <Table
+                        {...props}
+                        className={`app-instance-table ${
+                          networkDataList?.length && 'app-table'
+                        }`}
+                        column={tableHeader}
+                        rowContent={instanceData || []}
+                        pageSize={10}
+                        navData={data => handleNavClick(data)}
+                        isDisplayNavPanel={true}
+                        navHeaderName={props.t('edge-nodes.name')}
+                        sortHandle={() => sortTable()}
+                      />
+                      <Pagination />
+                    </div>
+                  )}
 
                   {edgeAppData?.networkDataPending ? (
                     <div className="network-spinner d-flex justify-content-center mt-5">
@@ -370,7 +387,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                         {...props}
                         className="network-table"
                         column={networkTableHeader}
-                        rowContent={networkDataList || []}
+                        rowContent={networkDataList?.flat() || []}
                         pageSize={10}
                         isDisplayNavPanel={false}
                         isPagination={true}
