@@ -60,9 +60,10 @@ const doLoginWithToken = async (req, res, next) => {
             const loginGet = await get(res, routes.loginWithToken);
             const data = loginGet?.data || null;
 
-            if (data) {
+            if (!data) {
                 formatResponse(res, 400, data, "The requested resource was not found on this server!");
             } else {
+                const userResponse = {};
                 let jwtSecretKey = process.env.JWT_SECRET_KEY;
                 let tokenReq = {
                     expire: new Date(moment().add(1, "hours")).getTime(),
@@ -71,14 +72,14 @@ const doLoginWithToken = async (req, res, next) => {
                 }
 
                 const token = jwt.sign(tokenReq, jwtSecretKey);
-
                 if (data) {
-                    data['data'] = {
-                        "base64": payload.token
-                    }
+                    userResponse["cause"] = "OK";
+                    userResponse["userId"] = data.id;
+                    userResponse['token'] = { "base64": payload.token }
+                    userResponse['detailedUser'] = { ...data };
                 };
 
-                res.status(200).send({ loginToken: token, statusCode: 200, data: data, message: 'Token login in succesfully!' })
+                res.status(200).send({ loginToken: token, statusCode: 200, data: userResponse, message: 'Token login in succesfully!' })
             }
         } else {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
