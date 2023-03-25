@@ -33,9 +33,11 @@ const getEdgeNodeList = async (req, res, next) => {
                 deviceData.list.forEach(async (item, index) => {
                     const deviceInfo = await get(res, routes.edgeNode.deviceStatusById.replace('{id}', item.id)); // edgeDevice Info
                     item['status'] = deviceInfo.data.state || null;
-                    item['shortVersion'] = ((item.swInfo || []).find((sw) => sw.activated) || null).shortVersion || "";
+                    let swInfoData = null;                    
+                    if (item.swInfo && item.swInfo.length > 0)
+                        swInfoData = item.swInfo.find((sw) => sw.activated || null);
+                    item['shortVersion'] = swInfoData && swInfoData.shortVersion ? swInfoData.shortVersion : "";
                     deviceInfoList.push(item);
-
                     // When the loop gets end - We are triggering the Action
                     if (deviceInfoList.length === deviceData.list.length) {
                         deviceData["list"] = deviceInfoList;
