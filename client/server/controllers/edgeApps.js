@@ -76,7 +76,7 @@ const getEdgeAppById = async (req, res, next) => {
                     } : null;
                     loopDataCount += 1;
                 }
-                console.log('***********', ipCheck.data, nodeInfo.data, loopDataCount);
+                console.log('***********', ipCheck.data, nodeInfo ? nodeInfo.data:"", loopDataCount);
                 ipCheck = null;
                 if (retrunData.interfaces.length === loopDataCount) {
                     formatResponse(res, 200, retrunData, "EdgeApp info fetched successfully!");
