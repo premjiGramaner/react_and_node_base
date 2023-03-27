@@ -34,6 +34,11 @@
         .app-table {
           margin-top: 1.875rem;
         }
+        .app-instance-table {
+          .table {
+            height: 100%;
+          }
+        }
       }
       .app-network-table {
         width: 40%;
@@ -42,6 +47,9 @@
       .network-table {
         .nav-panel {
           display: none;
+        }
+        .zed-table {
+          height: auto !important;
         }
       }
       .app-instance-table .nav-panel {

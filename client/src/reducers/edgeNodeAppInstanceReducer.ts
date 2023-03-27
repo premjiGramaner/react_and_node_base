@@ -95,7 +95,7 @@ const edgeNodeAppInstanceReducer = createSlice({
       builder.addCase(
         fetchNetworkData.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
-          state.networkList = action.payload.data.data.data
+          state.networkList = action.payload?.data?.data?.data
           state.networkDataPending = false
         }
       ),

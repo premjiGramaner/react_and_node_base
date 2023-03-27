@@ -120,37 +120,43 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                 )}
             </div>
             <div className="w-100">
-              <table className="table h-100 fs-12">
-                <thead>
-                  <tr>
-                    {column.map((_col, _colIdx) => (
-                      <th scope="col" key={_colIdx}>
-                        <span className="table-header d-flex align-items-center justify-content-center">
-                          {_col.name}
-                          {_col?.isSort && (
-                            <img src={SortIcon} className="sort-icon" alt="" />
-                          )}
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {(isPagination ? currentTableData : rowContent)?.map(
-                    (_data, index) => (
-                      <tr key={`table-body-${index}`}>
-                        {column.map((column, columnIndex) => (
-                          <TableRowCell
-                            key={`table-row-cell-${columnIndex}`}
-                            tabelData={_data}
-                            tableHeader={column}
-                          />
-                        ))}
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
+              <div className="zed-table h-100">
+                <table className="table fs-12">
+                  <thead>
+                    <tr>
+                      {column.map((_col, _colIdx) => (
+                        <th scope="col" key={_colIdx}>
+                          <span className="table-header d-flex align-items-center justify-content-center">
+                            {_col.name}
+                            {_col?.isSort && (
+                              <img
+                                src={SortIcon}
+                                className="sort-icon"
+                                alt=""
+                              />
+                            )}
+                          </span>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(isPagination ? currentTableData : rowContent)?.map(
+                      (_data, index) => (
+                        <tr key={`table-body-${index}`}>
+                          {column.map((column, columnIndex) => (
+                            <TableRowCell
+                              key={`table-row-cell-${columnIndex}`}
+                              tabelData={_data}
+                              tableHeader={column}
+                            />
+                          ))}
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
               {isPagination && (
                 <Pagination
                   className="pagination-bar"
