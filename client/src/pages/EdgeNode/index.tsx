@@ -47,10 +47,12 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const [handlePageCount, setHandlePageCount] = useState<number>(10)
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [edgeNodeTableData, setEdgeNodeTableData] = useState<any>()
+  const [edgeNodePending, setEdgeNodePending] = useState<boolean>(false)
 
   useEffect(() => {
     setEdgeNodeList(edgeNodeData)
     setSessionPending(edgeNodeData?.sessionPending)
+
     if (edgeNodeData?.deviceList?.list) {
       const sorted = [...edgeNodeData?.deviceList?.list].sort((a, b) =>
         a?.name?.toLowerCase() > b?.name?.toLowerCase() ? 1 : -1
@@ -58,6 +60,10 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       setEdgeNodeTableData(sorted)
     }
   }, [edgeNodeData])
+
+  useEffect(() => {
+    setEdgeNodePending(edgeNodeData?.edgeNodePending)
+  }, [edgeNodeData?.edgeNodePending])
 
   useEffect(() => {
     setEdgeViewSessionStatus(edgeNodeData?.edgeSessionStatus)
@@ -258,7 +264,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
 
   const Pagination = () => {
     return (
-      <>
+      <div className="pt-2">
         <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
           <ul className={`pagination-container`}>
             <li
@@ -352,7 +358,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeNodeData?.deviceList?.totalCount}`}</p>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -384,29 +390,25 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         <DropDown {...props} />
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
-            {edgeNodeList?.deviceList?.list?.length > 0 && (
+            {edgeNodePending ? (
+              <div className="d-flex justify-content-center mt-5">
+                <div className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
               <>
-                {edgeNodeData.edgeNodePending ? (
-                  <div className="d-flex justify-content-center mt-5">
-                    <div className="spinner-border" role="status">
-                      <span className="sr-only">Loading...</span>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <Table
-                      {...props}
-                      className="edgeNode-table"
-                      column={tableHeader}
-                      rowContent={edgeNodeTableData || []}
-                      navData={data => handleNavClick(data)}
-                      isDisplayNavPanel={true}
-                      navHeaderName={props.t('edge-nodes.name')}
-                      sortHandle={() => sortTable()}
-                    />
-                    <Pagination />
-                  </>
-                )}
+                <Table
+                  {...props}
+                  className="edgeNode-table"
+                  column={tableHeader}
+                  rowContent={edgeNodeTableData || []}
+                  navData={data => handleNavClick(data)}
+                  isDisplayNavPanel={true}
+                  navHeaderName={props.t('edge-nodes.name')}
+                  sortHandle={() => sortTable()}
+                />
+                <Pagination />
               </>
             )}
           </div>

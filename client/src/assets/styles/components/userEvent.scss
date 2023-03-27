@@ -9,12 +9,18 @@
   .user-event-table {
     padding: 0;
   }
-  .user-event-table .nav-panel {
-    height: auto;
-    .nav-list {
-      cursor: default;
-      &:hover {
-        background-color: $white;
+  .user-event-table {
+    .pagination-wrapper {
+      padding-top: 0 !important;
+    }
+    .nav-panel {
+      .nav-list {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+        cursor: default;
+        &:hover {
+          background-color: $white;
+        }
       }
     }
   }

@@ -121,7 +121,7 @@ const Pagination: React.FC<IPaginationInterface> = props => {
       </ul>
       <input
         type="number"
-        className="page-count mx-3"
+        className="page-count mx-1"
         value={handlePageCount}
         onChange={event => {
           setHandlePageCount(parseInt(event.target.value))

@@ -37,10 +37,16 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   const [handlePageCount, setHandlePageCount] = useState<number>(10)
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [instanceData, setInstanceData] = useState<any>()
+  const [networkDataList, setNetworkDataList] = useState<any>([])
 
   useEffect(() => {
+    setNetworkDataList([])
     setInstanceData(edgeAppData?.edgeNodeDataList?.list)
   }, [edgeAppData])
+
+  useEffect(() => {
+    setNetworkDataList(getNetworkData())
+  }, [edgeAppData.networkList])
 
   const tableHeader = [
     {
@@ -60,7 +66,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
   const networkTableHeader = [
     {
-      key: 'ipAddres',
+      key: 'ipAddrs',
       name: 'IP Address',
       isSort: true,
     },
@@ -73,7 +79,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       name: 'Protocol',
     },
     {
-      key: 'host_port',
+      key: 'host',
       name: 'Host Port',
     },
     {
@@ -101,36 +107,41 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     )
   }
 
-  const matchesData = []
+  const getNetworkData = () => {
+    const interfaces = edgeAppData?.networkList?.interfaces
+    const tableListFormat = []
 
-  const networkDataList = edgeAppData?.networkList?.interfaces?.map(
-    (d, index) => {
-      if (d?.acls?.length > 0) {
-        matchesData.push(d.acls)
-      }
+    const getTableData = data => {
+      const tableData = []
+      data?.aclsMatches?.forEach(matchItem => {
+        const tableItem = { intfname: '', ipAddrs: '' }
+        matchItem?.forEach(x => {
+          tableItem.intfname = data?.intfname
+          tableItem[x.type] = x?.value
 
-      const finalData = matchesData[index].map(element => {
-        if (element.matches.length) {
-          const port = element.matches.find(
-            t =>
-              t?.type === 'lport' ||
-              t?.type === 'protocol' ||
-              t?.type === 'host'
-          )
-
-          if (port) {
-            return {
-              intfname: d?.intfname,
-              ipAddres: d?.ipInfo?.ipAddrs[0],
-              [port.type]: port.value,
-            }
-          }
-        }
+          tableItem.ipAddrs = data?.ipAddrs
+        })
+        tableData.push(tableItem)
       })
-
-      return finalData.filter(Boolean)
+      return tableData
     }
-  )
+
+    interfaces?.forEach(x => {
+      tableListFormat?.push({
+        intfname: x?.intfname,
+        ipAddrs: x?.ipInfo?.ipAddrs && x?.ipInfo?.ipAddrs[0],
+        aclsMatches: x?.acls.map(x => x?.matches),
+      })
+    })
+
+    const finalData = tableListFormat
+      .map(x => {
+        return getTableData(x)
+      })
+      .flat()
+
+    return finalData
+  }
 
   const handleSearch = value => {
     const searchData = edgeAppData?.edgeNodeDataList?.list?.filter(item => {
@@ -159,7 +170,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     }
   }
 
-  const paginationRange = Array.from(
+  const paginationRange = Array?.from(
     {
       length: edgeAppData?.edgeNodeDataList?.next?.totalPages,
     },
@@ -212,7 +223,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
   const Pagination = () => {
     return (
-      <>
+      <div className="pt-2">
         <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
           <ul className={`pagination-container`}>
             <li
@@ -306,7 +317,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           />
           <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeAppData?.edgeNodeDataList?.totalCount}`}</p>
         </div>
-      </>
+      </div>
     )
   }
 
@@ -329,8 +340,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
               src={CloseIcon}
               className="close-icon"
               onClick={() => {
-                props.navigate(URLS.EDGENODE),
-                  props.dispatch(fetchNetworkData('123'))
+                props.navigate(URLS.EDGENODE), setNetworkDataList([])
               }}
               alt=""
               aria-hidden="true"
@@ -387,7 +397,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                         {...props}
                         className="network-table"
                         column={networkTableHeader}
-                        rowContent={networkDataList?.flat() || []}
+                        rowContent={networkDataList || []}
                         pageSize={10}
                         isDisplayNavPanel={false}
                         isPagination={true}

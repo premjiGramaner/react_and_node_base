@@ -4,6 +4,7 @@
     list-style-type: none;
     margin: 0;
     align-items: center;
+    padding-left: 0;
 
     .pagination-number {
       padding: 0 0.75rem;
@@ -13,7 +14,7 @@
       }
     }
     .pagination-item {
-      padding: 0 0.75rem;
+      padding: 0 0.625rem;
       height: 2rem;
       text-align: center;
       color: $paginationItemcolor;
