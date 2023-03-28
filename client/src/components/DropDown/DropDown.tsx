@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { ExpandIcon, CollapseIcon } from '@Assets/images'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
+import { DropdownInterface } from '@Interface/ComponentInterface'
 
-const DropDown: React.FC<IDefaultPageProps> = props => {
+const DropDown: React.FC<IDefaultPageProps & DropdownInterface> = props => {
   const [show, setShow] = useState<boolean>(false)
   const handleCollapse = () => {
     setShow(!show)
@@ -41,7 +42,7 @@ const DropDown: React.FC<IDefaultPageProps> = props => {
           data-parent="#accordion"
         >
           <div className="descriptive-helpertxt card-body px-4">
-            {props.t('dropdown.value')}
+            {props.description}
           </div>
         </div>
       </div>

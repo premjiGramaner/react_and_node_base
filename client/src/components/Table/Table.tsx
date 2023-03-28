@@ -86,44 +86,27 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
             id="scrollableDiv"
             className="table-wrapper d-flex w-100 cm-scrollbar cm-table-w-scroll  table-area shadow-1"
           >
-            <div className="col-2 nav-panel">
-              <div className="nav-header">
-                {navHeaderName}
-                <img
-                  src={SortIcon}
-                  className="sort-icon"
-                  onClick={() => sortHandle()}
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div>
-
-              {isDisplayNavPanel === true &&
-                (isPagination ? currentTableData : rowContent)?.map(
-                  (data, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className={`nav-list ${active === index && 'active'} ${
-                          isPagination && 'pe-none'
-                        }`}
-                        onClick={() => {
-                          setActive(index)
-                          navData(data)
-                        }}
-                        aria-hidden="true"
-                      >
-                        {data.name}
-                      </div>
-                    )
-                  }
-                )}
-            </div>
             <div className="w-100">
               <div className="zed-table h-100">
                 <table className="table fs-12">
                   <thead>
                     <tr>
+                      {isDisplayNavPanel === true && (
+                        <>
+                          <th className="zed-title">
+                            {navHeaderName}
+                            <img
+                              src={SortIcon}
+                              className="sort-icon"
+                              onClick={() => sortHandle()}
+                              alt=""
+                              aria-hidden="true"
+                            />
+                          </th>
+                          <th className="zed-empty"></th>
+                        </>
+                      )}
+
                       {column.map((_col, _colIdx) => (
                         <th scope="col" key={_colIdx}>
                           <span className="table-header d-flex align-items-center justify-content-center">
@@ -144,6 +127,24 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                     {(isPagination ? currentTableData : rowContent)?.map(
                       (_data, index) => (
                         <tr key={`table-body-${index}`}>
+                          {isDisplayNavPanel === true && (
+                            <>
+                              <td
+                                className={`nav-list ${
+                                  active === index && 'active'
+                                } ${isPagination && 'pe-none'}`}
+                                onClick={() => {
+                                  setActive(index)
+                                  navData(_data)
+                                }}
+                                aria-hidden="true"
+                              >
+                                {_data.name}
+                              </td>
+                              <td className="zed-empty"></td>
+                            </>
+                          )}
+
                           {column.map((column, columnIndex) => (
                             <TableRowCell
                               key={`table-row-cell-${columnIndex}`}

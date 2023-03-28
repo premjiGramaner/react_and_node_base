@@ -31,12 +31,14 @@
       padding-right: 0;
       .application-table {
         width: 60%;
-        .app-table {
-          margin-top: 1.875rem;
-        }
+        margin-top: 1.875rem;
+
         .app-instance-table {
           .table {
             height: 100%;
+            tr .zed-title {
+              width: 32%;
+            }
           }
         }
       }
@@ -100,6 +102,7 @@
       font-weight: 700;
       padding-top: 0.688rem;
       padding-bottom: 0.688rem;
+      border-right: 0;
       &:last-child {
         border-bottom: 0;
       }

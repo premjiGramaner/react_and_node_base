@@ -54,6 +54,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       name: 'Status',
       status: true,
     },
+
     {
       key: 'appType',
       name: 'Type',
@@ -352,7 +353,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
             handleChange={e => handleSearch(e.target.value)}
           />
         </div>
-        <DropDown {...props} />
+        <DropDown {...props} description={props.t('edgeApp.description')} />
 
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
@@ -369,9 +370,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     <div className="application-table">
                       <Table
                         {...props}
-                        className={`app-instance-table ${
-                          networkDataList?.length && 'app-table'
-                        }`}
+                        className="app-instance-table"
                         column={tableHeader}
                         rowContent={instanceData || []}
                         pageSize={10}

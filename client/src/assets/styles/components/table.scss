@@ -62,7 +62,6 @@
   margin-bottom: 0 !important;
 
   thead {
-    border-top: 0.125rem solid $themeColor;
     background-color: $white;
     .table-header {
       font-size: 0.875rem;
@@ -73,6 +72,21 @@
     th {
       border: 0;
       padding: 0.75rem;
+      border-top: 0.125rem solid $themeColor !important;
+    }
+    .zed-title {
+      width: 20%;
+      word-break: break-word;
+      border-bottom: 0.063rem solid $navBorder;
+      padding-left: 1.25rem;
+    }
+    .zed-empty,
+    .zed-title {
+      border-top: 0 !important;
+    }
+    .zed-empty {
+      background-color: $dashboardBG;
+      width: 0.625rem;
     }
     .sort-icon {
       width: 0.75rem;
@@ -83,6 +97,12 @@
     background-color: $tableBackground;
 
     tr {
+      &:last-child {
+        border: 0;
+      }
+      .nav-list {
+        background-color: $white;
+      }
       .table-data {
         font-size: 0.875rem;
         color: $tableTextColor;
@@ -152,6 +172,7 @@
         border-right: 0.063rem solid $navBorder;
         padding: 0.625rem;
         border-top: 0;
+        vertical-align: middle;
         &:last-child {
           border-right: 0;
         }
@@ -167,6 +188,10 @@
           border-top: 0;
           border-bottom: 0;
         }
+      }
+      .zed-empty {
+        background-color: $dashboardBG;
+        border: 0;
       }
     }
   }

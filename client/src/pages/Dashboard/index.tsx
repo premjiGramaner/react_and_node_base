@@ -86,7 +86,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
             handleChange={e => setSearchInput(e.target.value)}
           />
         </div>
-        <DropDown {...props} />
+        <DropDown {...props} description={props.t('dashboard.description')} />
         <div className="DashboardCardContainer">
           {isDashboardPending ? (
             <div className="d-flex justify-content-center mt-5">
