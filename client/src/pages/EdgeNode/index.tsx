@@ -387,7 +387,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
             handleChange={e => handleSearch(e)}
           />
         </div>
-        <DropDown {...props} />
+        <DropDown {...props} description={props.t('edgeNode.description')} />
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
             {edgeNodePending ? (
