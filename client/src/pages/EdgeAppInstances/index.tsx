@@ -117,12 +117,13 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       data?.aclsMatches?.forEach(matchItem => {
         const tableItem = { intfname: '', ipAddrs: '' }
         matchItem?.forEach(x => {
-          tableItem.intfname = data?.intfname
-          tableItem[x.type] = x?.value
-
-          tableItem.ipAddrs = data?.ipAddrs
+          if (x.type !== 'ip') {
+            tableItem.intfname = data?.intfname
+            tableItem[x.type] = x?.value
+            tableItem.ipAddrs = data?.ipAddrs
+          }
         })
-        tableData.push(tableItem)
+        Object.keys(tableItem).length > 2 && tableData.push(tableItem)
       })
       return tableData
     }
