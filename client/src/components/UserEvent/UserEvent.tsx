@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
-import { IDefaultPageProps } from '@Utils/interface'
+import React, { useEffect, useState } from 'react'
+import { IDefaultPageProps, IUserEventInterface } from '@Utils/interface'
 import Table from '@Components/Table/Table'
 
-const UserEvent: React.FC<IDefaultPageProps> = props => {
-  const sessionData = sessionStorage.getItem('userEventLogs')
+const UserEvent: React.FC<IDefaultPageProps & IUserEventInterface> = props => {
+  const [order, setOrder] = useState<string>('DSC')
+  const [userEventData, setUserEventData] = useState([])
 
-  const userEventLogData = JSON.parse(sessionData)?.flat().filter(Boolean)
-  const [order, setOrder] = useState<string>('ASC')
-  const [userEventData, setUserEventData] = useState(userEventLogData)
-
+  useEffect(() => {
+    const userEventLogData = JSON.parse(props.sessionData)
+      ?.flat()
+      .filter(Boolean)
+    setUserEventData([...userEventLogData])
+  }, [props.sessionData])
   const tableHeader = [
     {
       name: 'Description',
@@ -18,17 +21,17 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
 
   const sortTable = () => {
     if (order === 'ASC') {
-      const sortedArray = userEventLogData.sort(
+      const sortedArray = userEventData.sort(
         (a, b) => Date.parse(a.name) - Date.parse(b.name)
       )
-      setUserEventData(sortedArray)
+      setUserEventData([...sortedArray])
       setOrder('DSC')
     }
     if (order === 'DSC') {
-      const sortedArray = userEventLogData.sort(
+      const sortedArray = userEventData.sort(
         (a, b) => Date.parse(b.name) - Date.parse(a.name)
       )
-      setUserEventData(sortedArray)
+      setUserEventData([...sortedArray])
       setOrder('ASC')
     }
   }
@@ -37,7 +40,7 @@ const UserEvent: React.FC<IDefaultPageProps> = props => {
       <div className="event-title">{props.t('userEvent.activityLog')}</div>
       <div className="navigation-panel d-flex pb-5">
         <div className="d-flex row w-100 nav-wrapper">
-          {userEventLogData?.length > 0 && (
+          {userEventData?.length > 0 && (
             <>
               <Table
                 {...props}

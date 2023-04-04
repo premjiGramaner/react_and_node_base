@@ -71,7 +71,7 @@ const DashboardCard: React.FC<
                     ? props.t('dashboard.enabled')
                     : props.t('dashboard.disabled')}
                 </div>
-                <div className="d-flex align-items-center">
+                <div className="d-flex ">
                   <div
                     className={`${
                       data?.edgeNodes !== 0 ? 'pe-auto' : 'pe-none'

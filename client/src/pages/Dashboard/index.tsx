@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
@@ -12,6 +12,7 @@ import DashboardCard from '@Components/DashboardCard/DashboardCard'
 import DropDown from '@Components/DropDown/DropDown'
 import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
+import Pagination from '@Components/Pagination/Pagination'
 
 const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const projectDetails = useSelector(
@@ -26,6 +27,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.dashboardReducer.dashboardPending
   )
   const [searchInput, setSearchInput] = useState<string>('')
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const pageSize = 10
+
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
       props.navigate(URLS.LOGIN)
@@ -75,6 +79,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     ...countEdgeDisable,
     ...countDisable,
   ]
+
+  const currentData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * pageSize
+    const lastPageIndex = firstPageIndex + pageSize
+    return dashboardData?.slice(firstPageIndex, lastPageIndex)
+  }, [currentPage, dashboardData])
+
   return (
     <div className="dashboard-page-main-container">
       <Header {...props} />
@@ -94,8 +105,22 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
+          ) : dashboardData.length > 0 ? (
+            <>
+              <DashboardCard {...props} dashboardData={currentData} />
+              <Pagination
+                className="pagination-bar"
+                currentPage={currentPage}
+                totalCount={dashboardData.length}
+                pageSize={pageSize}
+                onPageChange={page => setCurrentPage(page)}
+                paginationValue={data => data}
+              />
+            </>
           ) : (
-            <DashboardCard {...props} dashboardData={dashboardData} />
+            <div className="d-flex justify-content-center no-records-found mt-5">
+              No Records Found
+            </div>
           )}
         </div>
       </Navigation>

@@ -120,6 +120,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   edgeSessionStatus: '',
   sessionPending: false,
   edgeNodePending: false,
+  statusPending: false,
 }
 
 const edgeNodeReducer = createSlice({
@@ -144,9 +145,16 @@ const edgeNodeReducer = createSlice({
         }
       )
     builder.addCase(
+      fetchEdgeViewStatus.pending,
+      (state: IEdgeNodePageState) => {
+        state.statusPending = true
+      }
+    )
+    builder.addCase(
       fetchEdgeViewStatus.fulfilled,
       (state: IEdgeNodePageState, action: IDispatchState) => {
         state.edgeSessionStatus = action.payload.data.data.data.state
+        state.statusPending = false
       }
     )
     builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {

@@ -18,4 +18,8 @@
     font-weight: 700;
     font-family: $font-default;
   }
+  .DashboardCardContainer .pagination-wrapper {
+    justify-content: center !important;
+    padding-bottom: 1.875rem;
+  }
 }

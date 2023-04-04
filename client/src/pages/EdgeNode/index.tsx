@@ -14,7 +14,6 @@ import {
 } from '@Reducers/edgeNodeAppInstanceReducer'
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
-import { IEdgeNodePageState } from '@Utils/interface/PagesInterface/EdgeNodePageInterface'
 import { URLS } from '@Utils/constants'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
@@ -38,7 +37,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.edgeNodeReducer
   )
 
-  const [edgeNodeList, setEdgeNodeList] = useState<IEdgeNodePageState>()
   const [sessionDetails, setSessionDetails] = useState<any>()
   const [edgeViewSessionStatus, setEdgeViewSessionStatus] = useState<string>('')
   const [sessionPending, setSessionPending] = useState<boolean>(false)
@@ -50,7 +48,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const [edgeNodePending, setEdgeNodePending] = useState<boolean>(false)
 
   useEffect(() => {
-    setEdgeNodeList(edgeNodeData)
     setSessionPending(edgeNodeData?.sessionPending)
 
     if (edgeNodeData?.deviceList?.list) {
@@ -186,7 +183,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     statusUpdate &&
       props.dispatch(
         fetchEdgeNode(
-          `next.pageSize=10&next.pageNum=1&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+          `next.pageSize=10&next.pageNum=${selectedPage}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
         )
       )
   }
