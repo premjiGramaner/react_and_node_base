@@ -38,7 +38,6 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
       props.navigate(URLS.DASHBOARD)
     } else if (statusCode === 401 || statusCode === 400) {
       setShowError(true)
-      props.navigate(URLS.DEFAULT)
     }
   }, [statusCode])
 

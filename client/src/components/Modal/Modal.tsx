@@ -1,12 +1,23 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
+import { IReducerState } from '@Utils/interface'
 import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { IModalInterface } from '@Interface/ComponentInterface'
 
 import { CloseIcon, DownloadIcon, RefreshIcon } from '@Assets/images'
 
 const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
+  const edgeNodeStatus = useSelector(
+    (state: IReducerState) => state.edgeNodeReducer
+  )
   const [sessionState, setSessionState] = useState<string>('')
+  const [edgeNodeStatusPending, setEdgeNodeStatusPending] =
+    useState<boolean>(false)
+
+  useEffect(() => {
+    setEdgeNodeStatusPending(edgeNodeStatus?.statusPending)
+  }, [edgeNodeStatus?.statusPending])
 
   useEffect(() => {
     setSessionState(props?.status)
@@ -30,53 +41,68 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
             </div>
 
             <div className="modal-body">
-              <div>
-                <p className="sessionStatus">
-                  {props.t('viewSession.sessionStatus')}
-                </p>
-                <i className={`fa fa-circle status-icon ${sessionState}`}></i>
-                {sessionState === 'ACTIVATING'
-                  ? props.t('viewSession.activating')
-                  : sessionState === 'INACTIVE'
-                  ? props.t('viewSession.inactive')
-                  : sessionState === 'ACTIVE'
-                  ? props.t('viewSession.active')
-                  : ''}
-              </div>
+              {edgeNodeStatusPending ? (
+                <div className="d-flex justify-content-center">
+                  <div
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <p className="sessionStatus">
+                      {props.t('viewSession.sessionStatus')}
+                    </p>
+                    <i
+                      className={`fa fa-circle status-icon ${sessionState}`}
+                    ></i>
+                    {sessionState === 'ACTIVATING'
+                      ? props.t('viewSession.activating')
+                      : sessionState === 'INACTIVE'
+                      ? props.t('viewSession.inactive')
+                      : sessionState === 'ACTIVE'
+                      ? props.t('viewSession.active')
+                      : ''}
+                  </div>
 
-              <div className="session-btn">
-                {sessionState === 'INACTIVE' ? (
-                  <>
-                    <button
-                      className="inactive-session"
-                      onClick={props.handleActivateSession}
-                    >
-                      {props.t('viewSession.activateSession')}
-                    </button>
-                    <button
-                      className={`deactivate-session ${sessionState}`}
-                      onClick={props.deActivateSession}
-                    >
-                      {props.t('viewSession.deactivateSession')}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      className={`reactive-session ${sessionState}`}
-                      onClick={props.reactiveSession}
-                    >
-                      {props.t('viewSession.reactiveateSession')}
-                    </button>
-                    <button
-                      className="reactive-session"
-                      onClick={props.deActivateSession}
-                    >
-                      {props.t('viewSession.deactivateSession')}
-                    </button>
-                  </>
-                )}
-              </div>
+                  <div className="session-btn">
+                    {sessionState === 'INACTIVE' ? (
+                      <>
+                        <button
+                          className="inactive-session"
+                          onClick={props.handleActivateSession}
+                        >
+                          {props.t('viewSession.activateSession')}
+                        </button>
+                        <button
+                          className={`deactivate-session ${sessionState}`}
+                          onClick={props.deActivateSession}
+                        >
+                          {props.t('viewSession.deactivateSession')}
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          className={`reactive-session ${sessionState}`}
+                          onClick={props.reactiveSession}
+                        >
+                          {props.t('viewSession.reactiveateSession')}
+                        </button>
+                        <button
+                          className="reactive-session"
+                          onClick={props.deActivateSession}
+                        >
+                          {props.t('viewSession.deactivateSession')}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="modal-footer">

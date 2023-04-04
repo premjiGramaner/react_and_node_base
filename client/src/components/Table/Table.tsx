@@ -49,6 +49,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
 
   const TableRowCell = ({ tabelData, tableHeader }) => {
     const value = getValueFromObject(tabelData, tableHeader.key)
+
     return (
       <td>
         <span className="table-data d-flex justify-content-center align-items-center">
@@ -61,7 +62,12 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
             </>
           ) : tableHeader?.cell ? (
             <button
-              className={`session-btn ${tabelData?.status}`}
+              className={`session-btn ${
+                (tabelData?.runState === 'RUN_STATE_PROVISIONED' ||
+                  tabelData?.runState === 'RUN_STATE_SUSPECT') &&
+                'UNSPECIFIED'
+              }
+                `}
               data-toggle="modal"
               data-target="#myModal"
               onClick={() => tableHeader?.cell(tabelData)}

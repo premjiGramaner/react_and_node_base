@@ -39,6 +39,8 @@ const fetchClient = (token?: string, client?: string) => {
             default:
               console.log('error Status: ', error.response.status)
               console.log('error Response: ', error.response)
+              return Promise.reject(error)
+
               return error.response
           }
         }

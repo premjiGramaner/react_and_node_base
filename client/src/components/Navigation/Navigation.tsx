@@ -4,6 +4,8 @@ import UserEvent from '@Components/UserEvent/UserEvent'
 import { URLS } from '@Utils/constants'
 
 const Navigation: React.FC<IDefaultPageProps> = props => {
+  const sessionData = sessionStorage.getItem('userEventLogs')
+
   return (
     <div className="navigation-container">
       <ul
@@ -54,7 +56,7 @@ const Navigation: React.FC<IDefaultPageProps> = props => {
           role="tabpanel"
           aria-labelledby="pills-profile-tab"
         >
-          <UserEvent {...props} />
+          <UserEvent {...props} sessionData={sessionData} />
         </div>
       </div>
     </div>

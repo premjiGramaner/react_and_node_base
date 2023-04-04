@@ -17,7 +17,7 @@ import {
 export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
   async (loginPayload: ILoginState) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       client
         .post(
           loginPayload.token ? API.users.tokenLogin : API.users.create,
@@ -41,9 +41,7 @@ export const userLogin: any = createAsyncThunk(
           }
         })
         .catch((response: Error) => {
-          const { data } = reviseData(response)
-          console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({ error: reviseData(response), loginReducerInitialState })
         })
     })
   }
@@ -100,6 +98,9 @@ const loginReducer = createSlice({
           action.payload.loginReducerInitialState.logoutStatusCode
       }
     )
+    builder.addCase(userLogin.rejected, (state: ILoginReducerState) => {
+      state.statusCode = 400
+    })
     builder.addCase(
       userLogout.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
