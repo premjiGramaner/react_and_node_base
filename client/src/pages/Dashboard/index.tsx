@@ -105,7 +105,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
                 <span className="sr-only">Loading...</span>
               </div>
             </div>
-          ) : (
+          ) : dashboardData.length > 0 ? (
             <>
               <DashboardCard {...props} dashboardData={currentData} />
               <Pagination
@@ -117,6 +117,10 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
                 paginationValue={data => data}
               />
             </>
+          ) : (
+            <div className="d-flex justify-content-center no-records-found mt-5">
+              No Records Found
+            </div>
           )}
         </div>
       </Navigation>
