@@ -62,10 +62,10 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
             </>
           ) : tableHeader?.cell ? (
             <button
-              className={`session-btn ${
+              className={`session-btn  ${tabelData?.status} ${
                 (tabelData?.runState === 'RUN_STATE_PROVISIONED' ||
                   tabelData?.runState === 'RUN_STATE_SUSPECT') &&
-                'UNSPECIFIED'
+                'disable-btn'
               }
                 `}
               data-toggle="modal"
