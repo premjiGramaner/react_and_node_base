@@ -22,11 +22,44 @@ const getEdgeAppList = async (req, res, next) => {
         if (query['projectName'])
             url += `&projectNamePattern=${query['projectName']}`;
 
-        console.log('********', url)
         get(res, url).then((response) => response).then((appList) => {
-            formatResponse(res, 200, appList.data, "EdgeApp list fetched successfully!");
-        }).catch((err) => {
+            const resAppList = appList.data, tags = [];
+            let loopDataCount = 0;
+            resAppList.list.forEach(async (item) => {
+                try {
+                    let tagsData = await get(res, routes.edgeApp.deviceStatus.replace('{id}', item.deviceId));
+                    await delay(800)
+                    if (tagsData && tagsData.data && tagsData.data && tagsData.data.tags) {
+                        const ip = tagsData.data.tags.opcusserver || "";
+                        const ipArray = (ip.slice(ip.indexOf('/') + 1)).split(':') || [];
+                        if (ipArray.length === 2 && !tags.some((item) => item.ipAddrs === ipArray[0])) {
+                            tags.push({
+                                isTagInfo: true,
+                                intfname: 'opcua_server',
+                                type: 'external',
+                                ipAddrs: ipArray[0],
+                                protocol: ip.slice(0, ip.indexOf('/')),
+                                host: ipArray[1],
+                                lport: ipArray[1],
+                            })
+                        }
+                    }
 
+                    loopDataCount += 1;
+                } catch (error) {
+                    loopDataCount += 1;
+                }
+
+                if (resAppList.list.length === loopDataCount) {
+                    const finalresult = resAppList;
+                    finalresult['list'] = [...resAppList.list, ...tags];
+                    finalresult.summaryByState.total = finalresult.list.length;
+                    finalresult.totalCount = finalresult.list.length;
+                    formatResponse(res, 200, finalresult, "EdgeApp list fetched successfully!");
+                }
+            })
+        }).catch((err) => {
+            console.log('=== Error on getting tags: ', err);
             formatResponse(res, 400, err, "Failed to get EdgeApp list!");
         });
     } catch (e) {
@@ -76,7 +109,6 @@ const getEdgeAppById = async (req, res, next) => {
                     } : null;
                     loopDataCount += 1;
                 }
-                console.log('***********', ipCheck.data, nodeInfo ? nodeInfo.data:"", loopDataCount);
                 ipCheck = null;
                 if (retrunData.interfaces.length === loopDataCount) {
                     formatResponse(res, 200, retrunData, "EdgeApp info fetched successfully!");
