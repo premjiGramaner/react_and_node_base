@@ -25,6 +25,13 @@
       margin-right: 0;
       .edgeNode-table {
         padding: 0;
+        td {
+          &:nth-child(3) {
+            display: flex;
+            padding-left: 1.625rem;
+            padding-bottom: 0.75rem;
+          }
+        }
       }
     }
     .nav-content {

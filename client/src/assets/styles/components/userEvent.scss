@@ -8,8 +8,7 @@
 .user-event-log {
   .user-event-table {
     padding: 0;
-  }
-  .user-event-table {
+
     .pagination-wrapper {
       padding-top: 0 !important;
     }
@@ -21,6 +20,12 @@
         &:hover {
           background-color: $white;
         }
+      }
+    }
+    tbody tr {
+      .table-data {
+        justify-content: start !important;
+        padding-left: 1.25rem;
       }
     }
   }

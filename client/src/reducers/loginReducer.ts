@@ -100,6 +100,7 @@ const loginReducer = createSlice({
     )
     builder.addCase(userLogin.rejected, (state: ILoginReducerState) => {
       state.statusCode = 400
+      state.pending = false
     })
     builder.addCase(
       userLogout.fulfilled,

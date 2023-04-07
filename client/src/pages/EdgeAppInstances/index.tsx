@@ -80,17 +80,21 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       name: 'Protocol',
     },
     {
-      key: 'host',
-      name: 'Host Port',
+      key: 'lport',
+      name: 'Device Port',
     },
     {
-      key: 'lport',
+      key: 'appPort',
       name: 'Application Port',
     },
   ]
 
   const handleNavClick = data => {
-    props.dispatch(fetchNetworkData(data.id))
+    if (data.isTagInfo) {
+      setNetworkDataList([data])
+    } else {
+      props.dispatch(fetchNetworkData(data.id))
+    }
     setInstanceName(data.name)
     props.dispatch(
       fetchUserEvents({
@@ -115,15 +119,19 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     const getTableData = data => {
       const tableData = []
       data?.aclsMatches?.forEach(matchItem => {
-        const tableItem = { intfname: '', ipAddrs: '' }
-        matchItem?.forEach(x => {
-          if (x.type !== 'ip') {
+        const tableItem = { intfname: '', ipAddrs: '', appPort: '' }
+        if (matchItem?.actions?.length > 0) {
+          matchItem?.matches?.forEach(x => {
             tableItem.intfname = data?.intfname
             tableItem[x.type] = x?.value
             tableItem.ipAddrs = data?.ipAddrs
-          }
-        })
-        Object.keys(tableItem).length > 2 && tableData.push(tableItem)
+          })
+          matchItem?.actions?.forEach(x => {
+            tableItem.appPort = x?.mapparams?.port
+          })
+        }
+
+        Object.keys(tableItem).length > 3 && tableData.push(tableItem)
       })
       return tableData
     }
@@ -131,8 +139,8 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     interfaces?.forEach(x => {
       tableListFormat?.push({
         intfname: x?.intfname,
-        ipAddrs: x?.ipInfo?.ipAddrs && x?.ipInfo?.ipAddrs[0],
-        aclsMatches: x?.acls.map(x => x?.matches),
+        ipAddrs: x?.ipInfo && x?.ipInfo?.ipAddrs?.[0],
+        aclsMatches: x?.acls.map(x => x),
       })
     })
 
@@ -141,7 +149,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         return getTableData(x)
       })
       .flat()
-
     return finalData
   }
 
@@ -330,7 +337,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         <div className="d-flex justify-content-between align-items-center searchContainer">
           <div className="endpoint">
             {edgeNodeData?.edgeNodeInfo?.title} -
-            <span className="edge-node">{props.t('dashboard.edgeNodes')}</span>
+            <span className="edge-node"> {props.t('dashboard.edgeNodes')}</span>
             <span className="device-count">
               ({edgeNodeData?.edgeNodeInfo?.edgeNodesCount}) -
             </span>
@@ -391,7 +398,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                       </div>
                     </div>
                   ) : (
-                    <div className="d-flex flex-column app-network-table">
+                    <div
+                      className={`d-flex flex-column app-network-table ${
+                        networkDataList.length == 0 && 'invisible'
+                      }`}
+                    >
                       <p className="fw-bold network-title">{instanceName}</p>
                       <Table
                         {...props}
