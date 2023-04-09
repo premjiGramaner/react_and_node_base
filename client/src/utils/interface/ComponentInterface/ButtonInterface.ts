@@ -1,5 +1,5 @@
 export interface IButtonInterface {
   handleButtonClick?: (event: React.MouseEvent<HTMLElement>) => void
-  children: string
+  children: React.ReactNode
   className?: string
 }

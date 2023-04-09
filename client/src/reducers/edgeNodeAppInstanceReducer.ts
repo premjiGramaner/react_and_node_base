@@ -85,7 +85,7 @@ const edgeNodeAppInstanceReducer = createSlice({
       builder.addCase(
         fetchEdgeNodeApp.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
-          state.edgeNodeDataList = action.payload.data.data.data
+          state.edgeNodeDataList = action.payload?.data?.data?.data
           state.edgeAppPending = false
         }
       ),
@@ -102,7 +102,7 @@ const edgeNodeAppInstanceReducer = createSlice({
       builder.addCase(
         fetchEdgeNodeInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
-          state.edgeNodeInfo = action.payload.data
+          state.edgeNodeInfo = action.payload?.data
         }
       )
   },

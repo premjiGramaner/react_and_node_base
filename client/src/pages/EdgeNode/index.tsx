@@ -51,10 +51,27 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     setSessionPending(edgeNodeData?.sessionPending)
 
     if (edgeNodeData?.deviceList?.list) {
-      const sorted = [...edgeNodeData?.deviceList?.list].sort((a, b) =>
-        a?.name?.toLowerCase() > b?.name?.toLowerCase() ? 1 : -1
+      const sortedOnline = [...edgeNodeData?.deviceList?.list].filter(
+        d => `${d?.runState}` === 'RUN_STATE_ONLINE'
       )
-      setEdgeNodeTableData(sorted)
+      const sortedSuspect = [...edgeNodeData?.deviceList?.list].filter(
+        d => `${d.runState}` === 'RUN_STATE_SUSPECT'
+      )
+      const sortedProvisioned = [...edgeNodeData?.deviceList?.list].filter(
+        d => `${d.runState}` === 'RUN_STATE_PROVISIONED'
+      )
+      const sortedOtherState = [...edgeNodeData?.deviceList?.list].filter(
+        d =>
+          `${d?.runState}` !== 'RUN_STATE_ONLINE' &&
+          `${d?.runState}` !== 'RUN_STATE_SUSPECT' &&
+          `${d?.runState}` !== 'RUN_STATE_PROVISIONED'
+      )
+      setEdgeNodeTableData([
+        ...sortedOnline,
+        ...sortedSuspect,
+        ...sortedProvisioned,
+        ...sortedOtherState,
+      ])
     }
   }, [edgeNodeData])
 
@@ -366,7 +383,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         <div className="d-flex justify-content-between align-items-center searchContainer">
           <div className="endpoint">
             {edgeNodeData?.edgeNodeInfo?.title} -
-            <span className="edge-node">{props.t('dashboard.edgeNodes')}</span>
+            <span className="edge-node"> {props.t('dashboard.edgeNodes')}</span>
             <span className="device-count">
               ({edgeNodeData?.edgeNodeInfo?.edgeNodesCount})
             </span>

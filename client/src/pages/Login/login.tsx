@@ -17,7 +17,7 @@ import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps> = props => {
-  const { statusCode } = useSelector(
+  const { statusCode, pending } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -119,7 +119,17 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
             {showError && (
               <p className="error-msg">{props.t('login.errorMessage')}</p>
             )}
-            <Button className="login-btn">{props.t('login.login')}</Button>
+            <Button className="login-btn">
+              {pending ? (
+                <span
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              ) : (
+                props.t('login.login')
+              )}
+            </Button>
           </form>
         </div>
       </div>

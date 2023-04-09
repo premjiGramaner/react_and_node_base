@@ -71,14 +71,14 @@ const dashboardReducer = createSlice({
       builder.addCase(
         fetchDashboard.fulfilled,
         (state: IDashboardCardInterface, action: IDispatchState) => {
-          state.dashboardData = action.payload.data.data
+          state.dashboardData = action.payload?.data?.data
           state.dashboardPending = false
         }
       ),
       builder.addCase(
         fetchEdgeDetails.fulfilled,
         (state: IDashboardCardInterface, action: IDispatchState) => {
-          state.EdgeDetails = action.payload.data.data.data
+          state.EdgeDetails = action.payload?.data?.data?.data
         }
       )
   },
