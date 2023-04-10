@@ -14,7 +14,11 @@ const TextBox: FC<ITextBoxInterface> = props => {
             placeholder={props.placeHolder}
             onChange={props.handleInputChange}
           />
-          <i className="eye-icon" onClick={props.handleIconClick}>
+          <i
+            className="eye-icon"
+            onClick={props.handleIconClick}
+            aria-hidden="true"
+          >
             <span className={props.icon}></span>
           </i>
         </div>

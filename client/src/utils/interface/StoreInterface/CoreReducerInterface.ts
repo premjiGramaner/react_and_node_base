@@ -1,8 +1,8 @@
 /*
-* TODO::
+ * TODO::
  */
 
 export interface ICoreReducerState {
-    userList: { name: string, id: number }[],
-    usersLoading: boolean
+  userList: { name: string; id: number }[]
+  usersLoading: boolean
 }

@@ -3,8 +3,11 @@
   background-color: $white;
   box-shadow: $dashboardBoxShadow;
 
-  .online {
-    color: $statusOnline;
+  .TAG_STATUS_ACTIVE {
+    color: $statusActive;
+  }
+  .TAG_STATUS_INACTIVE {
+    color: $statusInactive;
   }
   .error {
     color: $statusError;
@@ -16,7 +19,7 @@
     color: $statusSuspect;
   }
   .unkonwn {
-    color: $stausUnknown;
+    color: $statusUnknown;
   }
   .other {
     color: $statusOther;
@@ -32,12 +35,18 @@
     font-family: $font-default;
     font-size: 0.875rem;
   }
-  .enabled {
+  .edgeView-status {
     padding-top: 1.25rem;
     font-size: 1.75rem;
     font-weight: 700;
     padding-bottom: 1.25rem;
     font-family: $font-default;
+    &.enabled {
+      color: $themeColor;
+    }
+    &.disabled {
+      color: $statusIconColor;
+    }
   }
   .edge-nodes-app {
     color: $edgeTxtColor;
@@ -70,14 +79,10 @@
     .node-count {
       color: $edgeNumColor;
     }
-    .enabled {
-      color: $themeColor;
-    }
   }
   .status-disable {
     .edge-app-color {
       background-color: $edgeAppBgDisable;
-      cursor: pointer;
     }
     .edge-node-color {
       background-color: $edgeNodeBgDisable;
@@ -85,9 +90,6 @@
 
     .node-count {
       color: $edgeDisableCount;
-    }
-    .enabled {
-      color: $statusIconColor;
     }
   }
 }

@@ -6,7 +6,7 @@ const Tooltip: React.FC<ITooltipInterface> = props => {
   return (
     <div className="tooltip-border">
       <div className="dropdown" data-tooltip={props.infoData}>
-        <img src={InfoIcon} className="infoImage" />
+        <img src={InfoIcon} className="infoImage" alt="" />
       </div>
     </div>
   )

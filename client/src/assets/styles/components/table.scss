@@ -1,8 +1,67 @@
+.navigation-panel {
+  .nav-wrapper {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .nav-content {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .nav-panel {
+    background-color: $white;
+    padding: 0;
+    box-shadow: 0 0 0.313rem 0 rgba(113, 110, 110, 0.19),
+      0 0.125rem 0.25rem 0 rgba(0, 0, 0, 0.04);
+    height: max-content;
+    margin-right: 1rem;
+  }
+  .sort-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-left: 0.375rem;
+  }
+  .nav-header {
+    color: $projectTxtColor;
+    font-weight: 600;
+    font-size: 0.875rem;
+    height: 2.875rem;
+    border-bottom: 0.063rem solid $navBorder;
+    padding-top: 0.5rem;
+    padding-left: 1.25rem;
+    display: flex;
+    font-family: $font-default;
+    align-items: center;
+  }
+  .nav-list {
+    word-break: break-word;
+    cursor: pointer;
+    border-bottom: 0.063rem solid $navBorder;
+    border-radius: 0;
+    color: $sessionColor;
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-family: $font-default;
+    padding-left: 1.25rem;
+    font-weight: 700;
+    &:last-child {
+      border-bottom: 0;
+    }
+    &:hover {
+      color: $themeColor;
+      background-color: $navBackground;
+      text-decoration: unset;
+    }
+    &.active {
+      background: $navBackground;
+    }
+  }
+}
+
 .table-wrapper table {
   margin-bottom: 0 !important;
 
   thead {
-    border-top: 0.125rem solid $themeColor;
     background-color: $white;
     .table-header {
       font-size: 0.875rem;
@@ -13,6 +72,21 @@
     th {
       border: 0;
       padding: 0.75rem;
+      border-top: 0.125rem solid $themeColor !important;
+    }
+    .zed-title {
+      width: 20%;
+      word-break: break-word;
+      border-bottom: 0.063rem solid $navBorder;
+      padding-left: 1.25rem;
+    }
+    .zed-empty,
+    .zed-title {
+      border-top: 0 !important;
+    }
+    .zed-empty {
+      background-color: $dashboardBG;
+      width: 0.625rem;
     }
     .sort-icon {
       width: 0.75rem;
@@ -23,6 +97,12 @@
     background-color: $tableBackground;
 
     tr {
+      &:last-child {
+        border: 0;
+      }
+      .nav-list {
+        background-color: $white;
+      }
       .table-data {
         font-size: 0.875rem;
         color: $tableTextColor;
@@ -36,8 +116,21 @@
           font-size: 0.75rem;
           letter-spacing: 0.016rem;
           width: 7.375rem;
+
+          &.disable-btn {
+            background-color: $unspecifiedBgColor !important;
+            color: $unspecifiedTextColor;
+            pointer-events: none;
+            border: 0.063rem solid $unspecifiedBorderColor !important;
+          }
+          &.ACTIVATING {
+            background-color: $white;
+          }
+          &.ACTIVE {
+            background-color: $white;
+          }
         }
-        .active-session {
+        .INACTIVE {
           background-color: $sessionBackgroundColor;
         }
         .deactive-session {
@@ -47,22 +140,34 @@
         .status-icon {
           padding-right: 0.5rem;
         }
-        .Online {
+        .RUN_STATE_ONLINE {
           color: $statusOnline;
         }
-        .Error {
+        .RUN_STATE_ERROR {
           color: $statusError;
         }
         .Intitilized {
           color: $statusInialzed;
         }
-        .Suspect {
+        .RUN_STATE_SUSPECT {
           color: $statusSuspect;
         }
-        .Unkonwn {
-          color: $stausUnknown;
+        .RUN_STATE_UNKNOWN {
+          color: $statusUnknown;
         }
         .Other {
+          color: $statusOther;
+        }
+        .RUN_STATE_PROVISIONED {
+          color: $statusProvisioned;
+        }
+        .RUN_STATE_UNPROVISIONED {
+          color: $stautsUnprovisioned;
+        }
+        .RUN_STATE_HALTED {
+          color: $statusHalted;
+        }
+        .RUN_STATE_OFFLINE {
           color: $statusOther;
         }
       }
@@ -70,6 +175,7 @@
         border-right: 0.063rem solid $navBorder;
         padding: 0.625rem;
         border-top: 0;
+        vertical-align: middle;
         &:last-child {
           border-right: 0;
         }
@@ -85,6 +191,10 @@
           border-top: 0;
           border-bottom: 0;
         }
+      }
+      .zed-empty {
+        background-color: $dashboardBG;
+        border: 0;
       }
     }
   }

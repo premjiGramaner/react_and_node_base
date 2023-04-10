@@ -1,11 +1,15 @@
 import React from 'react'
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import "@Assets/styles/main.css";
-import "@Assets/styles/style.scss";
+import '@Assets/styles/main.css'
+import '@Assets/styles/style.scss'
 
-import MainRouter from "./router";
+import MainRouter from './router'
 
 export default function App(props: any) {
-  return (<Router><MainRouter {...props} /></Router>)
+  return (
+    <Router>
+      <MainRouter {...props} />
+    </Router>
+  )
 }

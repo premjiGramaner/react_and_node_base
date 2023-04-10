@@ -1,13 +1,17 @@
+const {
+    API_URL,
+    API_Version
+} = require("../default-constant");
 
 const baseURL = (type) => {
     if (!type) {
-        return process.env.API_END_POINT + "/api/";
+        return API_URL;
     }
 }
 
 module.exports = {
     baseURL,
-    version: process.env.API_END_POINT_VERSION + "/",
+    version: API_Version,
     routes: {
         login: 'login',
         loginWithToken: 'users/self',

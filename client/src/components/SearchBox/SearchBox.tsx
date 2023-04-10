@@ -20,7 +20,7 @@ const SearchBox: React.FC<IDefaultPageProps & ISearchBoxProps> = props => {
           />
           <figure className="pointer">
             <div className="search-panel">
-              <img src={SearchIcon} className="search-icon" />
+              <img src={SearchIcon} className="search-icon" alt="" />
             </div>
           </figure>
         </span>

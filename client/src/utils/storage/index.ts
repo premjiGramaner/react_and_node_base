@@ -9,9 +9,10 @@ export const getToken = (updateToken?: any): null | string => {
   return localStorage.getItem(STORAGE_KEY.AUTH_TOKEN)
 }
 
-export const getClientAccessToken = (accessToken?: any) => {
+export const getClientAccessToken = (accessToken?: string) => {
   if (accessToken) {
-    return localStorage.setItem(STORAGE_KEY.CLIENT_ACCESS_TOKEN, accessToken)
+    localStorage.setItem(STORAGE_KEY.CLIENT_ACCESS_TOKEN, accessToken)
+    return accessToken
   }
   return localStorage.getItem(STORAGE_KEY.CLIENT_ACCESS_TOKEN)
 }

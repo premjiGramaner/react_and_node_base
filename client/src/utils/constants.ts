@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:5001/api/'
+export const API_URL = 'http://40.81.241.10/api/'
 
 export const STORAGE_KEY = {
   AUTH_TOKEN: 'accessToken',

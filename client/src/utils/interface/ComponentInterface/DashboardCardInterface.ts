@@ -1,8 +1,7 @@
 export interface ISearchData {
   title?: string
-  edgeNodeStatus?: string
-  enabled?: string
-  projectType?: string
+  projectStatus?: string
+  edgeViewStatus?: boolean
   edgeNodes?: number
   edgeAppInstance?: number
   info?: string
@@ -10,4 +9,5 @@ export interface ISearchData {
 export interface IDashboardCardInterface {
   dashboardData?: any
   EdgeDetails?: any
+  dashboardPending?: boolean
 }
