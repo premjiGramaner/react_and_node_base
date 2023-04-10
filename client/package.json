@@ -1,6 +1,6 @@
 {
   "name": "raa",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "RAA Client",
   "main": "index.js",
   "scripts": {
