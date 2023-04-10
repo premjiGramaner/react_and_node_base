@@ -1,6 +1,6 @@
 {
   "name": "raa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RAA Server",
   "main": "app.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "linux": "cd client && npm install && npm run build",
     "dev": "node --inspect app.js"
   },
-  "author": "shankar",
+  "author": "RAA - Development team",
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",

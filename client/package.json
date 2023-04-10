@@ -1,6 +1,6 @@
 {
   "name": "raa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "RAA Client",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     ]
   },
   "keywords": [],
-  "author": "",
+  "author": "RAA - Development team",
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
