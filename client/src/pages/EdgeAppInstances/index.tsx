@@ -118,28 +118,38 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
     const getTableData = data => {
       const tableData = []
-      data?.aclsMatches?.forEach(matchItem => {
+      if (data.kind === 'NETWORK_INSTANCE_KIND_SWITCH') {
         const tableItem = { intfname: '', ipAddrs: '', appPort: '' }
-        if (matchItem?.actions?.length > 0) {
-          matchItem?.matches?.forEach(x => {
-            tableItem.intfname = data?.intfname
-            tableItem[x.type] = x?.value
-            tableItem.ipAddrs = data?.ipAddrs
-          })
-          matchItem?.actions?.forEach(x => {
-            tableItem.appPort = x?.mapparams?.port
-          })
-        }
-
-        Object.keys(tableItem).length > 3 && tableData.push(tableItem)
-      })
+        tableItem.intfname = data?.intfname
+        tableItem.ipAddrs = data?.ipAddrs
+        tableData.push(tableItem)
+      } else {
+        data?.aclsMatches?.forEach(matchItem => {
+          const tableItem = { intfname: '', ipAddrs: '', appPort: '' }
+          if (matchItem?.actions?.length > 0) {
+            matchItem?.matches?.forEach(x => {
+              tableItem.intfname = data?.intfname
+              tableItem[x.type] = x?.value
+              tableItem.ipAddrs = data?.ipAddrs
+            })
+            matchItem?.actions?.forEach(x => {
+              tableItem.appPort = x?.mapparams?.port
+            })
+          }
+          Object.keys(tableItem).length > 3 && tableData.push(tableItem)
+        })
+      }
       return tableData
     }
 
-    interfaces?.forEach(x => {
+    interfaces?.forEach((x, i) => {
       tableListFormat?.push({
         intfname: x?.intfname,
-        ipAddrs: x?.ipInfo && x?.ipInfo?.ipAddrs?.[0],
+        ipAddrs:
+          x?.['network-kind']?.kind === 'NETWORK_INSTANCE_KIND_SWITCH'
+            ? x?.ipInfo[i].ipAddrs[0]
+            : x?.ipInfo && x?.ipInfo?.ipAddrs?.[0],
+        kind: x?.['network-kind']?.kind,
         aclsMatches: x?.acls.map(x => x),
       })
     })
