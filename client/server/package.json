@@ -6,7 +6,8 @@
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "SET NODE_ENV=development&& nodemon -r dotenv/config ./bin/www",
-    "prod": "SET NODE_ENV=production&& nodemon -r dotenv/config ./bin/www",
+    "server-prod": "NODE_ENV=development&& nodemon ./bin/www",
+    "prod": "NODE_ENV=production&& nodemon -r dotenv/config ./bin/www",
     "client": "cd client && npm install && npm run build",
     "linux": "cd client && npm install && npm run build",
     "dev": "node --inspect app.js"

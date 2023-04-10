@@ -1,13 +1,17 @@
+const {
+    API_URL,
+    API_Version
+} = require("../default-constant");
 
 const baseURL = (type) => {
     if (!type) {
-        return "https://zedcontrol.gmwtus.zededa.net/api/";
+        return API_URL;
     }
 }
 
 module.exports = {
     baseURL,
-    version: "v1/",
+    version: API_Version,
     routes: {
         login: 'login',
         loginWithToken: 'users/self',
