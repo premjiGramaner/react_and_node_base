@@ -33,21 +33,27 @@ const getEdgeAppList = async (req, res, next) => {
 
           await delay(800)
           if (tagsData && tagsData.data && tagsData.data && tagsData.data.tags) {
-            const ip = tagsData.data.tags.opcusserver || ''
-            const ipArray = ip.slice(ip.indexOf('/') + 1).split(':') || []
-            if (ipArray.length === 2 && !tags.some(item => item.ipAddrs === ipArray[0])) {
-              tags.push({
-                isTagInfo: true,
-                name: 'opcua_server',
-                appType: 'external',
-                appName: '-',
-                runState: 'RUN_STATE_ONLINE',
-                ipAddrs: ipArray[0],
-                protocol: ip.slice(0, ip.indexOf('/')),
-                appPort: ipArray[1],
-                lport: ipArray[1],
-              })
-            }
+            const tTags = tagsData.data.tags;
+            Object.keys(tTags).forEach((tag) => {
+              if (tag && tTags[tag]) {
+                const ip = tTags[tag] || '';
+                const ipArray = ip.slice(ip.indexOf('/') + 1).split(':') || []
+                if (ipArray.length === 2 && !tags.some(item => item.ipAddrs === ipArray[0])) {
+                  tags.push({
+                    isTagInfo: true,
+                    tagLabel: tag,
+                    name: 'opcua_server',
+                    appType: 'external',
+                    appName: '-',
+                    runState: 'RUN_STATE_ONLINE',
+                    ipAddrs: ipArray[0],
+                    protocol: ip.slice(0, ip.indexOf('/')),
+                    appPort: ipArray[1],
+                    lport: "",
+                  })
+                }
+              }
+            });
           }
 
           loopDataCount += 1
