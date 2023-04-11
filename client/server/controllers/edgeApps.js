@@ -38,11 +38,10 @@ const getEdgeAppList = async (req, res, next) => {
               if (tag && tTags[tag]) {
                 const ip = tTags[tag] || '';
                 const ipArray = ip.slice(ip.indexOf('/') + 1).split(':') || []
-                if (ipArray.length === 2 && !tags.some(item => item.ipAddrs === ipArray[0])) {
+                if (ipArray.length === 2 && !tags.some(item => item.ipAddrs === ipArray[0] && item.appPort === ipArray[1])) {
                   tags.push({
                     isTagInfo: true,
-                    tagLabel: tag,
-                    name: 'opcua_server',
+                    name: tag,
                     appType: 'external',
                     appName: '-',
                     runState: 'RUN_STATE_ONLINE',
