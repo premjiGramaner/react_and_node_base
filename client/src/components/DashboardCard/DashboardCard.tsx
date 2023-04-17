@@ -21,9 +21,7 @@ const DashboardCard: React.FC<
   IDashboardCardInterface & IDefaultPageProps
 > = props => {
   const handleEdgeNodeClick = data => {
-    props.dispatch(
-      fetchEdgeNode(`next.pageSize=10&next.pageNum=1&projectName=${data.title}`)
-    )
+    props.dispatch(fetchEdgeNode(`projectName=${data.title}`))
     props.dispatch(
       fetchProjectInfo({
         title: data.title,

@@ -103,6 +103,8 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                   </div>
                 </>
               )}
+              {sessionState === 'ACTIVATING' &&
+                props.t('viewSession.activatingInfo')}
             </div>
 
             <div className="modal-footer">

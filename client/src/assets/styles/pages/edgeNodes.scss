@@ -32,6 +32,12 @@
             padding-bottom: 0.75rem;
           }
         }
+        .zed-table {
+          height: auto !important;
+          .nav-list {
+            pointer-events: auto !important;
+          }
+        }
       }
     }
     .nav-content {
