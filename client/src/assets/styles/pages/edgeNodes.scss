@@ -60,6 +60,11 @@
         margin-left: 1rem;
       }
       .network-table {
+        tbody tr td {
+          &:nth-child(3) {
+            text-transform: uppercase;
+          }
+        }
         .nav-panel {
           display: none;
         }
