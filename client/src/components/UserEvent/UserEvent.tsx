@@ -47,7 +47,6 @@ const UserEvent: React.FC<IDefaultPageProps & IUserEventInterface> = props => {
                 className="user-event-table"
                 column={tableHeader}
                 rowContent={userEventData || []}
-                pageSize={10}
                 isDisplayNavPanel={true}
                 navHeaderName={props.t('userEvent.date')}
                 isPagination={true}
