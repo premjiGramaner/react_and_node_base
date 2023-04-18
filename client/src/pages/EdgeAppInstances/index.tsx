@@ -393,7 +393,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                             className="app-instance-table"
                             column={tableHeader}
                             rowContent={instanceData || []}
-                            pageSize={10}
                             navData={data => handleNavClick(data)}
                             isDisplayNavPanel={true}
                             navHeaderName={props.t('edge-nodes.name')}
@@ -428,7 +427,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                       className="network-table"
                       column={networkTableHeader}
                       rowContent={networkDataList || []}
-                      pageSize={10}
                       isDisplayNavPanel={false}
                       isPagination={true}
                     />
