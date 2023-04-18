@@ -48,7 +48,8 @@
     "deactivateSession": "Deactivate Session",
     "activateSession": "Activate Session",
     "downloadScript": "Download Script",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "activatingInfo": "It may take up to more than 30 seconds to activate a session."
   },
   "userEvent": {
     "activityLog": "Activity Logs",
