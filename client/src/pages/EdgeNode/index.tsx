@@ -24,13 +24,7 @@ import Navigation from '@Components/Navigation/Navigation'
 import Table from '@Components/Table/Table'
 import Modal from '@Components/Modal/Modal'
 
-import {
-  LeftArrowIcon,
-  LeftArrowFirstIcon,
-  RightArrowIcon,
-  RightLastArrowIcon,
-  CloseIcon,
-} from '@Assets/images'
+import { CloseIcon } from '@Assets/images'
 
 const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const edgeNodeData = useSelector(
@@ -42,8 +36,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const [sessionPending, setSessionPending] = useState<boolean>(false)
   const [statusUpdate, setStatusUpdate] = useState<boolean>(false)
   const [order, setOrder] = useState<string>('DSC')
-  const [handlePageCount, setHandlePageCount] = useState<number>(10)
-  const [selectedPage, setSelectedPage] = useState<number>(1)
   const [edgeNodeTableData, setEdgeNodeTableData] = useState<any>()
   const [edgeNodePending, setEdgeNodePending] = useState<boolean>(false)
 
@@ -199,9 +191,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const popupClose = () => {
     statusUpdate &&
       props.dispatch(
-        fetchEdgeNode(
-          `next.pageSize=10&next.pageNum=${selectedPage}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-        )
+        fetchEdgeNode(`projectName=${edgeNodeData?.edgeNodeInfo?.title}`)
       )
   }
 
@@ -229,151 +219,6 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
       setEdgeNodeTableData(sorted)
       setOrder('ASC')
     }
-  }
-
-  const paginationRange = Array.from(
-    { length: edgeNodeData?.deviceList?.next?.totalPages },
-    (_, i) => i + 1
-  )
-
-  const onNext = () => {
-    setSelectedPage(selectedPage + 1)
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=${handlePageCount}&next.pageNum=${
-          selectedPage + 1
-        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-      )
-    )
-  }
-
-  const onPrevious = () => {
-    setSelectedPage(selectedPage - 1)
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=${handlePageCount}&next.pageNum=${
-          selectedPage - 1
-        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-      )
-    )
-  }
-  const onFirst = () => {
-    setSelectedPage(1)
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=${handlePageCount}&next.pageNum=${1}&projectName=${
-          edgeNodeData?.edgeNodeInfo?.title
-        }`
-      )
-    )
-  }
-  const onLast = () => {
-    setSelectedPage(paginationRange.length)
-    props.dispatch(
-      fetchEdgeNode(
-        `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-      )
-    )
-  }
-
-  const Pagination = () => {
-    return (
-      <div className="pt-2">
-        <div className="pagination-wrapper d-flex justify-content-end align-items-center pt-3">
-          <ul className={`pagination-container`}>
-            <li
-              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
-              onClick={onFirst}
-              aria-hidden="true"
-            >
-              <img
-                src={LeftArrowFirstIcon}
-                className="pagination-nav-arrow"
-                alt=""
-              />
-            </li>
-            <li
-              className={`pagination-item ${selectedPage === 1 && 'pe-none'}`}
-              onClick={onPrevious}
-              aria-hidden="true"
-            >
-              <img
-                src={LeftArrowIcon}
-                className="pagination-nav-arrow"
-                alt=""
-              />
-            </li>
-            {paginationRange.map((pageNumber: number, index) => {
-              return (
-                <li
-                  className={`pagination-number ${
-                    pageNumber === selectedPage && 'selected'
-                  }`}
-                  key={index}
-                  onClick={() => {
-                    setSelectedPage(pageNumber)
-                    props.dispatch(
-                      fetchEdgeNode(
-                        `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
-                      )
-                    )
-                  }}
-                  aria-hidden="true"
-                >
-                  {pageNumber}
-                </li>
-              )
-            })}
-            <li
-              onClick={onNext}
-              className={`${
-                selectedPage === paginationRange.length && 'pe-none'
-              }`}
-              aria-hidden="true"
-            >
-              <img
-                src={RightArrowIcon}
-                className="pagination-nav-arrow"
-                alt=""
-              />
-            </li>
-            <li
-              className={`pagination-item ${
-                selectedPage === paginationRange.length && 'pe-none'
-              }`}
-              onClick={onLast}
-              aria-hidden="true"
-            >
-              <img
-                src={RightLastArrowIcon}
-                className="pagination-nav-arrow"
-                alt=""
-              />
-            </li>
-          </ul>
-          <input
-            type="number"
-            className="page-count mx-3"
-            onBlur={event => {
-              if (event.target.value !== '') {
-                props.dispatch(
-                  fetchEdgeNode(
-                    `next.pageSize=${parseInt(
-                      event.target.value
-                    )}&next.pageNum=1&projectName=${
-                      edgeNodeData?.edgeNodeInfo?.title
-                    }`
-                  )
-                )
-                setHandlePageCount(parseInt(event.target.value))
-                setSelectedPage(1)
-              }
-            }}
-          />
-          <p className="pagination-total-count">{`${selectedPage}-${handlePageCount} of ${edgeNodeData?.deviceList?.totalCount}`}</p>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -419,10 +264,10 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
                   rowContent={edgeNodeTableData || []}
                   navData={data => handleNavClick(data)}
                   isDisplayNavPanel={true}
+                  isPagination={true}
                   navHeaderName={props.t('edge-nodes.name')}
                   sortHandle={() => sortTable()}
                 />
-                <Pagination />
               </>
             )}
           </div>

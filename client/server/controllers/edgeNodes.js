@@ -10,6 +10,9 @@ const getEdgeNodeList = async (req, res, next) => {
         const query = req.query;
         let url = routes.edgeNode.list + '?';
 
+        if (query['next.orderBy'])
+            url += `next.orderBy=${query['next.orderBy']}`;
+
         if (query['next.pageSize'])
             url += `next.pageSize=${query['next.pageSize']}`;
 

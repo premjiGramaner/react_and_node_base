@@ -375,63 +375,65 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
 
         <div className="navigation-panel d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
-            {edgeAppData?.edgeNodeDataList?.list?.length > 0 ? (
-              <>
-                <div className="d-flex nav-content">
-                  {edgeAppData?.edgeAppPending ? (
-                    <div className="network-spinner d-flex justify-content-center mt-5">
-                      <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
+            <>
+              <div className="d-flex nav-content">
+                {edgeAppData?.edgeAppPending ? (
+                  <div className="network-spinner d-flex justify-content-center mt-5">
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {instanceData?.length > 0 ? (
+                      <>
+                        <div className="application-table">
+                          <Table
+                            {...props}
+                            className="app-instance-table"
+                            column={tableHeader}
+                            rowContent={instanceData || []}
+                            navData={data => handleNavClick(data)}
+                            isDisplayNavPanel={true}
+                            navHeaderName={props.t('edge-nodes.name')}
+                            sortHandle={() => sortTable()}
+                          />
+                          <Pagination />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="d-flex justify-content-center no-records-found w-100 mt-3">
+                        No Records Found
                       </div>
-                    </div>
-                  ) : (
-                    <div className="application-table">
-                      <Table
-                        {...props}
-                        className="app-instance-table"
-                        column={tableHeader}
-                        rowContent={instanceData || []}
-                        pageSize={10}
-                        navData={data => handleNavClick(data)}
-                        isDisplayNavPanel={true}
-                        navHeaderName={props.t('edge-nodes.name')}
-                        sortHandle={() => sortTable()}
-                      />
-                      <Pagination />
-                    </div>
-                  )}
+                    )}
+                  </>
+                )}
 
-                  {edgeAppData?.networkDataPending ? (
-                    <div className="network-spinner d-flex justify-content-center mt-5">
-                      <div className="spinner-border" role="status">
-                        <span className="sr-only">Loading...</span>
-                      </div>
+                {edgeAppData?.networkDataPending ? (
+                  <div className="network-spinner d-flex justify-content-center mt-5">
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
                     </div>
-                  ) : (
-                    <div
-                      className={`d-flex flex-column app-network-table ${
-                        networkDataList.length == 0 && 'invisible'
-                      }`}
-                    >
-                      <p className="fw-bold network-title">{instanceName}</p>
-                      <Table
-                        {...props}
-                        className="network-table"
-                        column={networkTableHeader}
-                        rowContent={networkDataList || []}
-                        pageSize={10}
-                        isDisplayNavPanel={false}
-                        isPagination={true}
-                      />
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <div className="d-flex justify-content-center no-records-found">
-                No Records Found
+                  </div>
+                ) : (
+                  <div
+                    className={`d-flex flex-column app-network-table ${
+                      networkDataList.length == 0 && 'invisible'
+                    }`}
+                  >
+                    <p className="fw-bold network-title">{instanceName}</p>
+                    <Table
+                      {...props}
+                      className="network-table"
+                      column={networkTableHeader}
+                      rowContent={networkDataList || []}
+                      isDisplayNavPanel={false}
+                      isPagination={true}
+                    />
+                  </div>
+                )}
               </div>
-            )}
+            </>
           </div>
         </div>
       </Navigation>

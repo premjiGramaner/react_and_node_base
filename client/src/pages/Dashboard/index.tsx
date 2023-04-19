@@ -90,7 +90,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     <div className="dashboard-page-main-container">
       <Header {...props} />
       <Navigation {...props}>
-        <div className="d-flex justify-content-between align-items-center searchContainer">
+        <div className="d-flex  justify-content-between align-items-center searchContainer">
           <SearchBox
             {...props}
             icon="fa fa-search"

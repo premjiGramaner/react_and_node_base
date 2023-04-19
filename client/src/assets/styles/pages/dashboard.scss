@@ -5,6 +5,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 1.875rem;
+    align-items: start;
 
     .edge-node-icon {
       width: 1.625rem;

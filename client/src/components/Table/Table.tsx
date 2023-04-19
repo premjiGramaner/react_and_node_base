@@ -5,8 +5,6 @@ import { getValueFromObject } from '@Utils/utils'
 import Pagination from '@Components/Pagination/Pagination'
 import { SortIcon } from '@Assets/images'
 
-const pageSize = 10
-
 const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
   const {
     column,
@@ -20,12 +18,14 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
 
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [active, setActive] = useState<number>(null)
+  const [paginationSize, setPaginationSize] = useState<number>(10)
+  const pageSize = Number.isNaN(paginationSize) ? 10 : paginationSize
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return rowContent?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, rowContent])
+  }, [currentPage, rowContent, paginationSize])
 
   const statusValue = (status: string) => {
     return status == 'RUN_STATE_PROVISIONED'
@@ -169,9 +169,8 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                   className="pagination-bar"
                   currentPage={currentPage}
                   totalCount={rowContent.length}
-                  pageSize={pageSize}
+                  paginationSize={size => setPaginationSize(size)}
                   onPageChange={page => setCurrentPage(page)}
-                  paginationValue={data => data}
                 />
               )}
             </div>
