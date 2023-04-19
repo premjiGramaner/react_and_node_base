@@ -1,4 +1,5 @@
 export const API_URL = 'http://98.70.0.57/api/'
+
 export const STORAGE_KEY = {
   AUTH_TOKEN: 'accessToken',
   IS_USER_AUTHENTICATED: 'is-user-auth',
