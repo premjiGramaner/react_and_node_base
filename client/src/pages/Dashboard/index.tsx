@@ -28,7 +28,8 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   )
   const [searchInput, setSearchInput] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const pageSize = 10
+  const [paginationSize, setPaginationSize] = useState<number>(10)
+  const pageSize = Number.isNaN(paginationSize) ? 10 : paginationSize
 
   useEffect(() => {
     if (!IS_USER_AUTHENTICATED()) {
@@ -84,7 +85,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return dashboardData?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, dashboardData])
+  }, [currentPage, dashboardData, paginationSize])
 
   return (
     <div className="dashboard-page-main-container">
@@ -112,9 +113,8 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
                 className="pagination-bar"
                 currentPage={currentPage}
                 totalCount={dashboardData.length}
-                pageSize={pageSize}
+                paginationSize={size => setPaginationSize(size)}
                 onPageChange={page => setCurrentPage(page)}
-                paginationValue={data => data}
               />
             </>
           ) : (

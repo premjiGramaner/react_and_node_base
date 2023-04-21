@@ -67,6 +67,16 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                   tabelData?.runState === 'RUN_STATE_SUSPECT') &&
                 'disable-btn'
               }
+              ${
+                tabelData?.status === 'UNSPECIFIED' &&
+                tabelData?.runState === 'RUN_STATE_ONLINE' &&
+                'enable-session-btn'
+              }
+              ${
+                tabelData?.status === 'UNSPECIFIED' &&
+                tabelData?.runState !== 'RUN_STATE_ONLINE' &&
+                'disable-session-btn'
+              }
                 `}
               data-toggle="modal"
               data-target="#myModal"

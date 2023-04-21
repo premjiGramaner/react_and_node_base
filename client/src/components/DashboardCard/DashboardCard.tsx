@@ -10,13 +10,8 @@ import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { URLS } from '@Utils/constants'
 import { fetchProjectInfo, fetchEdgeNode } from '@Reducers/index'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
-import {
-  EdgeNodeDisable,
-  EdgeNodeEnable,
-  EdgeAppInstanceDisable,
-  EdgeAppInstanceEnable,
-} from '@Assets/images'
-
+import { EdgeNodeDisable, EdgeNodeEnable } from '@Assets/images'
+import { EdgeAppInstanceEnable, EdgeAppInstanceDisable } from '@Assets/svg'
 const DashboardCard: React.FC<
   IDashboardCardInterface & IDefaultPageProps
 > = props => {
