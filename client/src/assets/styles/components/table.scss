@@ -117,7 +117,8 @@
           letter-spacing: 0.016rem;
           width: 7.375rem;
 
-          &.disable-btn {
+          &.disable-btn,
+          &.disable-session-btn {
             background-color: $unspecifiedBgColor !important;
             color: $unspecifiedTextColor;
             pointer-events: none;
@@ -127,6 +128,9 @@
             background-color: $white;
           }
           &.ACTIVE {
+            background-color: $white;
+          }
+          &.enable-session-btn {
             background-color: $white;
           }
         }
