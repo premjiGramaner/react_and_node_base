@@ -2,7 +2,10 @@
   padding-right: 0;
   padding-left: 0;
 }
+
 .login-page-main-container {
+  position: relative;
+
   .zd-login-desc {
     font-family: $font-default;
     font-size: 1rem !important;
@@ -10,14 +13,17 @@
     color: $textColorDefault;
     margin-bottom: 2.375rem;
   }
+
   .banner-text {
     position: absolute;
     bottom: 20%;
     left: 15%;
+
     .logo-text {
       color: $white;
       font-size: 2.75rem;
     }
+
     .logo-desc {
       color: $white;
       font-size: 2rem;
@@ -30,10 +36,12 @@
     margin: auto;
     position: relative;
     top: 8%;
+
     .login-logo {
       margin-bottom: 1.125rem;
     }
   }
+
   .token-login {
     font-family: $font-default;
     font-size: 0.875rem;
@@ -43,15 +51,19 @@
     margin-top: 2.125rem;
     margin-bottom: 1.625rem;
   }
+
   .token-login-field {
     margin-bottom: 1.5rem;
   }
+
   .form-error {
+
     .fa-info-circle,
     .error-msg-txt {
       color: $red;
     }
   }
+
   .login-btn {
     width: 100%;
     border-radius: 1.313rem;
@@ -63,8 +75,17 @@
     font-weight: 700;
     letter-spacing: 0.019rem;
   }
+
   .error-msg {
     color: $red;
     padding-bottom: 0.875rem;
   }
+
+  .application-version {
+    position: absolute;
+    right: 1%;
+    bottom: 0;
+    color: $light-gray;
+  }
+
 }

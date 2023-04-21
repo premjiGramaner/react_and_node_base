@@ -11,7 +11,9 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-import { fetchUserEvents } from '@Reducers/userLogEventReducer'
+import { fetchUserEvents } from '@Reducers/userLogEventReducer';
+
+import packageJson from '../../../package.json';
 
 import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
@@ -66,7 +68,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
   return (
     <div className="login-page-main-container w-100 d-flex">
       <div className="col-7 position-relative">
-        <img className="login-banner w-100" src={LoginBg} alt="" />
+        <img className="login-banner w-100" src={LoginBg as any} alt="" />
       </div>
       <div className="col-5">
         <div className="login-form-container">
@@ -133,6 +135,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
           </form>
         </div>
       </div>
+      <div className='application-version'>Version - {packageJson.version}</div>
     </div>
   )
 }
