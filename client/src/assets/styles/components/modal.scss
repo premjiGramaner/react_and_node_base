@@ -32,7 +32,8 @@
     .ACTIVE {
       color: $statusOnline;
     }
-    .INACTIVE {
+    .INACTIVE,
+    .UNSPECIFIED {
       color: $statusOther;
     }
     .status-icon {
@@ -80,7 +81,8 @@
         margin-right: 0.625rem;
       }
       .deactivate-session {
-        &.INACTIVE {
+        &.INACTIVE,
+        &.UNSPECIFIED {
           pointer-events: none;
           opacity: 0.6;
         }

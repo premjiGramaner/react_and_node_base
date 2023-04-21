@@ -65,11 +65,14 @@ const Modal: FC<IDefaultPageProps & IModalInterface> = props => {
                       ? props.t('viewSession.inactive')
                       : sessionState === 'ACTIVE'
                       ? props.t('viewSession.active')
+                      : sessionState === 'UNSPECIFIED'
+                      ? props.t('viewSession.inactive')
                       : ''}
                   </div>
 
                   <div className="session-btn">
-                    {sessionState === 'INACTIVE' ? (
+                    {sessionState === 'INACTIVE' ||
+                    sessionState === 'UNSPECIFIED' ? (
                       <>
                         <button
                           className="inactive-session"
