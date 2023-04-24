@@ -10,6 +10,7 @@ const {
 const getEdgeAppList = async (req, res, next) => {
   try {
     const query = req.query
+    let canQuery = false;
     let url = routes.edgeApp.list + '?'
 
     if (query['next.pageSize']) url += `next.pageSize=${query['next.pageSize']}`
@@ -23,14 +24,17 @@ const getEdgeAppList = async (req, res, next) => {
     if (query['projectName'])
       url += `&projectNamePattern=${query['projectName']}`
 
+    if (query['next.pageNum'] && query['next.pageNum'] == 1) {
+      canQuery = true;
+    }
+
     get(res, url).then(response => response).then(appList => {
       const resAppList = appList.data, tags = [];
 
       let loopDataCount = 0
       resAppList.list.forEach(async item => {
         try {
-          let tagsData = await get(res, routes.edgeApp.deviceStatus.replace('{id}', item.deviceId))
-
+          let tagsData = await get(res, routes.edgeApp.deviceStatus.replace('{id}', item.deviceId));
           await delay(800)
           if (tagsData && tagsData.data && tagsData.data && tagsData.data.tags) {
             const tTags = tagsData.data.tags;
@@ -44,6 +48,8 @@ const getEdgeAppList = async (req, res, next) => {
                     name: tag,
                     appType: 'external',
                     appName: '-',
+                    deviceId: item.deviceId,
+                    deviceName: item.deviceName,
                     runState: 'RUN_STATE_ONLINE',
                     ipAddrs: ipArray[0],
                     protocol: ip.slice(0, ip.indexOf('/')),
@@ -62,9 +68,13 @@ const getEdgeAppList = async (req, res, next) => {
 
         if (resAppList.list.length === loopDataCount) {
           const finalresult = resAppList
-          finalresult['list'] = [...resAppList.list, ...tags]
+          if (canQuery) {
+            finalresult['list'] = [...resAppList.list, ...tags]
+          } else {
+            finalresult['list'] = [...resAppList.list]
+          }
           finalresult.summaryByState.total = finalresult.list.length
-          finalresult.totalCount = finalresult.list.length
+          finalresult.totalCount = resAppList.totalCount + tags.length;
           formatResponse(res, 200, finalresult, 'EdgeApp list fetched successfully!')
         }
       })
@@ -87,49 +97,53 @@ const getEdgeAppById = async (req, res, next) => {
   }
 
   try {
-    let url = routes.edgeApp.byID + id
+    let url = routes.edgeApp.byID + id;
     get(res, url).then(response => response).then(appInfo => {
       const retrunData = appInfo.data
       let loopDataCount = 0
-      retrunData.interfaces.forEach(async (item, index) => {
-        let IPInfo = null, nodeInfo = null
-        let ipCheck = await get(res, routes.edgeApp.localInstanceInfo.replace('{id}', retrunData.interfaces[index].netinstid))
-        await delay(1000)
-        if (ipCheck.data) {
-          if (ipCheck.data.kind === networkStatus.local) {
-            if (ipCheck.data.assignedAdapters.length > 0) {
-              if (!nodeInfo)
-                nodeInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id))
-              if (nodeInfo.data) {
-                IPInfo = (nodeInfo.data.netStatusList || []).find(data => data.ifName === item.intfname)
-                if (IPInfo)
-                  IPInfo = {
-                    ...IPInfo,
-                    isMemberActive: IPInfo.ifName === ipCheck.data.assignedAdapters[0].name,
-                  }
+      if (!retrunData.interfaces.length) {
+        formatResponse(res, 200, retrunData, 'EdgeApp info fetched successfully!')
+      } else {
+        retrunData.interfaces.forEach(async (item, index) => {
+          let IPInfo = null, nodeInfo = null
+          let ipCheck = await get(res, routes.edgeApp.localInstanceInfo.replace('{id}', retrunData.interfaces[index].netinstid))
+          await delay(1000)
+          if (ipCheck.data) {
+            if (ipCheck.data.kind === networkStatus.local) {
+              if (ipCheck.data.assignedAdapters.length > 0) {
+                if (!nodeInfo)
+                  nodeInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id))
+                if (nodeInfo.data) {
+                  IPInfo = (nodeInfo.data.netStatusList || []).find(data => data.ifName === item.intfname)
+                  if (IPInfo)
+                    IPInfo = {
+                      ...IPInfo,
+                      isMemberActive: IPInfo.ifName === ipCheck.data.assignedAdapters[0].name,
+                    }
+                }
               }
+            } else if (ipCheck.data.kind === networkStatus.switch) {
+              const instanceInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id))
+              IPInfo = instanceInfo.data.netStatusList || []
             }
-          } else if (ipCheck.data.kind === networkStatus.switch) {
-            const instanceInfo = await get(res, routes.edgeApp.endgeInstanceInfo.replace('{id}', id))
-            IPInfo = instanceInfo.data.netStatusList || []
-          }
 
-          item['ipInfo'] = IPInfo
-          item['network-kind'] = ipCheck.data ?
-            {
-              id: ipCheck.data.id || '',
-              name: ipCheck.data.name || '',
-              deviceId: ipCheck.data.deviceId || '',
-              projectId: ipCheck.data.projectId || '',
-              kind: ipCheck.data.kind || '',
-            } : null
-          loopDataCount += 1
-        }
-        ipCheck = null
-        if (retrunData.interfaces.length === loopDataCount) {
-          formatResponse(res, 200, retrunData, 'EdgeApp info fetched successfully!')
-        }
-      })
+            item['ipInfo'] = IPInfo
+            item['network-kind'] = ipCheck.data ?
+              {
+                id: ipCheck.data.id || '',
+                name: ipCheck.data.name || '',
+                deviceId: ipCheck.data.deviceId || '',
+                projectId: ipCheck.data.projectId || '',
+                kind: ipCheck.data.kind || '',
+              } : null
+            loopDataCount += 1
+          }
+          ipCheck = null
+          if (retrunData.interfaces.length === loopDataCount) {
+            formatResponse(res, 200, retrunData, 'EdgeApp info fetched successfully!')
+          }
+        })
+      }
     }).catch(err => {
       formatResponse(res, 400, err, 'Failed to get EdgeApp info!')
     })
