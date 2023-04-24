@@ -5,6 +5,7 @@ export interface ILoginReducerState {
   userId?: string
   statusCode?: number
   logoutStatusCode?: number
+  statusResult: boolean
 }
 
 export interface ILoginState {
