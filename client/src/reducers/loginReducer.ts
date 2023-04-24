@@ -50,7 +50,7 @@ export const userLogin: any = createAsyncThunk(
 export const userLogout: any = createAsyncThunk(
   'loginReducer/logout',
   async () => {
-    return new Promise(async (resolve: any) => {
+    return new Promise(async (resolve: any, reject: any) => {
       await fetchClient(getToken(), getClientAccessToken())
         .post(API.users.logout)
         .then(reviseData)
@@ -64,7 +64,9 @@ export const userLogout: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -77,6 +79,7 @@ export const loginReducerInitialState: ILoginReducerState = {
   statusCode: null,
   userId: '',
   logoutStatusCode: null,
+  statusResult: false,
 }
 
 const loginReducer = createSlice({
@@ -86,6 +89,7 @@ const loginReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(userLogin.pending, (state: ILoginReducerState) => {
       state.pending = true
+      state.statusResult = false
     })
     builder.addCase(
       userLogin.fulfilled,
@@ -114,8 +118,12 @@ const loginReducer = createSlice({
         sessionStorage.clear()
         IS_USER_AUTHENTICATED('false')
         localStorage.clear()
+        state.statusResult = false
       }
     )
+    builder.addCase(userLogout.rejected, (state: ILoginReducerState) => {
+      state.statusResult = true
+    })
   },
 })
 

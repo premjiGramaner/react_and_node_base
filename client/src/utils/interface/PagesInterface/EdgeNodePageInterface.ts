@@ -9,6 +9,7 @@ export interface IEdgeNodePageState {
   edgeNodePending?: boolean
   edgeAppPending?: boolean
   statusPending?: boolean
+  statusResult?: boolean
 }
 
 export interface IEdgeNodeInfo {

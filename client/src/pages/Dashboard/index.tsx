@@ -13,6 +13,7 @@ import DropDown from '@Components/DropDown/DropDown'
 import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 import Pagination from '@Components/Pagination/Pagination'
+import Toast from '@Components/Toast/Toast'
 
 const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const projectDetails = useSelector(
@@ -26,6 +27,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const isDashboardPending = useSelector(
     (state: IReducerState) => state.dashboardReducer.dashboardPending
   )
+  const statusResult = useSelector(
+    (state: IReducerState) => state.dashboardReducer.statusResult
+  )
+  const logoutResult = useSelector(
+    (state: IReducerState) => state.loginReducer.statusResult
+  )
+
   const [searchInput, setSearchInput] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [paginationSize, setPaginationSize] = useState<number>(10)
@@ -124,6 +132,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
           )}
         </div>
       </Navigation>
+      {(statusResult || logoutResult) && <Toast {...props} />}
     </div>
   )
 }

@@ -14,7 +14,7 @@ import {
 export const fetchEdgeNodeApp: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/edgeNodeAppData',
   async (payload: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(`${API.appInstance.edgeApps}${payload}`)
         .then(reviseData)
@@ -27,7 +27,9 @@ export const fetchEdgeNodeApp: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -36,7 +38,7 @@ export const fetchEdgeNodeApp: any = createAsyncThunk(
 export const fetchNetworkData: any = createAsyncThunk(
   'edgeNodeAppInstancesReducer/networkData',
   async (id: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(`${API.appInstance.network}${id}`)
         .then(reviseData)
@@ -49,7 +51,9 @@ export const fetchNetworkData: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -72,6 +76,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   networkList: [],
   networkDataPending: false,
   edgeAppPending: false,
+  statusResult: false,
 }
 
 const edgeNodeAppInstanceReducer = createSlice({
@@ -81,21 +86,38 @@ const edgeNodeAppInstanceReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchEdgeNodeApp.pending, (state: IEdgeNodePageState) => {
       state.edgeAppPending = true
+      state.statusResult = false
     }),
       builder.addCase(
         fetchEdgeNodeApp.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.edgeNodeDataList = action.payload?.data?.data?.data
           state.edgeAppPending = false
+          state.statusResult = false
+        }
+      ),
+      builder.addCase(
+        fetchEdgeNodeApp.rejected,
+        (state: IEdgeNodePageState) => {
+          state.statusResult = true
         }
       ),
       builder.addCase(fetchNetworkData.pending, (state: IEdgeNodePageState) => {
         state.networkDataPending = true
+        state.statusResult = false
       }),
       builder.addCase(
         fetchNetworkData.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.networkList = action.payload?.data?.data?.data
+          state.networkDataPending = false
+          state.statusResult = false
+        }
+      ),
+      builder.addCase(
+        fetchNetworkData.rejected,
+        (state: IEdgeNodePageState) => {
+          state.statusResult = true
           state.networkDataPending = false
         }
       ),
@@ -103,6 +125,7 @@ const edgeNodeAppInstanceReducer = createSlice({
         fetchEdgeNodeInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.edgeNodeInfo = action.payload?.data
+          state.statusResult = false
         }
       )
   },

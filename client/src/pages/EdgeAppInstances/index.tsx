@@ -15,6 +15,7 @@ import DropDown from '@Components/DropDown/DropDown'
 import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 import Table from '@Components/Table/Table'
+import Toast from '@Components/Toast/Toast'
 
 import {
   LeftArrowIcon,
@@ -31,7 +32,11 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   const edgeNodeData = useSelector(
     (state: IReducerState) => state.edgeNodeReducer
   )
+  const logoutResult = useSelector(
+    (state: IReducerState) => state.loginReducer.statusResult
+  )
 
+  const [displayNetworkTable, setDisplayNetworkTable] = useState<boolean>(false)
   const [instanceName, setInstanceName] = useState<string>('')
   const [order, setOrder] = useState<string>('ASC')
   const [handlePageCount, setHandlePageCount] = useState<number>(10)
@@ -110,6 +115,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         }' on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
       })
     )
+    setDisplayNetworkTable(true)
   }
 
   const getNetworkData = () => {
@@ -207,6 +213,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         }`
       )
     )
+    setDisplayNetworkTable(false)
   }
 
   const onPrevious = () => {
@@ -220,6 +227,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         }`
       )
     )
+    setDisplayNetworkTable(false)
   }
   const onFirst = () => {
     setSelectedPage(1)
@@ -238,6 +246,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
+    setDisplayNetworkTable(false)
   }
 
   const Pagination = () => {
@@ -281,6 +290,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                         `next.pageSize=${handlePageCount}&next.pageNum=${pageNumber}&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                       )
                     )
+                    setDisplayNetworkTable(false)
                   }}
                   aria-hidden="true"
                 >
@@ -416,27 +426,26 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                     </div>
                   </div>
                 ) : (
-                  <div
-                    className={`d-flex flex-column app-network-table ${
-                      networkDataList.length == 0 && 'invisible'
-                    }`}
-                  >
-                    <p className="fw-bold network-title">{instanceName}</p>
-                    <Table
-                      {...props}
-                      className="network-table"
-                      column={networkTableHeader}
-                      rowContent={networkDataList || []}
-                      isDisplayNavPanel={false}
-                      isPagination={true}
-                    />
-                  </div>
+                  displayNetworkTable && (
+                    <div className={`d-flex flex-column app-network-table`}>
+                      <p className="fw-bold network-title">{instanceName}</p>
+                      <Table
+                        {...props}
+                        className="network-table"
+                        column={networkTableHeader}
+                        rowContent={networkDataList || []}
+                        isDisplayNavPanel={false}
+                        isPagination={true}
+                      />
+                    </div>
+                  )
                 )}
               </div>
             </>
           </div>
         </div>
       </Navigation>
+      {(edgeAppData?.statusResult || logoutResult) && <Toast {...props} />}
     </div>
   )
 }

@@ -9,7 +9,7 @@ import { getClientAccessToken, getToken } from '@Utils/storage'
 export const fetchDashboard: any = createAsyncThunk(
   'dashboardReducer/dashboardData',
   async () => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(API.dashboard.projectCounts)
         .then(reviseData)
@@ -23,7 +23,9 @@ export const fetchDashboard: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -32,7 +34,7 @@ export const fetchDashboard: any = createAsyncThunk(
 export const fetchEdgeDetails: any = createAsyncThunk(
   'dashboardReducer/edgeDetails',
   async () => {
-    return new Promise(async (resolve: any) => {
+    return new Promise(async (resolve: any, reject: any) => {
       await fetchClient(getToken(), getClientAccessToken())
         .get(API.dashboard.status)
         .then(reviseData)
@@ -45,7 +47,9 @@ export const fetchEdgeDetails: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -55,6 +59,7 @@ export const dashboardReducerInitialState: IDashboardCardInterface = {
   dashboardData: [],
   EdgeDetails: [],
   dashboardPending: false,
+  statusResult: false,
 }
 
 const dashboardReducer = createSlice({
@@ -66,6 +71,7 @@ const dashboardReducer = createSlice({
       fetchDashboard.pending,
       (state: IDashboardCardInterface) => {
         state.dashboardPending = true
+        state.statusResult = false
       }
     ),
       builder.addCase(
@@ -73,12 +79,20 @@ const dashboardReducer = createSlice({
         (state: IDashboardCardInterface, action: IDispatchState) => {
           state.dashboardData = action.payload?.data?.data
           state.dashboardPending = false
+          state.statusResult = false
+        }
+      ),
+      builder.addCase(
+        fetchDashboard.rejected,
+        (state: IDashboardCardInterface) => {
+          state.statusResult = true
         }
       ),
       builder.addCase(
         fetchEdgeDetails.fulfilled,
         (state: IDashboardCardInterface, action: IDispatchState) => {
           state.EdgeDetails = action.payload?.data?.data?.data
+          state.statusResult = false
         }
       )
   },
