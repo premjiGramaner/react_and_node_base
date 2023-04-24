@@ -139,12 +139,14 @@ const edgeNodeReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchEdgeNode.pending, (state: IEdgeNodePageState) => {
       state.edgeNodePending = true
+      state.statusResult = false
     }),
       builder.addCase(
         fetchEdgeNode.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.deviceList = action.payload.data.data.data
           state.edgeNodePending = false
+          state.statusResult = false
         }
       ),
       builder.addCase(fetchEdgeNode.rejected, (state: IEdgeNodePageState) => {
@@ -154,12 +156,14 @@ const edgeNodeReducer = createSlice({
         fetchProjectInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.edgeNodeInfo = action.payload.data
+          state.statusResult = false
         }
       )
     builder.addCase(
       fetchEdgeViewStatus.pending,
       (state: IEdgeNodePageState) => {
         state.statusPending = true
+        state.statusResult = false
       }
     )
     builder.addCase(
@@ -167,6 +171,7 @@ const edgeNodeReducer = createSlice({
       (state: IEdgeNodePageState, action: IDispatchState) => {
         state.edgeSessionStatus = action.payload.data.data.data.state
         state.statusPending = false
+        state.statusResult = false
       }
     )
     builder.addCase(
@@ -177,9 +182,11 @@ const edgeNodeReducer = createSlice({
     )
     builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {
       state.sessionPending = true
+      state.statusResult = false
     })
     builder.addCase(sessionStatus.fulfilled, (state: IEdgeNodePageState) => {
       state.sessionPending = false
+      state.statusResult = false
     })
     builder.addCase(sessionStatus.rejected, (state: IEdgeNodePageState) => {
       state.statusResult = true

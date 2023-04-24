@@ -71,6 +71,7 @@ const dashboardReducer = createSlice({
       fetchDashboard.pending,
       (state: IDashboardCardInterface) => {
         state.dashboardPending = true
+        state.statusResult = false
       }
     ),
       builder.addCase(
@@ -78,6 +79,7 @@ const dashboardReducer = createSlice({
         (state: IDashboardCardInterface, action: IDispatchState) => {
           state.dashboardData = action.payload?.data?.data
           state.dashboardPending = false
+          state.statusResult = false
         }
       ),
       builder.addCase(
@@ -90,6 +92,7 @@ const dashboardReducer = createSlice({
         fetchEdgeDetails.fulfilled,
         (state: IDashboardCardInterface, action: IDispatchState) => {
           state.EdgeDetails = action.payload?.data?.data?.data
+          state.statusResult = false
         }
       )
   },

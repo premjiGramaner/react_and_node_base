@@ -125,6 +125,7 @@ const edgeNodeAppInstanceReducer = createSlice({
         fetchEdgeNodeInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
           state.edgeNodeInfo = action.payload?.data
+          state.statusResult = false
         }
       )
   },
