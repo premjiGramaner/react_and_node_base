@@ -1,6 +1,6 @@
 {
   "name": "raa",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "RAA Server",
   "main": "app.js",
   "scripts": {
@@ -17,7 +17,6 @@
   "dependencies": {
     "app-root-path": "^3.0.0",
     "axios": "^1.2.2",
-
     "body-parser": "^1.19.0",
     "concurrently": "^5.1.0",
     "connect-redis": "^6.1.3",
