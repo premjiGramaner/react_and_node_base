@@ -89,6 +89,7 @@ const loginReducer = createSlice({
   extraReducers: builder => {
     builder.addCase(userLogin.pending, (state: ILoginReducerState) => {
       state.pending = true
+      state.statusResult = false
     })
     builder.addCase(
       userLogin.fulfilled,
@@ -117,6 +118,7 @@ const loginReducer = createSlice({
         sessionStorage.clear()
         IS_USER_AUTHENTICATED('false')
         localStorage.clear()
+        state.statusResult = false
       }
     )
     builder.addCase(userLogout.rejected, (state: ILoginReducerState) => {

@@ -56,6 +56,6 @@
     "date": "Date and Time"
   },
   "toastError": {
-    "errorMessage": "Network Failed!"
+    "errorMessage": "Failed to get the details! please try after sometimes."
   }
 }
