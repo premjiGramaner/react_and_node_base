@@ -23,12 +23,16 @@ import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 import Table from '@Components/Table/Table'
 import Modal from '@Components/Modal/Modal'
+import Toast from '@Components/Toast/Toast'
 
 import { CloseIcon } from '@Assets/images'
 
 const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
   const edgeNodeData = useSelector(
     (state: IReducerState) => state.edgeNodeReducer
+  )
+  const logoutResult = useSelector(
+    (state: IReducerState) => state.loginReducer.statusResult
   )
 
   const [sessionDetails, setSessionDetails] = useState<any>()
@@ -286,6 +290,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           />
         </div>
       </Navigation>
+      {(edgeNodeData?.statusResult || logoutResult) && <Toast {...props} />}
     </div>
   )
 }

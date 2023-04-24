@@ -15,7 +15,7 @@ import {
 export const fetchEdgeNode: any = createAsyncThunk(
   'edgeNodeReducer/edgeNodeData',
   async (title: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(`${API.edgeNode.edgeNodes}${title}`)
         .then(reviseData)
@@ -28,7 +28,9 @@ export const fetchEdgeNode: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -37,7 +39,7 @@ export const fetchEdgeNode: any = createAsyncThunk(
 export const downloadScript: any = createAsyncThunk(
   'edgeNodeReducer/downloadScript',
   async (id: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(`${API.edgeNode.downloadScript}${id}`)
         .then(reviseData)
@@ -54,7 +56,9 @@ export const downloadScript: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -63,7 +67,7 @@ export const downloadScript: any = createAsyncThunk(
 export const sessionStatus: any = createAsyncThunk(
   'edgeNodeReducer/sessionStatus',
   async (status: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .put(`${API.edgeNode.sessionStatus}${status}`)
         .then(reviseData)
@@ -76,7 +80,9 @@ export const sessionStatus: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -85,7 +91,7 @@ export const sessionStatus: any = createAsyncThunk(
 export const fetchEdgeViewStatus: any = createAsyncThunk(
   'edgeNodeReducer/edgeViewStatus',
   async (id: string) => {
-    return new Promise((resolve: any) => {
+    return new Promise((resolve: any, reject: any) => {
       fetchClient(getToken(), getClientAccessToken())
         .get(`${API.edgeNode.edgeViewStatus.replace(':id', id)}`)
         .then(reviseData)
@@ -98,7 +104,9 @@ export const fetchEdgeViewStatus: any = createAsyncThunk(
         .catch((response: Error) => {
           const { data } = reviseData(response)
           console.log('API Failed!', data)
-          resolve({ data: [] })
+          reject({
+            data: data,
+          })
         })
     })
   }
@@ -121,6 +129,7 @@ export const edgeNodeReducerInitialState: IEdgeNodePageState = {
   sessionPending: false,
   edgeNodePending: false,
   statusPending: false,
+  statusResult: false,
 }
 
 const edgeNodeReducer = createSlice({
@@ -138,6 +147,9 @@ const edgeNodeReducer = createSlice({
           state.edgeNodePending = false
         }
       ),
+      builder.addCase(fetchEdgeNode.rejected, (state: IEdgeNodePageState) => {
+        state.statusResult = true
+      }),
       builder.addCase(
         fetchProjectInfo.fulfilled,
         (state: IEdgeNodePageState, action: IDispatchState) => {
@@ -157,11 +169,20 @@ const edgeNodeReducer = createSlice({
         state.statusPending = false
       }
     )
+    builder.addCase(
+      fetchEdgeViewStatus.rejected,
+      (state: IEdgeNodePageState) => {
+        state.statusResult = true
+      }
+    )
     builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {
       state.sessionPending = true
     })
     builder.addCase(sessionStatus.fulfilled, (state: IEdgeNodePageState) => {
       state.sessionPending = false
+    })
+    builder.addCase(sessionStatus.rejected, (state: IEdgeNodePageState) => {
+      state.statusResult = true
     })
   },
 })

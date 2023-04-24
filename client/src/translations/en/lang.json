@@ -54,5 +54,8 @@
   "userEvent": {
     "activityLog": "Activity Logs",
     "date": "Date and Time"
+  },
+  "toastError": {
+    "errorMessage": "Network Failed!"
   }
 }
