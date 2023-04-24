@@ -1,6 +1,6 @@
 {
   "name": "raa",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "description": "RAA Server",
   "main": "app.js",
   "scripts": {
