@@ -46,17 +46,15 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
-    dashboarDetails
   }, [])
 
   const combinedData = []
-  const dashboarDetails = projectDetails?.data?.data?.forEach(data => {
+  projectDetails?.data?.data?.forEach(data => {
     const projectStatus = EdgeDetails?.list?.filter(d => d.id === data.id)[0]
-
     const result = {
       title: data.name,
       projectStatus: projectStatus?.status,
-      edgeViewStatus: data?.edgeviewPolicy?.edgeviewPolicy?.edgeviewAllow,
+      edgeViewStatus: !!data?.edgeviewPolicy?.edgeviewPolicy?.edgeviewAllow,
       edgeNodes: data.edgeNodeCount,
       edgeAppInstance: data.edgeAppCount,
       info: data.description,
