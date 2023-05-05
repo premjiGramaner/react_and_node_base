@@ -169,11 +169,13 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         title: data.name,
       })
     )
+
     props.dispatch(
       fetchEdgeNodeApp(
         `next.pageSize=10&next.pageNum=1&deviceName=${data.name}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
+
     props.dispatch(
       fetchUserEvents({
         edgeNode: data.name,
@@ -185,6 +187,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         }' is selected`,
       })
     )
+
     props.navigate(URLS.EDGEAPPINSTANCES)
   }
 
@@ -208,6 +211,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
     })
     setEdgeNodeTableData(searchData)
   }
+
   const sortTable = () => {
     if (order === 'ASC') {
       const sorted = [...edgeNodeTableData].sort((a, b) =>

@@ -11,9 +11,9 @@ import schema from '@Utils/schema/loginValidation'
 import TextBox from '@Components/TextBox/TextBox'
 import Button from '@Components/Button/Button'
 import { userLogin } from '@Reducers/loginReducer'
-import { fetchUserEvents } from '@Reducers/userLogEventReducer';
+import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
-import packageJson from '../../../package.json';
+import packageJson from '../../../package.json'
 
 import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
@@ -135,7 +135,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
           </form>
         </div>
       </div>
-      <div className='application-version'>Version - {packageJson.version}</div>
+      <div className="application-version">Version - {packageJson.version}</div>
     </div>
   )
 }

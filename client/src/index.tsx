@@ -12,6 +12,7 @@ import lang_en from './translations/en/lang.json'
 const container = document.getElementById('root')
 const root = ReactDOM.createRoot(container)
 
+// Multi Language Configuration
 i18next.init({
   interpolation: { escapeValue: false },
   lng: 'en',

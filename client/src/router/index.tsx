@@ -17,6 +17,7 @@ const RouterComponent: React.FC<IDefaultPageProps> = props => {
 
   let authRoutes = null
 
+  /* This will triggered when user is not logged-in */
   if (!IS_USER_AUTHENTICATED()) {
     authRoutes = (
       <AuthWrapper {...props}>
@@ -35,6 +36,7 @@ const RouterComponent: React.FC<IDefaultPageProps> = props => {
     )
   }
 
+  /* This will triggered when user is logged-in */
   if (IS_USER_AUTHENTICATED()) {
     authRoutes = (
       <AuthWrapper {...props}>

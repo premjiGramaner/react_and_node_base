@@ -6,6 +6,7 @@ import '@Assets/styles/style.scss'
 
 import MainRouter from './router'
 
+/* Main Router Injection */
 export default function App(props: any) {
   return (
     <Router>

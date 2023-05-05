@@ -10,7 +10,7 @@ const random = (): number => {
   return !!array.length ? Number('0.' + array[0]) : 0.1
 }
 
-export const guid = (withHyphen: string = '-'): string => {
+export const guid = (withHyphen = '-'): string => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     .replace(/[-]/g, withHyphen)
     .replace(/[xy]/g, c => {
@@ -24,6 +24,7 @@ export const getKey = (): string => {
   return random().toString(36).slice(3, 13)
 }
 
+/* Returns the value from array of object with key object */
 export const getValueFromObject = (object, path, defval = null) => {
   if (typeof path === 'string') path = path.split('.')
   return path.reduce((xs, x) => (xs && xs[x] ? xs[x] : defval), object)

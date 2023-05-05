@@ -1,8 +1,3 @@
-/**
- *  --------------------- Default for All the Pages Interface ---------------------
- * Add a interface that is common for the pages will be Declared here
- */
-
 import { Dispatch } from 'react'
 import { NavigateOptions, To } from 'react-router-dom'
 import { i18n, TFunction } from 'i18next'
