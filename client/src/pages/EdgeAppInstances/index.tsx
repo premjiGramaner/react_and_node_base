@@ -49,10 +49,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setInstanceData(edgeAppData?.edgeNodeDataList?.list)
   }, [edgeAppData])
 
-  useEffect(() => {
-    setNetworkDataList(getNetworkData())
-  }, [edgeAppData.networkList])
-
   const tableHeader = [
     {
       key: 'runState',
@@ -170,6 +166,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       .flat()
     return finalData
   }
+
+  useEffect(() => {
+    setNetworkDataList(getNetworkData())
+  }, [edgeAppData.networkList])
 
   const handleSearch = value => {
     const searchData = edgeAppData?.edgeNodeDataList?.list?.filter(item => {
@@ -386,7 +386,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           <SearchBox
             {...props}
             icon="fa fa-search"
-            handleChange={e => handleSearch(e.target.value)}
+            handlechange={e => handleSearch(e.target.value)}
           />
         </div>
         <DropDown {...props} description={props.t('edgeApp.description')} />

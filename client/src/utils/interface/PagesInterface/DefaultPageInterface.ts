@@ -9,9 +9,9 @@ export interface IDefaultPageProps {
   navigate: (url: To, options?: NavigateOptions) => void
   location: Location
   dispatch: Dispatch<any>
-  isUserAuthenticated: string | void
-  routeInfo: IMenuItem
-  changeColor: (color: string) => void
+  isuserauthenticated: string | void
+  routeinfo: IMenuItem
+  changecolor: (color: string) => void
   color: string
   t: TFunction<'lang', undefined, 'lang'>
   i18n: i18n

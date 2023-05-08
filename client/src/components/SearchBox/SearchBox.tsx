@@ -15,7 +15,7 @@ const SearchBox: React.FC<IDefaultPageProps & ISearchBoxProps> = props => {
             aria-label="Search"
             placeholder={props.t('search.search')}
             aria-describedby="basic-addon1"
-            onChange={props.handleChange}
+            onChange={props.handlechange}
             {...props}
           />
           <figure className="pointer">
