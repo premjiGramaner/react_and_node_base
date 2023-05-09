@@ -62,16 +62,4 @@ app.get('/*', function (request, res) {
     })
 });
 
-/**
- * Initaing the Database Connection
- */
-// sequlizer.sequelize.sync({ force: false }).then(() => {
-//     // inside our db sync callback, we start the server
-//     // this is our way of making sure the server is not listening 
-//     // to requests if we have not made a db connection
-//     app.listen(app.serverPort, () => {
-//         console.log(`server listening on PORT ${app.serverPort}`);
-//     });
-// });
-
 module.exports = app;

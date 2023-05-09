@@ -1,7 +1,6 @@
 const { routes } = require("../helpers/constants")
 const { fetchOptions, post, get } = require("../helpers/fetch")
 const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
-const { loginMock } = require("../helpers/mock/login");
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 

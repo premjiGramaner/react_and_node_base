@@ -104,13 +104,13 @@ const DashboardCard: React.FC<
                     <div className="d-flex px-4 edge-node-color align-items-center">
                       {data?.edgeNodes !== 0 ? (
                         <img
-                          src={EdgeAppInstanceEnable}
+                          src={EdgeAppInstanceEnable as any}
                           className="edge-app-icon"
                           alt=""
                         />
                       ) : (
                         <img
-                          src={EdgeAppInstanceDisable}
+                          src={EdgeAppInstanceDisable as any}
                           className="edge-app-icon"
                           alt=""
                         />

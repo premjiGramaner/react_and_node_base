@@ -5,7 +5,9 @@ import App from './App'
 test('renders learn react link', () => {
   render(<App />)
 
-  const linkElement = screen.getByText('Text Mining')
+  const linkElement = screen.getByText(
+    'Remote Access Application, navigational tree from Project - Edge Node - Edge Node Application with respective information for remote connectivity'
+  )
 
   expect(linkElement).toBeInTheDocument()
 })

@@ -2,12 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import client from '@Utils/axiosConfig'
 
 import { reviseData } from '@Utils/validation'
-import {
-  API,
-  ICoreReducerState,
-  IDispatchState,
-  APICommonResponseMock,
-} from '@Interface/index'
+import { API, ICoreReducerState, IDispatchState } from '@Interface/index'
 
 export const fetchUsers: any = createAsyncThunk(
   'coreReducer/fetchUsers',
@@ -32,30 +27,6 @@ export const fetchUsers: any = createAsyncThunk(
     })
   }
 )
-
-export const updateUser = async (payload: any = {}) => {
-  let urlInstance: any = null
-  if (payload.id) {
-    urlInstance = client.put(API.users.update, payload)
-  } else {
-    urlInstance = client.post(API.users.create, payload)
-  }
-
-  const res: APICommonResponseMock = await urlInstance
-    .then(reviseData)
-    .then((response: any) => response)
-    .catch((response: Error) => response)
-  return res
-}
-
-export const deleteUser = async (payload: any = {}) => {
-  const res: APICommonResponseMock = await client
-    .delete(API.users.delete + payload)
-    .then(reviseData)
-    .then((response: any) => response)
-    .catch((response: Error) => response)
-  return res
-}
 
 export const coreReducerInitialState: ICoreReducerState = {
   userList: [],

@@ -9,7 +9,7 @@ const edgeApps = require('./edgeApps');
 const { validateToken } = require('../middleware')
 const { doLogout } = require('../controllers/login')
 
-/* router List */
+/* main router List */
 router.post("/logout", validateToken, doLogout);
 router.use('/login', loginRouter)
 router.use('/dashboard', dashboardRouter)

@@ -13,10 +13,9 @@ export function withRouter(Child: any) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t, i18n } = useTranslation('lang')
-
     return (
       <ThemeColorWrapper
-        Component={childProp => (
+        component={childProp => (
           <Child
             {...props}
             {...childProp}
@@ -25,7 +24,7 @@ export function withRouter(Child: any) {
             }
             location={location}
             dispatch={dispatch}
-            isUserAuthenticated={IS_USER_AUTHENTICATED()}
+            isuserauthenticated={IS_USER_AUTHENTICATED()}
             t={t}
             i18n={i18n}
           />

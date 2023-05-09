@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense, useEffect } from 'react'
+import React, { Fragment, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { withRouter } from './WithRouter'
@@ -11,13 +11,10 @@ import AuthMenuList from './authMenuList'
 import UnAuthMenuList from './unAuthMenuList'
 
 const RouterComponent: React.FC<IDefaultPageProps> = props => {
-  useEffect(() => {
-    console.log('RouterComponent Initial props', UnAuthMenuList)
-  }, [])
-
   let authRoutes = null
 
-  if (!IS_USER_AUTHENTICATED()) {
+  /* This will triggered when user is not logged-in */
+  if (!Boolean(IS_USER_AUTHENTICATED())) {
     authRoutes = (
       <AuthWrapper {...props}>
         <Routes>
@@ -26,7 +23,7 @@ const RouterComponent: React.FC<IDefaultPageProps> = props => {
               <Route
                 path={route.path}
                 key={getKey()}
-                element={<route.component {...props} routeInfo={route} />}
+                element={<route.component {...props} routeinfo={route} />}
               />
             )
           })}
@@ -35,7 +32,8 @@ const RouterComponent: React.FC<IDefaultPageProps> = props => {
     )
   }
 
-  if (IS_USER_AUTHENTICATED()) {
+  /* This will triggered when user is logged-in */
+  if (Boolean(IS_USER_AUTHENTICATED())) {
     authRoutes = (
       <AuthWrapper {...props}>
         <Routes>
@@ -44,7 +42,7 @@ const RouterComponent: React.FC<IDefaultPageProps> = props => {
               <Route
                 path={route.path}
                 key={getKey()}
-                element={<route.component {...props} routeInfo={route} />}
+                element={<route.component {...props} routeinfo={route} />}
               />
             )
           })}
