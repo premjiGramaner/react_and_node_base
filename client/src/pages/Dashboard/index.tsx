@@ -40,13 +40,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const pageSize = Number.isNaN(paginationSize) ? 10 : paginationSize
 
   useEffect(() => {
-    if (!IS_USER_AUTHENTICATED()) {
+    if (!Boolean(IS_USER_AUTHENTICATED())) {
       props.navigate(URLS.LOGIN)
     }
 
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
-  }, [])
+  }, [props])
 
   const combinedData = []
   projectDetails?.data?.data?.forEach(data => {
@@ -91,7 +91,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return dashboardData?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, dashboardData, paginationSize])
+  }, [currentPage, dashboardData, pageSize])
 
   return (
     <div className="dashboard-page-main-container">
@@ -101,7 +101,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
           <SearchBox
             {...props}
             icon="fa fa-search"
-            handleChange={e => setSearchInput(e.target.value)}
+            handlechange={e => setSearchInput(e.target.value)}
           />
         </div>
         <DropDown {...props} description={props.t('dashboard.description')} />

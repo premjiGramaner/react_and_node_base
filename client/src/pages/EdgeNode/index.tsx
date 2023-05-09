@@ -251,7 +251,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           <SearchBox
             {...props}
             icon="fa fa-search"
-            handleChange={e => handleSearch(e)}
+            handlechange={e => handleSearch(e)}
           />
         </div>
         <DropDown {...props} description={props.t('edgeNode.description')} />

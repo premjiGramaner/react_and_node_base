@@ -36,7 +36,7 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
       )
       props.navigate(URLS.DEFAULT)
     }
-  }, [logoutStatusCode])
+  }, [logoutStatusCode, props, userName])
 
   useEffect(() => {
     setUserName(sessionStorage.getItem('userName'))

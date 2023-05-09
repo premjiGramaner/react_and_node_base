@@ -14,15 +14,15 @@ export const ThemeColorContext = createContext({
 })
 
 export const ThemeColorWrapper = props => {
-  const { Component } = props
-  const [color, setColor] = useState(ThemeColors.blue)
-  const changeColor = (color: string) => {
-    setColor(color)
-  }
+  const [color] = useState(ThemeColors.blue)
 
+  const Component = props.component
+  if (!Component) {
+    return null
+  }
   return (
     <ThemeColorContext.Provider value={{ color: color }}>
-      <Component changeColor={changeColor} color={color} />
+      <Component color={color} />
     </ThemeColorContext.Provider>
   )
 }

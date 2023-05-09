@@ -116,7 +116,7 @@ const loginReducer = createSlice({
         state.userId = action.payload.loginReducerInitialState.userId
         state.userName = action.payload.loginReducerInitialState.userName
         sessionStorage.clear()
-        IS_USER_AUTHENTICATED('false')
+        IS_USER_AUTHENTICATED(false)
         localStorage.clear()
         state.statusResult = false
       }

@@ -25,7 +25,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return rowContent?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, rowContent, paginationSize])
+  }, [currentPage, rowContent, pageSize])
 
   const statusValue = (status: string) => {
     return status == 'RUN_STATE_PROVISIONED'

@@ -41,7 +41,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
     } else if (statusCode === 401 || statusCode === 400) {
       setShowError(true)
     }
-  }, [statusCode])
+  }, [statusCode, props])
 
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =

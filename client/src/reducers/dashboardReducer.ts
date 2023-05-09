@@ -86,6 +86,7 @@ const dashboardReducer = createSlice({
         fetchDashboard.rejected,
         (state: IDashboardCardInterface) => {
           state.statusResult = true
+          state.dashboardPending = false
         }
       ),
       builder.addCase(
