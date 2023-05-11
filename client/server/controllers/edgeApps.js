@@ -1,9 +1,6 @@
 const { routes, networkStatus } = require('../helpers/constants')
-const { fetchOptions, put, get } = require('../helpers/fetch')
+const { put, get } = require('../helpers/fetch')
 const {
-  loginPayloadOptimize,
-  optmizeReq,
-  bindHeaders,
   formatResponse,
 } = require('../helpers/index')
 
@@ -83,7 +80,6 @@ const getEdgeAppList = async (req, res, next) => {
       formatResponse(res, 400, err, 'Failed to get EdgeApp list!')
     })
   } catch (e) {
-    console.log('fail *******', e)
     return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, 'Failed to get project list!')
   }
 }
@@ -148,7 +144,6 @@ const getEdgeAppById = async (req, res, next) => {
       formatResponse(res, 400, err, 'Failed to get EdgeApp info!')
     })
   } catch (e) {
-    console.log('fail *******', e)
     return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, 'Failed to get project list!')
   }
 }
@@ -175,7 +170,6 @@ const updateAppStatus = async (req, res, next) => {
       formatResponse(res, 400, err, 'Failed to Update Device status!')
     })
   } catch (e) {
-    console.log('fail *******', e)
     return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, 'Failed to Update Device status!')
   }
 }
@@ -201,7 +195,6 @@ const downloadAppScript = async (req, res, next) => {
       formatResponse(res, 400, err, 'Failed to downloaded!')
     })
   } catch (e) {
-    console.log('fail *******', e)
     return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, 'Failed to get project list!')
   }
 }

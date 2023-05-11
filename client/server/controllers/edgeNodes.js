@@ -1,9 +1,6 @@
 const { routes } = require("../helpers/constants")
-const { fetchOptions, post, get } = require("../helpers/fetch")
-const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
-const { loginMock } = require("../helpers/mock/login");
-const jwt = require('jsonwebtoken');
-const moment = require('moment');
+const { get } = require("../helpers/fetch")
+const { formatResponse } = require("../helpers/index")
 
 const getEdgeNodeList = async (req, res, next) => {
     try {
@@ -54,7 +51,6 @@ const getEdgeNodeList = async (req, res, next) => {
             formatResponse(res, 400, err, "Failed to get EdgeNode list!");
         });
     } catch (e) {
-        console.log('fail *******', e);
         return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to get EdgeNode list!");
     }
 };
@@ -68,7 +64,6 @@ const getEdgeNodeStatusById = async (req, res, next) => {
             formatResponse(res, 400, err, "Failed to get EdgeNode info!");
         });
     } catch (e) {
-        console.log('fail *******', e);
         return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to get EdgeNode info!");
     }
 };

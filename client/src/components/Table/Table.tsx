@@ -25,7 +25,7 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
     const firstPageIndex = (currentPage - 1) * pageSize
     const lastPageIndex = firstPageIndex + pageSize
     return rowContent?.slice(firstPageIndex, lastPageIndex)
-  }, [currentPage, rowContent, paginationSize])
+  }, [currentPage, rowContent, pageSize])
 
   const statusValue = (status: string) => {
     return status == 'RUN_STATE_PROVISIONED'
@@ -67,17 +67,18 @@ const Table: React.FC<ITableInterface & IDefaultPageProps> = props => {
                   tabelData?.runState === 'RUN_STATE_SUSPECT') &&
                 'disable-btn'
               }
+
               ${
                 tabelData?.status === 'UNSPECIFIED' &&
                 tabelData?.runState === 'RUN_STATE_ONLINE' &&
                 'enable-session-btn'
               }
+
               ${
                 tabelData?.status === 'UNSPECIFIED' &&
                 tabelData?.runState !== 'RUN_STATE_ONLINE' &&
                 'disable-session-btn'
-              }
-                `}
+              }`}
               data-toggle="modal"
               data-target="#myModal"
               onClick={() => tableHeader?.cell(tabelData)}

@@ -25,5 +25,5 @@ export const IS_USER_AUTHENTICATED = (updateAuthenticated?: any) => {
     )
   }
 
-  return localStorage.getItem('isUserAuthenticated') === 'true'
+  return localStorage.getItem('isUserAuthenticated')
 }

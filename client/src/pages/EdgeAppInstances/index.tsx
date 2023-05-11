@@ -49,10 +49,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     setInstanceData(edgeAppData?.edgeNodeDataList?.list)
   }, [edgeAppData])
 
-  useEffect(() => {
-    setNetworkDataList(getNetworkData())
-  }, [edgeAppData.networkList])
-
   const tableHeader = [
     {
       key: 'runState',
@@ -100,6 +96,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     } else {
       props.dispatch(fetchNetworkData(data.id))
     }
+
     setInstanceName(data.name)
     props.dispatch(
       fetchUserEvents({
@@ -110,9 +107,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         appInstance: data.name,
         description: `User ${sessionStorage.getItem(
           'userName'
-        )} - selected Edge App '${data.name}' of Edge Node '${
-          edgeAppData?.edgeNodeInfo.title
-        }' on project '${edgeNodeData?.edgeNodeInfo?.title}'`,
+        )} - selected Edge App '${data.name}' 
+        of Edge Node '${edgeAppData?.edgeNodeInfo.title}' on project '${
+          edgeNodeData?.edgeNodeInfo?.title
+        }'`,
       })
     )
     setDisplayNetworkTable(true)
@@ -145,6 +143,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           Object.keys(tableItem).length > 3 && tableData.push(tableItem)
         })
       }
+
       return tableData
     }
 
@@ -167,6 +166,10 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
       .flat()
     return finalData
   }
+
+  useEffect(() => {
+    setNetworkDataList(getNetworkData())
+  }, [edgeAppData.networkList])
 
   const handleSearch = value => {
     const searchData = edgeAppData?.edgeNodeDataList?.list?.filter(item => {
@@ -196,49 +199,52 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const paginationRange = Array?.from(
-    {
-      length: edgeAppData?.edgeNodeDataList?.next?.totalPages,
-    },
+    { length: edgeAppData?.edgeNodeDataList?.next?.totalPages },
     (_, i) => i + 1
   )
 
   const onNext = () => {
     setSelectedPage(selectedPage + 1)
+
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${
-          selectedPage + 1
-        }&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+        `next.pageSize=${handlePageCount}&next.pageNum=${selectedPage + 1}
+        &deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
           edgeNodeData?.edgeNodeInfo?.title
         }`
       )
     )
+
     setDisplayNetworkTable(false)
   }
 
   const onPrevious = () => {
     setSelectedPage(selectedPage - 1)
+
     props.dispatch(
       fetchEdgeNodeApp(
-        `next.pageSize=${handlePageCount}&next.pageNum=${
-          selectedPage - 1
-        }&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
+        `next.pageSize=${handlePageCount}&next.pageNum=${selectedPage - 1}
+        &deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${
           edgeNodeData?.edgeNodeInfo?.title
         }`
       )
     )
+
     setDisplayNetworkTable(false)
   }
+
   const onFirst = () => {
     setSelectedPage(1)
     props.dispatch(
       fetchEdgeNodeApp(
         `next.pageSize=${handlePageCount}&next.pageNum=${1}&deviceName=${
           edgeAppData?.edgeNodeInfo?.title
-        }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+        }
+        &projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
   }
+
   const onLast = () => {
     setSelectedPage(paginationRange.length)
     props.dispatch(
@@ -246,6 +252,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         `next.pageSize=${handlePageCount}&next.pageNum=${paginationRange.length}&deviceName=${edgeAppData?.edgeNodeInfo?.title}&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
       )
     )
+
     setDisplayNetworkTable(false)
   }
 
@@ -336,7 +343,8 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
                       event.target.value
                     )}&next.pageNum=1&deviceName=${
                       edgeAppData?.edgeNodeInfo?.title
-                    }&projectName=${edgeNodeData?.edgeNodeInfo?.title}`
+                    }
+                    &projectName=${edgeNodeData?.edgeNodeInfo?.title}`
                   )
                 )
                 setHandlePageCount(parseInt(event.target.value))
@@ -378,7 +386,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
           <SearchBox
             {...props}
             icon="fa fa-search"
-            handleChange={e => handleSearch(e.target.value)}
+            handlechange={e => handleSearch(e.target.value)}
           />
         </div>
         <DropDown {...props} description={props.t('edgeApp.description')} />
