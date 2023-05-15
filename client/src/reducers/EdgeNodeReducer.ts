@@ -151,6 +151,7 @@ const edgeNodeReducer = createSlice({
       ),
       builder.addCase(fetchEdgeNode.rejected, (state: IEdgeNodePageState) => {
         state.statusResult = true
+        state.edgeNodePending = false
       }),
       builder.addCase(
         fetchProjectInfo.fulfilled,
@@ -178,6 +179,8 @@ const edgeNodeReducer = createSlice({
       fetchEdgeViewStatus.rejected,
       (state: IEdgeNodePageState) => {
         state.statusResult = true
+        state.sessionPending = false
+        state.statusPending = false
       }
     )
     builder.addCase(sessionStatus.pending, (state: IEdgeNodePageState) => {
@@ -190,6 +193,7 @@ const edgeNodeReducer = createSlice({
     })
     builder.addCase(sessionStatus.rejected, (state: IEdgeNodePageState) => {
       state.statusResult = true
+      state.sessionPending = false
     })
   },
 })

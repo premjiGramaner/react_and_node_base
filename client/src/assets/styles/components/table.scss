@@ -185,6 +185,7 @@
         }
         &:first-child {
           padding-left: 2.5rem;
+          border-right: 0;
           .table-data {
             justify-content: start !important;
           }

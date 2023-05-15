@@ -70,7 +70,6 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
     {
       key: 'ipAddrs',
       name: 'IP Address',
-      isSort: true,
     },
     {
       key: 'intfname',
