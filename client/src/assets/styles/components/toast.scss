@@ -5,5 +5,11 @@
     bottom: 0;
     right: 0;
     background-color: $red !important;
+    z-index: 9999;
+    .btn-close {
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }
