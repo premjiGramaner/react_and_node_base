@@ -100,6 +100,7 @@ const edgeNodeAppInstanceReducer = createSlice({
         fetchEdgeNodeApp.rejected,
         (state: IEdgeNodePageState) => {
           state.statusResult = true
+          state.edgeAppPending = false
         }
       ),
       builder.addCase(fetchNetworkData.pending, (state: IEdgeNodePageState) => {
