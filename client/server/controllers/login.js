@@ -32,7 +32,7 @@ const doLogin = async (req, res, next) => {
                 "password": payload.password
             }), bindHeaders(req));
 
-            let jwtSecretKey = process.env.JWT_SECRET_KEY || "raa-jwt@2020$";
+            let jwtSecretKey = process.env.JWT_SECRET_KEY || "zea-jwt@2020$";
             let tokenReq = {
                 expire: new Date(moment().add(1, "hours")).getTime(),
                 canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),

@@ -38,7 +38,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     ...(process.env.NODE_ENV === "production" && {
-        name: '_raa',
+        name: '_zea',
         store: new redisStore({
             host: 'localhost',
             port: 6379,

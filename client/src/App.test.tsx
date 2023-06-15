@@ -6,7 +6,7 @@ test('renders learn react link', () => {
   render(<App />)
 
   const linkElement = screen.getByText(
-    'Remote Access Application, navigational tree from Project - Edge Node - Edge Node Application with respective information for remote connectivity'
+    'Zededa Edge Access, navigational tree from Project - Edge Node - Edge Node Application with respective information for remote connectivity'
   )
 
   expect(linkElement).toBeInTheDocument()

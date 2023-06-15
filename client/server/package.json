@@ -1,7 +1,7 @@
 {
-  "name": "raa",
-  "version": "1.0.13",
-  "description": "RAA Server",
+  "name": "zea",
+  "version": "1.0.14",
+  "description": "ZEA Server",
   "main": "app.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
@@ -12,7 +12,7 @@
     "linux": "cd client && npm install && npm run build",
     "dev": "node --inspect app.js"
   },
-  "author": "RAA - Development team",
+  "author": "ZEA - Development team",
   "license": "ISC",
   "dependencies": {
     "app-root-path": "^3.0.0",

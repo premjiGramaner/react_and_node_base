@@ -1,7 +1,7 @@
 {
-  "name": "raa",
-  "version": "1.0.13",
-  "description": "RAA Client",
+  "name": "zea",
+  "version": "1.0.14",
+  "description": "ZEA Client",
   "main": "index.js",
   "scripts": {
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev",
@@ -20,7 +20,7 @@
     ]
   },
   "keywords": [],
-  "author": "RAA - Development team",
+  "author": "ZEA - Development team",
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.1",
