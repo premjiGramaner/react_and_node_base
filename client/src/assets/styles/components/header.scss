@@ -4,19 +4,27 @@
   background-image: url('~/src/assets/svg/headerBg.svg');
 
   color: $white;
+
   .header-logo {
-    width: 3rem;
+    width: auto;
+    font-family: $font-default;
+    font-size: 22px;
+    font-weight: bold;
   }
+
   .user-name {
     font-family: $font-default;
     font-size: 1rem;
   }
+
   .icon-size {
     font-size: 1.75rem;
+
     &:hover {
       cursor: pointer;
     }
   }
+
   .help-icon {
     width: 1.5rem;
     height: 1.5rem;
