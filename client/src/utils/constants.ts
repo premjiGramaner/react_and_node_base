@@ -18,3 +18,4 @@ export const enum URLS {
   EDGENODE = '/egde-nodes',
   EDGEAPPINSTANCES = '/edge-app-instances',
 }
+ 
