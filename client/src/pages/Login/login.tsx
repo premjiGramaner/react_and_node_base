@@ -72,7 +72,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
       </div>
       <div className="col-5">
         <div className="login-form-container">
-          <Logo />
+          <div className='header-logo'>Zededa Edge Access</div>
           <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
             <TextBox

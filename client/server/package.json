@@ -1,11 +1,12 @@
 {
   "name": "zea",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "ZEA Server",
   "main": "app.js",
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "SET NODE_ENV=development&& nodemon -r dotenv/config ./bin/www",
+    "server-mac": "NODE_ENV=development&& nodemon -r dotenv/config ./bin/www",
     "server-prod": "NODE_ENV=development&& nodemon ./bin/www",
     "prod": "NODE_ENV=production&& nodemon -r dotenv/config ./bin/www",
     "client": "cd client && npm install && npm run build",
