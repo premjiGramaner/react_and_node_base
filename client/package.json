@@ -1,6 +1,6 @@
 {
   "name": "zea",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "ZEA Client",
   "main": "index.js",
   "scripts": {
