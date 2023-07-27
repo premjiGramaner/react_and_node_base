@@ -12,4 +12,5 @@ export interface ILoginState {
   user?: string
   password?: string
   token?: string
+  cluster?:string
 }

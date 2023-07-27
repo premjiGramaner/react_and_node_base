@@ -47,7 +47,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
     const loginPayload =
       loginValues.token.length > 0
         ? { token: loginValues.token, accessWithToken: true }
-        : { username: loginValues.user, password: loginValues.password }
+        : { username: loginValues.user, password: loginValues.password,cluster:loginValues.cluster||"" }
     props.dispatch(userLogin(loginPayload))
   }
 
@@ -56,7 +56,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   const { values, handleChange, handleSubmit, errors, touched } = useFormik({
-    initialValues: { user: '', password: '', token: '' },
+    initialValues: { user: '', password: '', token: '', cluster: '' },
     validationSchema: schema,
     validateOnChange: true,
     validateOnBlur: false,
@@ -72,7 +72,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
       </div>
       <div className="col-5">
         <div className="login-form-container">
-          <div className='header-logo'>Zededa Edge Access</div>
+          <div className="header-logo">Zededa Edge Access</div>
           <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
             <TextBox
@@ -106,7 +106,14 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
                 <span className="error-msg-txt">{errors.password}</span>
               </p>
             ) : null}
-
+            <TextBox
+              type="text"
+              name="cluster"
+              value={values.cluster}
+              labelName={props.t('login.cluster')}
+              placeHolder={props.t('login.cluster')}
+              handleInputChange={handleChange}
+            />
             <h3 className="token-login">{props.t('login.or')}</h3>
 
             <TextBox
