@@ -6,6 +6,8 @@ const {
 const baseURL = (type) => {
     if (!type) {
         return API_URL;
+    } else {
+        return type;
     }
 }
 
