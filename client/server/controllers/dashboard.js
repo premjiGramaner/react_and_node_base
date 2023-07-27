@@ -5,7 +5,7 @@ const { transform } = require("../helpers/transformer")
 
 const getProjectsList = async (req, res, next) => {
     try {
-        get(res, routes.projects.list).then((response) => transform(baseURL(), 'projects', response.data)).then((projectList) => {
+        get(res, routes.projects.list).then((response) => transform(baseURL(res.locals.cluster), 'projects', response.data)).then((projectList) => {
             formatResponse(res, 200, projectList, "Project list fetched successfully!");
         }).catch((err) => {
             formatResponse(res, 500, err, "Failed to get project list!");
@@ -44,7 +44,7 @@ const appendCountOnprojects = (res, projects = {}) => {
 const getProjectsWithCount = async (req, res, next) => {
     try {
         get(res, routes.projects.list)
-            .then((response) => transform(baseURL(), 'projects', response.data))
+            .then((response) => transform(baseURL(res.locals.cluster), 'projects', response.data))
             .then(async (projectList) => {
                 const projects = await appendCountOnprojects(res, projectList);
                 formatResponse(res, 200, projects, "Project list fetched successfully!");

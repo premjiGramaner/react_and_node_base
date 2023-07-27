@@ -30,6 +30,7 @@ const validateToken = (req, res, next) => {
             if (verified) {
                 var decoded = jwt.decode(token);
                 res.locals.tokenInfo = decoded;
+                res.locals.cluster = decoded.cluster;
 
                 const client_token = req.headers['client-access-token'] || null;
                 if (client_token) {

@@ -1,3 +1,6 @@
+const {
+    CLUSTER_INFO
+} = require("../default-constant");
 
 function errorHandler(err, req, res, next) {
     console.log('********* Middleware error **********', err);
@@ -60,4 +63,14 @@ const convertCircular = () => {
     };
 };
 
-module.exports = { errorHandler, formatResponse, loginPayloadOptimize, convertCircular, optmizeReq, bindHeaders };
+const getClusterHost = (cluster) => {
+    if (cluster && CLUSTER_INFO[cluster]) {
+        return (`https://${CLUSTER_INFO[cluster]}/api/`);
+    } else if (!cluster) {
+        return (`https://${CLUSTER_INFO["Prod"]}/api/`);
+    }
+
+    return undefined;
+}
+
+module.exports = { errorHandler, formatResponse, loginPayloadOptimize, convertCircular, optmizeReq, bindHeaders, getClusterHost };

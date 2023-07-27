@@ -1,6 +1,6 @@
 const { routes } = require("../helpers/constants")
 const { fetchOptions, post, get } = require("../helpers/fetch")
-const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse } = require("../helpers/index")
+const { loginPayloadOptimize, optmizeReq, bindHeaders, formatResponse, getClusterHost } = require("../helpers/index")
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
@@ -20,14 +20,19 @@ const getLogedInUserInfo = async (req, res, next) => {
 const doLogin = async (req, res, next) => {
     try {
         const payload = req.body || {}
+        const cluster = getClusterHost(payload.cluster);
+        if (!cluster) {
+            return formatResponse(res, 400, null, "Provided Cluster is not exist.");
+        }
+
         if (!!(payload.username && payload.password)) {
-            const optionReq = await fetchOptions(routes.login, 'options', loginPayloadOptimize({
+            const optionReq = await fetchOptions(cluster, routes.login, 'options', loginPayloadOptimize({
                 "usernameAtRealm": payload.username,
                 "password": payload.password
             }), { Connection: 'keep-alive' });
             req = optmizeReq(req, optionReq);
 
-            const loginPost = await post(res, routes.login, loginPayloadOptimize({
+            const loginPost = await post(res, `${cluster}version${routes.login}`, loginPayloadOptimize({
                 "usernameAtRealm": payload.username,
                 "password": payload.password
             }), bindHeaders(req));
@@ -37,6 +42,7 @@ const doLogin = async (req, res, next) => {
                 expire: new Date(moment().add(1, "hours")).getTime(),
                 canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
                 user: loginPost.data.detailedUser || null,
+                cluster
             }
 
             const token = jwt.sign(tokenReq, jwtSecretKey);
@@ -46,7 +52,6 @@ const doLogin = async (req, res, next) => {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
         }
     } catch (e) {
-        console.log('demo test', e)
         formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to login!");
     }
 };
@@ -63,7 +68,7 @@ const doLoginWithToken = async (req, res, next) => {
                 formatResponse(res, 400, data, "The requested resource was not found on this server!");
             } else {
                 const userResponse = {};
-                let jwtSecretKey = process.env.JWT_SECRET_KEY||"test-jwt@2020$";
+                let jwtSecretKey = process.env.JWT_SECRET_KEY || "test-jwt@2020$";
                 let tokenReq = {
                     expire: new Date(moment().add(1, "hours")).getTime(),
                     canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
@@ -84,7 +89,6 @@ const doLoginWithToken = async (req, res, next) => {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
         }
     } catch (e) {
-        console.log('demo test', e)
         formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to login!");
     }
 };
@@ -94,7 +98,7 @@ const doLogout = async (req, res, next) => {
         const logOutPost = await post(res, routes.logout);
         return formatResponse(res, 200, logOutPost.data, "Session Logged out successfully!");
     } catch (e) {
-        return formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to log out!");
+        return formatResponse(res, e.response?.data?.httpStatusCode || 400, e.response?.data || {}, "Failed to log out!");
     }
 };
 
