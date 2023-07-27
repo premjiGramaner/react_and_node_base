@@ -3,6 +3,7 @@
     "title": "Navigational tree from Project - Edge Node - Edge Node Application with respective information for remote connectivity",
     "userName": "Username",
     "password": "Password",
+    "cluster":"Cluster",
     "or": "OR",
     "token": "Token",
     "login": "LOGIN",
