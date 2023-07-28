@@ -19,7 +19,7 @@ import { LoginBg } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps> = props => {
-  const { statusCode, pending } = useSelector(
+  const { statusCode, pending,message } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -126,7 +126,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
               handleInputChange={handleChange}
             />
             {showError && (
-              <p className="error-msg">{props.t('login.errorMessage')}</p>
+              <p className="error-msg">{message}</p>
             )}
             <Button className="login-btn">
               {pending ? (
