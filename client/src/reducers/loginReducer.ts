@@ -14,24 +14,45 @@ import {
   IS_USER_AUTHENTICATED,
 } from '@Utils/storage'
 
-export const userLogin = createAsyncThunk(
-  "loginReducer/login",
+export const userLogin: any = createAsyncThunk(
+  'loginReducer/login',
+
   async (loginPayload: ILoginState, { rejectWithValue }) => {
-    try {
-      const response = await client.post(
-                  loginPayload.token ? API.users.tokenLogin : API.users.create,
-                  loginPayload
-                );
-      const data = response;
-      getClientAccessToken(data?.data?.data?.token?.base64);
-      getToken(data?.data?.loginToken);
-      sessionStorage.setItem("userName", data?.data?.data?.detailedUser?.firstName || "");
-      return data;
-    } catch (response) {
-      return rejectWithValue(response.response.data);
-    }
+    return new Promise((resolve: any, reject: any) => {
+      client
+        .post(
+          loginPayload.token ? API.users.tokenLogin : API.users.create,
+          loginPayload
+        )
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+
+          if (!data.error) {
+            getClientAccessToken(data?.data?.data?.token?.base64)
+            getToken(data?.data?.loginToken)
+            sessionStorage.setItem(
+              'userName',
+              data?.data?.data?.detailedUser?.firstName || ''
+            )
+            resolve({
+              data: data || [],
+              loginReducerInitialState,
+            })
+          }
+        })
+
+        .catch((response: Error) => {
+          resolve(
+            rejectWithValue({
+              error: reviseData(response),
+              loginReducerInitialState,
+            })
+          )
+        })
+    })
   }
-);
+)
 export const userLogout: any = createAsyncThunk(
   'loginReducer/logout',
   async () => {
@@ -62,7 +83,7 @@ export const loginReducerInitialState: ILoginReducerState = {
   userName: '',
   token: '',
   statusCode: null,
-  message:'',
+  message: '',
   userId: '',
   logoutStatusCode: null,
   statusResult: false,
@@ -73,28 +94,33 @@ const loginReducer = createSlice({
   initialState: loginReducerInitialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(userLogin.pending, (state: ILoginReducerState, action: IDispatchState) => {
-      state.pending = true
-      state.statusResult = false
-    })
+    builder.addCase(
+      userLogin.pending,
+      (state: ILoginReducerState, action: IDispatchState) => {
+        state.pending = true
+        state.statusResult = false
+      }
+    )
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
         state.token = action.payload.data?.data?.loginToken
         state.pending = false
         state.statusCode = action.payload.data.statusCode
-        state.message=action?.payload?.message
+        state.message = action?.payload?.message
         state.userId = action.payload.data?.data?.userId
         state.logoutStatusCode =
           action.payload.loginReducerInitialState.logoutStatusCode
       }
     )
     builder.addCase(
-      userLogin.rejected, (state: ILoginReducerState, action: IDispatchState) => {
-      state.statusCode = 400
-      state.pending = false
-      state.message=action?.payload?.message
-    }
+      userLogin.rejected,
+      (state: ILoginReducerState, action: IDispatchState) => {
+        console.log('action', action)
+        state.statusCode = 400
+        state.pending = false
+        state.message = action?.payload?.error?.message
+      }
     )
     builder.addCase(
       userLogout.fulfilled,
@@ -116,6 +142,5 @@ const loginReducer = createSlice({
     })
   },
 })
-
 
 export default loginReducer.reducer

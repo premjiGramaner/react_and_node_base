@@ -30,6 +30,14 @@ export const reviseData = (response: any) => {
         message: reqData?.message,
         statusCode: reqData?.responseCode || reqData?.status,
       }
+    } else if (response && response.hasOwnProperty('response')) {
+      const reqData = response?.response?.data || null
+      return {
+        data: reqData?.data,
+        error: false,
+        message: reqData?.message,
+        statusCode: reqData?.responseCode || reqData?.status,
+      }
     } else {
       return {
         error: true,
