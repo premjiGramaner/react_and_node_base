@@ -4,6 +4,7 @@ export interface ILoginReducerState {
   token: string
   userId?: string
   statusCode?: number
+  message?:string
   logoutStatusCode?: number
   statusResult: boolean
 }

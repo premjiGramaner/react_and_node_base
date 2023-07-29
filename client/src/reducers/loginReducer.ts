@@ -16,7 +16,8 @@ import {
 
 export const userLogin: any = createAsyncThunk(
   'loginReducer/login',
-  async (loginPayload: ILoginState) => {
+
+  async (loginPayload: ILoginState, { rejectWithValue }) => {
     return new Promise((resolve: any, reject: any) => {
       client
         .post(
@@ -40,13 +41,18 @@ export const userLogin: any = createAsyncThunk(
             })
           }
         })
+
         .catch((response: Error) => {
-          reject({ error: reviseData(response), loginReducerInitialState })
+          resolve(
+            rejectWithValue({
+              error: reviseData(response),
+              loginReducerInitialState,
+            })
+          )
         })
     })
   }
 )
-
 export const userLogout: any = createAsyncThunk(
   'loginReducer/logout',
   async () => {
@@ -77,6 +83,7 @@ export const loginReducerInitialState: ILoginReducerState = {
   userName: '',
   token: '',
   statusCode: null,
+  message: '',
   userId: '',
   logoutStatusCode: null,
   statusResult: false,
@@ -87,25 +94,34 @@ const loginReducer = createSlice({
   initialState: loginReducerInitialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(userLogin.pending, (state: ILoginReducerState) => {
-      state.pending = true
-      state.statusResult = false
-    })
+    builder.addCase(
+      userLogin.pending,
+      (state: ILoginReducerState, action: IDispatchState) => {
+        state.pending = true
+        state.statusResult = false
+      }
+    )
     builder.addCase(
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
         state.token = action.payload.data?.data?.loginToken
         state.pending = false
         state.statusCode = action.payload.data.statusCode
+        state.message = action?.payload?.message
         state.userId = action.payload.data?.data?.userId
         state.logoutStatusCode =
           action.payload.loginReducerInitialState.logoutStatusCode
       }
     )
-    builder.addCase(userLogin.rejected, (state: ILoginReducerState) => {
-      state.statusCode = 400
-      state.pending = false
-    })
+    builder.addCase(
+      userLogin.rejected,
+      (state: ILoginReducerState, action: IDispatchState) => {
+        console.log('action', action)
+        state.statusCode = 400
+        state.pending = false
+        state.message = action?.payload?.error?.message
+      }
+    )
     builder.addCase(
       userLogout.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
