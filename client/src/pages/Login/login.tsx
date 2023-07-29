@@ -114,7 +114,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
               placeHolder={props.t('login.cluster')}
               handleInputChange={handleChange}
             />
-            <h3 className="token-login">{props.t('login.or')}</h3>
+            {/* <h3 className="token-login">{props.t('login.or')}</h3>
 
             <TextBox
               type="text"
@@ -124,7 +124,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
               labelName={props.t('login.token')}
               placeHolder={props.t('login.token')}
               handleInputChange={handleChange}
-            />
+            /> */}
             {showError && (
               <p className="error-msg">{message}</p>
             )}
