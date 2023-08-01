@@ -63,11 +63,12 @@ const convertCircular = () => {
     };
 };
 
-const getClusterHost = (cluster) => {
+const getClusterHost = (host) => {
+    const cluster = host ? String(host).toLowerCase() : undefined;
     if (cluster && CLUSTER_INFO[cluster]) {
         return (`https://${CLUSTER_INFO[cluster]}/api/`);
     } else if (!cluster) {
-        return (`https://${CLUSTER_INFO["Prod"]}/api/`);
+        return (`https://${CLUSTER_INFO["prod"]}/api/`);
     }
 
     return undefined;

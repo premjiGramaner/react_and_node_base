@@ -52,7 +52,7 @@ const doLogin = async (req, res, next) => {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
         }
     } catch (e) {
-        formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to login!");
+        formatResponse(res, e.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to login!");
     }
 };
 

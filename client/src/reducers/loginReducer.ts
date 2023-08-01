@@ -69,7 +69,6 @@ export const userLogout: any = createAsyncThunk(
         })
         .catch((response: Error) => {
           const { data } = reviseData(response)
-          console.log('API Failed!', data)
           reject({
             data: data,
           })
@@ -116,7 +115,6 @@ const loginReducer = createSlice({
     builder.addCase(
       userLogin.rejected,
       (state: ILoginReducerState, action: IDispatchState) => {
-        console.log('action', action)
         state.statusCode = 400
         state.pending = false
         state.message = action?.payload?.error?.message
