@@ -1,6 +1,6 @@
 {
   "name": "zea",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "ZEA Server",
   "main": "app.js",
   "scripts": {
