@@ -1,0 +1,41 @@
+.tooltip-border {
+  .infoImage {
+    width: 1.438rem;
+    height: 1.438rem;
+  }
+  .dropdown {
+    position: relative;
+    &:hover::after {
+      content: '';
+      position: absolute;
+      top: 55%;
+      left: 55%;
+      transform: translateX(-50%) rotate(180deg);
+      border: 0.9375rem solid $white;
+      border-color: rgb(233, 230, 230) transparent transparent transparent;
+      z-index: 3;
+    }
+    &:hover::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      top: 3.25rem;
+      left: 0;
+      transform: translateX(-50%) translateY(-10px);
+      background-color: $white;
+      color: $black;
+      padding: 1rem;
+      border-radius: 0.3125rem;
+      box-shadow: 0.188rem 0.125rem 0.875rem 0.188rem rgba(220, 220, 220, 0.5);
+      opacity: 1;
+      white-space: normal;
+      text-align: center;
+      z-index: 1;
+      font-size: 0.75rem;
+      letter-spacing: 0;
+      line-height: 0.938rem;
+      width: 13.75rem;
+      height: auto;
+      border-radius: 0.313rem;
+    }
+  }
+}

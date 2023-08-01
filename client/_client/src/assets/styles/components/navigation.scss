@@ -1,0 +1,35 @@
+.navigation-container {
+  .navigation-links {
+    background-color: $navBackgroundColor;
+    padding: 0.563rem 2.875rem;
+    .nav-item {
+      &:first-child {
+        padding-right: 1.25rem;
+      }
+      .nav-link {
+        padding: 0;
+        opacity: 0.5;
+        font-size: 1rem;
+        font-weight: 400;
+        color: $white;
+        font-family: $font-default;
+
+        &:hover {
+          background-color: unset;
+        }
+      }
+      .nav-link.active {
+        background-color: unset;
+        opacity: 1;
+        font-weight: 700;
+      }
+    }
+  }
+  .tab-content {
+    padding-right: 2.875rem;
+    padding-left: 2.875rem;
+    .active.fade {
+      opacity: 1;
+    }
+  }
+}

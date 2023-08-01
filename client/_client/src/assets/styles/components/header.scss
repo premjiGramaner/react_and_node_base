@@ -1,0 +1,33 @@
+.header-section {
+  padding-right: 2.875rem;
+  padding-left: 2.875rem;
+  background-image: url('~/src/assets/svg/headerBg.svg');
+
+  color: $white;
+
+  .header-logo {
+    width: auto;
+    font-family: $font-default;
+    font-size: 22px;
+    font-weight: bold;
+  }
+
+  .user-name {
+    font-family: $font-default;
+    font-size: 1rem;
+  }
+
+  .icon-size {
+    font-size: 1.75rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .help-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 0.75rem;
+  }
+}

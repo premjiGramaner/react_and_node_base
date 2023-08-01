@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1440px" height="60px" viewBox="0 0 1440 60" version="1.1">
+    <title>header-band-1</title>
+    <defs>
+        <linearGradient x1="50%" y1="22.7805358%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#F5F6F6" offset="0%"/>
+            <stop stop-color="#E6EBED" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="44.1968441%" y1="50%" x2="0%" y2="50%" id="linearGradient-2">
+            <stop stop-color="#050505" offset="0%"/>
+            <stop stop-color="#373935" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-3">
+            <stop stop-color="#363935" offset="0%"/>
+            <stop stop-color="#363835" offset="100%"/>
+        </linearGradient>
+    </defs>
+    <g id="header-band-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFCF8" x="0" y="0" width="1440" height="60"/>
+        <rect id="BG" fill="url(#linearGradient-1)" x="-10" y="21" width="1459" height="776"/>
+        <g id="Group-7" transform="translate(-23.000000, 0.000000)">
+            <rect id="Rectangle" fill="url(#linearGradient-2)" x="0" y="0" width="1463" height="60"/>
+            <polygon id="Rectangle" fill="url(#linearGradient-3)" points="698.296447 0 1463 0 1463 60 546 60"/>
+        </g>
+    </g>
+</svg>
