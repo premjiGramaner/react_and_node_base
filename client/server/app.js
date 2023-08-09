@@ -4,6 +4,7 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     indexRouter = require('./routes/index'),
+    sequlizer = require('./models/index'),
     app = express(),
     cors = require('cors'),
     dotenv = require('dotenv'),
@@ -60,6 +61,13 @@ app.get('/*', function (request, res) {
             res.status(500).send(err)
         }
     })
+});
+
+/**
+ * Initiate the Database Connection
+ */
+ sequlizer.sequelize.sync({ force: false }).then(() => {
+     console.log(`Server started listening on PORT ${app.serverPort}`);
 });
 
 module.exports = app;
