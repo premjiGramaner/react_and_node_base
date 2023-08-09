@@ -295,6 +295,9 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </Navigation>
       {(edgeNodeData?.statusResult || logoutResult) && <Toast {...props} />}
+      <div className="copy-right">
+        Copyright © ZEDEDA, 2023 All Rights Reserved
+      </div>
     </div>
   )
 }

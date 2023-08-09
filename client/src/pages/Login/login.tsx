@@ -15,11 +15,11 @@ import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
 import packageJson from '../../../package.json'
 
-import { LoginBg } from '@Assets/svg'
+import { BetaLoginImage } from '@Assets/svg'
 import { Logo } from '@Assets/svg/svg'
 
 const LoginComponent: React.FC<IDefaultPageProps> = props => {
-  const { statusCode, pending,message } = useSelector(
+  const { statusCode, pending, message } = useSelector(
     (state: IReducerState) => state.loginReducer
   )
   const [showPassword, setShowPassword] = useState<boolean>(false)
@@ -46,8 +46,16 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
   const onLogin = (loginValues: ILoginState) => {
     const loginPayload =
       loginValues.token.length > 0
-        ? { token: loginValues.token, accessWithToken: true }
-        : { username: loginValues.user, password: loginValues.password,cluster:loginValues.cluster||"" }
+        ? {
+            token: loginValues.token,
+            accessWithToken: true,
+            cluster: loginValues.cluster || undefined,
+          }
+        : {
+            username: loginValues.user,
+            password: loginValues.password,
+            cluster: loginValues.cluster || undefined,
+          }
     props.dispatch(userLogin(loginPayload))
   }
 
@@ -68,13 +76,25 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
   return (
     <div className="login-page-main-container w-100 d-flex">
       <div className="col-7 position-relative">
-        <img className="login-banner w-100" src={LoginBg as any} alt="" />
+        <img
+          className="login-banner w-100"
+          src={BetaLoginImage as any}
+          alt=""
+        />
       </div>
       <div className="col-5">
         <div className="login-form-container">
-          <div className='header-logo'>ZEDEDA Edge Access</div>
+          <div className="header-logo">ZEDEDA Edge Access</div>
           <p className="zd-login-desc">{props.t('login.title')}</p>
           <form onSubmit={handleSubmit} autoComplete="off">
+            <TextBox
+              type="text"
+              name="cluster"
+              value={values.cluster}
+              labelName={props.t('login.cluster')}
+              placeHolder={props.t('login.cluster')}
+              handleInputChange={handleChange}
+            />
             <TextBox
               type="text"
               name="user"
@@ -106,15 +126,8 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
                 <span className="error-msg-txt">{errors.password}</span>
               </p>
             ) : null}
-            <TextBox
-              type="text"
-              name="cluster"
-              value={values.cluster}
-              labelName={props.t('login.cluster')}
-              placeHolder={props.t('login.cluster')}
-              handleInputChange={handleChange}
-            />
-            {/* <h3 className="token-login">{props.t('login.or')}</h3>
+
+            <h3 className="token-login">{props.t('login.or')}</h3>
 
             <TextBox
               type="text"
@@ -124,10 +137,8 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
               labelName={props.t('login.token')}
               placeHolder={props.t('login.token')}
               handleInputChange={handleChange}
-            /> */}
-            {showError && (
-              <p className="error-msg">{message}</p>
-            )}
+            />
+            {showError && <p className="error-msg">{message}</p>}
             <Button className="login-btn">
               {pending ? (
                 <span
@@ -143,6 +154,9 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </div>
       <div className="application-version">Version - {packageJson.version}</div>
+      <div className="copy-right">
+        Copyright © ZEDEDA, 2023 All Rights Reserved
+      </div>
     </div>
   )
 }

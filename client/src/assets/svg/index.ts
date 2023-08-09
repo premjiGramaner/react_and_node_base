@@ -4,6 +4,7 @@ import Logo from './logo.svg'
 import CloseEyeIcon from './closeEyeIcon.svg'
 import EdgeAppInstanceEnable from './edgeInstanceEnable.svg'
 import EdgeAppInstanceDisable from './edgeInstanceDisable.svg'
+import BetaLoginImage from './betaLoginImage.svg'
 
 export {
   Logo,
@@ -12,4 +13,5 @@ export {
   LoginBg,
   EdgeAppInstanceEnable,
   EdgeAppInstanceDisable,
+  BetaLoginImage,
 }

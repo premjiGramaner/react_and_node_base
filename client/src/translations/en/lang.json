@@ -35,7 +35,7 @@
   },
   "dropdown": {
     "title": "Descriptive Insights",
-    "value": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ip quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt."
+    "value": "This page will display all the projects/sites you can access as individual blocks. Each block details the number of Edge Nodes within the project/site. You will be directed to that project's Edge Node list page by clicking on a block. The block also indicates the number of applications associated with each project. If configured, the project-level edge view policy status will be displayed as 'Edge View - Enabled'; otherwise, it will show as 'Edge View - Disabled'. In cases where a project does not have Edge View config enabled, access will be disabled, and the block will appear greyed out. To view the description of a project, hover over the 'i' icon in each project block."
   },
   "edge-nodes": {
     "name": "Name"

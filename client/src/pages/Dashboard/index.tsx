@@ -131,6 +131,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </Navigation>
       {(statusResult || logoutResult) && <Toast {...props} />}
+      <div className="copy-right">
+        Copyright © ZEDEDA, 2023 All Rights Reserved
+      </div>
     </div>
   )
 }
