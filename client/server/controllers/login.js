@@ -38,18 +38,11 @@ const doLogin = async (req, res, next) => {
                 "password": payload.password
             }), bindHeaders(req));
 
-            let jwtSecretKey = process.env.JWT_SECRET_KEY || "zea-jwt@2020$";
-            let tokenReq = {
-                expire: new Date(moment().add(1, "hours")).getTime(),
-                canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
-                user: loginPost.data.detailedUser || null,
-                cluster
-            }
-
-            const userInfo = tokenReq.user || null;
+            const userInfo = loginPost?.data?.detailedUser || null;
+            let userData = null;
             if (userInfo) {
-                const userData = await User.getUserById(tokenReq.user.id);
-                if (!userData && tokenReq.user.id) {
+                userData = await User.getUserById(userInfo.id);
+                if (!userData && userInfo.id) {
                     await User.createUserItem({
                         userID: userInfo.id,
                         name: userInfo.fullName,
@@ -60,6 +53,16 @@ const doLogin = async (req, res, next) => {
                     });
                 }
             }
+
+            let jwtSecretKey = process.env.JWT_SECRET_KEY || "zea-jwt@2020$";
+            let tokenReq = {
+                expire: new Date(moment().add(1, "hours")).getTime(),
+                canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
+                user: loginPost?.data?.detailedUser || null,
+                isUserTermAgreed: !!userData?.isTermAgreed,
+                cluster
+            }
+
 
             const token = jwt.sign(tokenReq, jwtSecretKey);
 
@@ -90,10 +93,27 @@ const doLoginWithToken = async (req, res, next) => {
             } else {
                 const userResponse = {};
                 let jwtSecretKey = process.env.JWT_SECRET_KEY || "test-jwt@2020$";
+
+                let userData = null;
+                if (data) {
+                    userData = await User.getUserById(data.id);
+                    if (!userData && data.id) {
+                        await User.createUserItem({
+                            userID: data.id,
+                            name: data.fullName,
+                            isTermAgreed: false,
+                            enterprise: payload?.cluster || "",
+                            created_on: moment().format(),
+                            updated_on: moment().format()
+                        });
+                    }
+                }
+
                 let tokenReq = {
                     expire: new Date(moment().add(1, "hours")).getTime(),
                     canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
                     user: data,
+                    isUserTermAgreed: !!userData?.isTermAgreed,
                     cluster
                 }
 
