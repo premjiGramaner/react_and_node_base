@@ -66,7 +66,7 @@ const doLogin = async (req, res, next) => {
 
             const token = jwt.sign(tokenReq, jwtSecretKey);
 
-            res.status(200).send({ loginToken: token, xrf_token: '', statusCode: 200, data: loginPost.data, message: 'Logged in succesfully!' })
+            res.status(200).send({ loginToken: token, isUserTermAgreed: !!userData?.isTermAgreed, xrf_token: '', statusCode: 200, data: loginPost.data, message: 'Logged in succesfully!' })
         } else {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
         }
@@ -82,7 +82,7 @@ const doLoginWithToken = async (req, res, next) => {
         if (!cluster) {
             return formatResponse(res, 400, null, "Provided Cluster is not exist.");
         }
-        
+
         if (payload.token) {
             req = optmizeReq(req, res, payload.token);
             const loginGet = await get(res, `${cluster}version${routes.loginWithToken}`);
@@ -121,11 +121,11 @@ const doLoginWithToken = async (req, res, next) => {
                 if (data) {
                     userResponse["cause"] = "OK";
                     userResponse["userId"] = data.id;
-                    userResponse['token'] = { "base64": payload.token }
+                    userResponse['token'] = { "base64": payload.token };
                     userResponse['detailedUser'] = { ...data };
                 };
 
-                res.status(200).send({ loginToken: token, statusCode: 200, data: userResponse, message: 'Token login in succesfully!' })
+                res.status(200).send({ loginToken: token, isUserTermAgreed: !!userData?.isTermAgreed, statusCode: 200, data: userResponse, message: 'Token login in succesfully!' })
             }
         } else {
             formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
