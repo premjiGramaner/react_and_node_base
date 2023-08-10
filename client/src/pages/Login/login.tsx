@@ -95,6 +95,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
               placeHolder={props.t('login.cluster')}
               handleInputChange={handleChange}
             />
+            <span>&nbsp;</span>
             <TextBox
               type="text"
               name="user"
