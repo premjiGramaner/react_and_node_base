@@ -27,8 +27,9 @@ const get = (res, url, params = {}, headers = {}) => {
         headers.authorization = `Bearer ${res.locals.client_token}`
     }
 
+    const URLItem = url.indexOf('://') > 0 ? url.replace('version', version) : `${res.locals.cluster}${version}${url}`;
     return axios({
-        url: `${res.locals.cluster}${version}${url}`,
+        url: URLItem,
         method: 'get',
         params,
         headers

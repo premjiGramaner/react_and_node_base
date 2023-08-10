@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "",
-    "database": "test",
+    "database": "ZedEdgeAccess",
     "host": "localhost",
     "dialect": "mysql",
     "timezone": "-05:00"
@@ -10,7 +10,7 @@
   "production": {
     "username": "root",
     "password": "",
-    "database": "test",
+    "database": "ZedEdgeAccess",
     "host": "localhost",
     "dialect": "mysql",
     "timezone": "-05:00"
