@@ -45,7 +45,11 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
   return (
     <div className="header-section d-flex py-3 align-items-center justify-content-between">
       {/* <img src={HeaderLogo} className="header-logo" alt="" /> */}
-      <div className='header-logo'>ZEDEDA Edge Access</div>
+      <div className="d-flex">
+        <div className="header-logo">ZEDEDA Edge Access</div>
+        <div className="beta-logo text-white">Beta</div>
+      </div>
+
       <div className="d-flex align-items-center text-white">
         <p className="user-name mb-0 fw-bold fs-12">
           {props.t('header.welcome', { userName: userName })}
