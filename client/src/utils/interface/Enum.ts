@@ -9,6 +9,7 @@ export const API = {
     projects: '/dashboard/projects',
     status: '/dashboard/projects/status',
     projectCounts: '/dashboard/projects/counts',
+    termsService: '/login/updateTerm',
   },
   edgeNode: {
     edgeNodes: 'edgeNodes?',

@@ -104,10 +104,12 @@ const loginReducer = createSlice({
       userLogin.fulfilled,
       (state: ILoginReducerState, action: IDispatchState) => {
         state.token = action.payload.data?.data?.loginToken
+        state.isUserTermAgreed = action.payload.data?.data?.isUserTermAgreed
         state.pending = false
         state.statusCode = action.payload.data.statusCode
         state.message = action?.payload?.message
         state.userId = action.payload.data?.data?.userId
+        state.detailedUserId = action.payload.data?.data?.data?.detailedUser.id
         state.logoutStatusCode =
           action.payload.loginReducerInitialState.logoutStatusCode
       }

@@ -31,6 +31,31 @@ export const fetchDashboard: any = createAsyncThunk(
   }
 )
 
+export const termsAndServices: any = createAsyncThunk(
+  'dashboardReducer/TermsAndServicesData',
+  async (termsServicePayload: any, { rejectWithValue }) => {
+    return new Promise((resolve: any, reject: any) => {
+      fetchClient(getToken(), getClientAccessToken())
+        .post(API.dashboard.termsService, termsServicePayload)
+        .then(reviseData)
+        .then((response: any) => {
+          const data = response
+          resolve({
+            data: data || [],
+          })
+        })
+
+        .catch((response: Error) => {
+          resolve(
+            rejectWithValue({
+              error: reviseData(response),
+            })
+          )
+        })
+    })
+  }
+)
+
 export const fetchEdgeDetails: any = createAsyncThunk(
   'dashboardReducer/edgeDetails',
   async () => {

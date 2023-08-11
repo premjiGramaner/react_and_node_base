@@ -4,14 +4,16 @@ export interface ILoginReducerState {
   token: string
   userId?: string
   statusCode?: number
-  message?:string
+  message?: string
   logoutStatusCode?: number
   statusResult: boolean
+  isUserTermAgreed: boolean
+  detailedUserId: string
 }
 
 export interface ILoginState {
   user?: string
   password?: string
   token?: string
-  cluster?:string
+  cluster?: string
 }
