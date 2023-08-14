@@ -453,6 +453,9 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </Navigation>
       {(edgeAppData?.statusResult || logoutResult) && <Toast {...props} />}
+      <div className="copy-right">
+        Copyright © ZEDEDA, 2023 All Rights Reserved
+      </div>
     </div>
   )
 }

@@ -1,0 +1,29 @@
+
+.modal-lg {
+    max-width: 50% !important;
+}
+.modal-dialog {
+  overflow-y: initial !important;
+}
+.header-style {
+  color: $projectTxtColor;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: $font-default;
+}
+.agree-btn {
+  border-color: $sessionTextColor;
+  background-color: $edgeNodeBgEnable;
+  color: $sessionTextColor;
+  font-size: 1rem;
+  font-family: $font-default;
+}
+.modal-body {
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  line-height: 1.188rem;
+  color: $descriptiveTxtColor;
+  font-family: $font-default;
+  height: 70vh;
+  overflow-y: auto;
+}

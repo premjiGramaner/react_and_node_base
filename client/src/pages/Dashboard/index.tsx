@@ -5,7 +5,11 @@ import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 
-import { fetchDashboard, fetchEdgeDetails } from '@Reducers/index'
+import {
+  fetchDashboard,
+  fetchEdgeDetails,
+  termsAndServices,
+} from '@Reducers/index'
 
 import Header from '@Components/Header/Header'
 import DashboardCard from '@Components/DashboardCard/DashboardCard'
@@ -14,8 +18,12 @@ import SearchBox from '@Components/SearchBox/SearchBox'
 import Navigation from '@Components/Navigation/Navigation'
 import Pagination from '@Components/Pagination/Pagination'
 import Toast from '@Components/Toast/Toast'
+import TermsAndServices from '@Components/TermsAndServices/TermsAndServices'
 
 const DashboardComponent: React.FC<IDefaultPageProps> = props => {
+  const { isUserTermAgreed, detailedUserId } = useSelector(
+    (state: IReducerState) => state.loginReducer
+  )
   const projectDetails = useSelector(
     (state: IReducerState) => state.dashboardReducer.dashboardData
   )
@@ -37,8 +45,16 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const [searchInput, setSearchInput] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [paginationSize, setPaginationSize] = useState<number>(10)
+  const [agree, setAgree] = useState<boolean>(false)
   const pageSize = Number.isNaN(paginationSize) ? 10 : paginationSize
-
+  const handleAgree = () => {
+    setAgree(true)
+    const termsServicePayload = {
+      userID: detailedUserId,
+      agreeStatus: true,
+    }
+    props.dispatch(termsAndServices(termsServicePayload))
+  }
   useEffect(() => {
     if (!Boolean(IS_USER_AUTHENTICATED())) {
       props.navigate(URLS.LOGIN)
@@ -95,6 +111,11 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
   return (
     <div className="dashboard-page-main-container">
+      <TermsAndServices
+        modal={!isUserTermAgreed}
+        handleAgree={handleAgree}
+        agree={agree}
+      />
       <Header {...props} />
       <Navigation {...props}>
         <div className="d-flex  justify-content-between align-items-center searchContainer">
@@ -131,6 +152,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </Navigation>
       {(statusResult || logoutResult) && <Toast {...props} />}
+      <div className="copy-right">
+        Copyright © ZEDEDA, 2023 All Rights Reserved
+      </div>
     </div>
   )
 }

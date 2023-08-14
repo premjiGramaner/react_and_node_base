@@ -6,11 +6,13 @@ const { validateToken } = require('../middleware')
 const {
     doLogin,
     getLogedInUserInfo,
-    doLoginWithToken
+    doLoginWithToken,
+    updateTerm
 } = require('../controllers/login')
 
 router.post("/", doLogin);
 router.post("/with-token", validateToken, doLoginWithToken);
 router.get("/self", validateToken, getLogedInUserInfo);
+router.post("/updateTerm", validateToken, updateTerm);
 
 module.exports = router;

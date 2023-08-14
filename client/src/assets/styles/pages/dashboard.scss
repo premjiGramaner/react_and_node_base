@@ -23,4 +23,11 @@
     justify-content: center !important;
     padding-bottom: 1.875rem;
   }
+  .copy-right{
+    position: relative;
+    float: right;
+    right: 1%;
+    bottom: 1%;
+    color: $light-gray;
+  }
 }
