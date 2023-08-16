@@ -84,8 +84,7 @@ export const agreedTermsAndService: any = createAsyncThunk(
   'agreedTermsAndService',
   async (agreed: any, { rejectWithValue }) => {
     try {
-      const response = agreed
-      return response
+      return agreed
     } catch (error) {
       return rejectWithValue(error)
     }
