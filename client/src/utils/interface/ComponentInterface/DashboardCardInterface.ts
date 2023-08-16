@@ -11,4 +11,5 @@ export interface IDashboardCardInterface {
   EdgeDetails?: any
   dashboardPending?: boolean
   statusResult?: boolean
+  agreedTermsAndService?: boolean
 }

@@ -6,6 +6,7 @@ import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 
 import {
+  agreedTermsAndService,
   fetchDashboard,
   fetchEdgeDetails,
   termsAndServices,
@@ -42,6 +43,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     (state: IReducerState) => state.loginReducer.statusResult
   )
 
+  const agreedTermsAndServiceResult = useSelector(
+    (state: IReducerState) => state.dashboardReducer.agreedTermsAndService
+  )
   const [searchInput, setSearchInput] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [paginationSize, setPaginationSize] = useState<number>(10)
@@ -53,6 +57,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       userID: detailedUserId,
       agreeStatus: true,
     }
+    props.dispatch(agreedTermsAndService(true))
     props.dispatch(termsAndServices(termsServicePayload))
   }
   useEffect(() => {
@@ -111,11 +116,14 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
   return (
     <div className="dashboard-page-main-container">
-      <TermsAndServices
-        modal={!isUserTermAgreed}
-        handleAgree={handleAgree}
-        agree={agree}
-      />
+      {!agreedTermsAndServiceResult && (
+        <TermsAndServices
+          modal={!isUserTermAgreed}
+          handleAgree={handleAgree}
+          agree={agree}
+        />
+      )}
+
       <Header {...props} />
       <Navigation {...props}>
         <div className="d-flex  justify-content-between align-items-center searchContainer">
