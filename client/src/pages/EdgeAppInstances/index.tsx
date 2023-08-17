@@ -390,7 +390,7 @@ const EdgeAppInstancesComponent: React.FC<IDefaultPageProps> = props => {
         </div>
         <DropDown {...props} description={props.t('edgeApp.description')} />
 
-        <div className="navigation-panel d-flex py-4">
+        <div className="navigation-panel min-scroll-height d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
             <>
               <div className="d-flex nav-content">

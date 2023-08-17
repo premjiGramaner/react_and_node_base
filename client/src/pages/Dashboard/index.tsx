@@ -115,6 +115,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         modal={!isUserTermAgreed}
         handleAgree={handleAgree}
         agree={agree}
+        {...props}
       />
       <Header {...props} />
       <Navigation {...props}>
@@ -126,7 +127,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
           />
         </div>
         <DropDown {...props} description={props.t('dashboard.description')} />
-        <div className="DashboardCardContainer">
+        <div className="DashboardCardContainer min-scroll-height">
           {isDashboardPending ? (
             <div className="d-flex justify-content-center mt-5">
               <div className="spinner-border" role="status">
