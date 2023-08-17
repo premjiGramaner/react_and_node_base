@@ -8,3 +8,7 @@
 html {
   font-size: 100%;
 }
+
+.w-90 {
+  width: 90% !important;
+}

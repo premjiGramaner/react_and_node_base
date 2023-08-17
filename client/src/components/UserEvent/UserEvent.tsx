@@ -38,7 +38,7 @@ const UserEvent: React.FC<IDefaultPageProps & IUserEventInterface> = props => {
   return (
     <div className="user-event-log">
       <div className="event-title">{props.t('userEvent.activityLog')}</div>
-      <div className="navigation-panel d-flex pb-5">
+      <div className="navigation-panel min-scroll-height d-flex pb-5">
         <div className="d-flex row w-100 nav-wrapper">
           {userEventData?.length > 0 && (
             <>

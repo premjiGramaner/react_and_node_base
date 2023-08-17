@@ -77,7 +77,7 @@ const LoginComponent: React.FC<IDefaultPageProps> = props => {
     <div className="login-page-main-container w-100 d-flex">
       <div className="col-7 position-relative">
         <img
-          className="login-banner w-100"
+          className="login-banner w-90"
           src={BetaLoginImage as any}
           alt=""
         />

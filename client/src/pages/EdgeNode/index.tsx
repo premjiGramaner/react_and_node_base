@@ -255,7 +255,7 @@ const EdgeNodeComponent: React.FC<IDefaultPageProps> = props => {
           />
         </div>
         <DropDown {...props} description={props.t('edgeNode.description')} />
-        <div className="navigation-panel d-flex py-4">
+        <div className="navigation-panel min-scroll-height d-flex py-4">
           <div className="d-flex row w-100 nav-wrapper">
             {edgeNodePending ? (
               <div className="d-flex justify-content-center mt-5">

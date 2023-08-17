@@ -123,7 +123,6 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
           agree={agree}
         />
       )}
-
       <Header {...props} />
       <Navigation {...props}>
         <div className="d-flex  justify-content-between align-items-center searchContainer">
@@ -134,7 +133,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
           />
         </div>
         <DropDown {...props} description={props.t('dashboard.description')} />
-        <div className="DashboardCardContainer">
+        <div className="DashboardCardContainer min-scroll-height">
           {isDashboardPending ? (
             <div className="d-flex justify-content-center mt-5">
               <div className="spinner-border" role="status">
