@@ -18,6 +18,7 @@ import CloseIcon from './close.png'
 import DownloadIcon from './Download.png'
 import RefreshIcon from './Refresh.png'
 import CollapseIcon from './collapse.png'
+import LogoZededa from './LogoZededa.jpg'
 
 export {
   SearchIcon,
@@ -40,4 +41,5 @@ export {
   DownloadIcon,
   RefreshIcon,
   CollapseIcon,
+  LogoZededa
 }

@@ -80,11 +80,22 @@ export const fetchEdgeDetails: any = createAsyncThunk(
   }
 )
 
+export const agreedTermsAndService: any = createAsyncThunk(
+  'agreedTermsAndService',
+  async (agreed: any, { rejectWithValue }) => {
+    try {
+      return agreed
+    } catch (error) {
+      return rejectWithValue(error)
+    }
+  }
+)
 export const dashboardReducerInitialState: IDashboardCardInterface = {
   dashboardData: [],
   EdgeDetails: [],
   dashboardPending: false,
   statusResult: false,
+  agreedTermsAndService: false,
 }
 
 const dashboardReducer = createSlice({
@@ -119,6 +130,12 @@ const dashboardReducer = createSlice({
         (state: IDashboardCardInterface, action: IDispatchState) => {
           state.EdgeDetails = action.payload?.data?.data?.data
           state.statusResult = false
+        }
+      ),
+      builder.addCase(
+        agreedTermsAndService.fulfilled,
+        (state: IDashboardCardInterface, action: IDispatchState) => {
+          state.agreedTermsAndService = action.payload
         }
       )
   },
