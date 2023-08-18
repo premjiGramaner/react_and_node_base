@@ -1,5 +1,4 @@
 export const API_URL = window.location.origin + '/api/'; // If need to point specifc orign, update the origin here
-// export const API_URL = 'http://localhost:5002/api/'; // If need to point specifc orign, update the origin here
 
 export const STORAGE_KEY = {
   AUTH_TOKEN: 'accessToken',
