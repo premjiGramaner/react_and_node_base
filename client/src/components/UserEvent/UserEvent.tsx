@@ -10,7 +10,7 @@ const UserEvent: React.FC<IDefaultPageProps & IUserEventInterface> = props => {
     const userEventLogData = JSON.parse(props.sessionData)
       ?.flat()
       .filter(Boolean)
-    setUserEventData([...userEventLogData])
+    userEventLogData && setUserEventData([...userEventLogData])
   }, [props.sessionData])
   const tableHeader = [
     {
