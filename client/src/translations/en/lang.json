@@ -15,7 +15,7 @@
     "edgeInstances": " Edge App Instances",
     "enabled": "Edge view - Enabled",
     "disabled": "Edge View - Disabled",
-    "description": "This page will display all the projects/site you are having access to as individual blocks. It gives details of number of Edge Nodes in it, clicking on it will navigate to the Edge Node list page. Blcok also indicates the number of Edge Node Applications for respective project. It gives project level edge view policy status as \"Edge View - Enabled\" if it was configured otherwise \"Edge View - Disabled\". In a cases of project, not having any Edge Nodes created, we disabled the access and greyed out. The description of the project can be viewed as hover text, when you hover \"i\" icon in each project block"
+    "description": "This page will display all the projects/sites you have access to, presented as individual blocks. Each block provides details about the number of Edge Nodes within it. Clicking on a block will navigate you to the Edge Node list page. The block also indicates the number of Edge Node Applications for the respective project. It displays the project-level edge view policy status as 'Edge View - Enabled' if configured; otherwise, it shows as 'Edge View - Disabled'. In cases where a project doesn't have any Edge Nodes created, access is disabled and the block appears greyed out. You can view the project's description as hover text by hovering over the 'i' icon in each project block."
   },
   "edgeNode": {
     "description": " Lists all Edge Nodes of the selected project. User can Activate the Edge View Sessions, DeActivate them if already activated, ReActivate to extend the session. Once the Edge View Session is in Active session, user can download the scripts for remote connectivity. Each Edge Node is an navigational link to the list of Edge Node Applications linked to the respective Edge Node."
@@ -35,7 +35,7 @@
   },
   "dropdown": {
     "title": "Descriptive Insights",
-    "value": "This page will display all the projects/sites you can access as individual blocks. Each block details the number of Edge Nodes within the project/site. You will be directed to that project's Edge Node list page by clicking on a block. The block also indicates the number of applications associated with each project. If configured, the project-level edge view policy status will be displayed as 'Edge View - Enabled'; otherwise, it will show as 'Edge View - Disabled'. In cases where a project does not have Edge View config enabled, access will be disabled, and the block will appear greyed out. To view the description of a project, hover over the 'i' icon in each project block."
+    "value": "This page will display all the projects/sites you have access to, presented as individual blocks. Each block provides details about the number of Edge Nodes within it. Clicking on a block will navigate you to the Edge Node list page. The block also indicates the number of Edge Node Applications for the respective project. It displays the project-level edge view policy status as 'Edge View - Enabled' if configured; otherwise, it shows as 'Edge View - Disabled'. In cases where a project doesn't have any Edge Nodes created, access is disabled and the block appears greyed out. You can view the project's description as hover text by hovering over the 'i' icon in each project block."
   },
   "edge-nodes": {
     "name": "Name"
