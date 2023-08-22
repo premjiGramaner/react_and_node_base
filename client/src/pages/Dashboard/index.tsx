@@ -46,6 +46,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   const agreedTermsAndServiceResult = useSelector(
     (state: IReducerState) => state.dashboardReducer.agreedTermsAndService
   )
+  const agreedTermsLocalStorageResult = localStorage.getItem(
+    'agreedTermsAndService'
+  )
   const [searchInput, setSearchInput] = useState<string>('')
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [paginationSize, setPaginationSize] = useState<number>(10)
@@ -57,6 +60,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       userID: detailedUserId,
       agreeStatus: true,
     }
+    localStorage.setItem('agreedTermsAndService', 'true')
     props.dispatch(agreedTermsAndService(true))
     props.dispatch(termsAndServices(termsServicePayload))
   }
@@ -116,13 +120,14 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
 
   return (
     <div className="dashboard-page-main-container">
-      {!agreedTermsAndServiceResult && (
-        <TermsAndServices
-          modal={!isUserTermAgreed}
-          handleAgree={handleAgree}
-          agree={agree}
-        />
-      )}
+      {!agreedTermsAndServiceResult &&
+        agreedTermsLocalStorageResult != 'true' && (
+          <TermsAndServices
+            modal={!isUserTermAgreed}
+            handleAgree={handleAgree}
+            agree={agree}
+          />
+        )}
       <Header {...props} />
       <Navigation {...props}>
         <div className="d-flex  justify-content-between align-items-center searchContainer">

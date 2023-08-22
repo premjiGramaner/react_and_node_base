@@ -3,7 +3,7 @@
     "title": "Secure, seamless remote access for the edge.",
     "userName": "Username",
     "password": "Password",
-    "cluster":"Cluster",
+    "cluster":"Cluster-URL",
     "or": "OR",
     "token": "Token",
     "login": "LOGIN",
