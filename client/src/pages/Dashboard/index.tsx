@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { IDefaultPageProps, IReducerState } from '@Utils/interface'
 import { URLS } from '@Utils/constants'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 
 import {
-  agreedTermsAndService,
   fetchDashboard,
   fetchEdgeDetails,
   termsAndServices,
@@ -57,9 +58,9 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
       userID: detailedUserId,
       agreeStatus: true,
     }
-    props.dispatch(agreedTermsAndService(true))
     props.dispatch(termsAndServices(termsServicePayload))
   }
+
   useEffect(() => {
     if (!Boolean(IS_USER_AUTHENTICATED())) {
       props.navigate(URLS.LOGIN)
@@ -68,6 +69,21 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
   }, [props])
+
+  useEffect(() => {
+    if (!isUserTermAgreed && !agreedTermsAndServiceResult && agree) {
+      toast.error('Failed to update Terms and service, please reach out to SysAdmin', {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+  }, [agreedTermsAndServiceResult, agree, isUserTermAgreed])
 
   const combinedData = []
   projectDetails?.data?.data?.forEach(data => {
@@ -118,6 +134,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     <div className="dashboard-page-main-container">
       {!agreedTermsAndServiceResult && (
         <TermsAndServices
+          {...props}
           modal={!isUserTermAgreed}
           handleAgree={handleAgree}
           agree={agree}
@@ -159,6 +176,7 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
         </div>
       </Navigation>
       {(statusResult || logoutResult) && <Toast {...props} />}
+      <ToastContainer />
       <div className="copy-right">
         Copyright © ZEDEDA, 2023 All Rights Reserved
       </div>

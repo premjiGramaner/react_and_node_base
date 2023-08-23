@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     User.updateUserItem = function (userID, isTermAgreed, updated_on) {
-        return this.update({ isTermAgreed, updated_on }, { where: { userID } });
+        return this.update({ isTermAgreed, updated_on }, { where: { userID }, returning: true, plain: true });
     }
 
     return User;

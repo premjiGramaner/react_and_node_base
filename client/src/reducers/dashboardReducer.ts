@@ -39,9 +39,8 @@ export const termsAndServices: any = createAsyncThunk(
         .post(API.dashboard.termsService, termsServicePayload)
         .then(reviseData)
         .then((response: any) => {
-          const data = response
           resolve({
-            data: data || [],
+            data: !!(response?.data?.data?.status[1] || 0),
           })
         })
 
@@ -80,16 +79,6 @@ export const fetchEdgeDetails: any = createAsyncThunk(
   }
 )
 
-export const agreedTermsAndService: any = createAsyncThunk(
-  'agreedTermsAndService',
-  async (agreed: any, { rejectWithValue }) => {
-    try {
-      return agreed
-    } catch (error) {
-      return rejectWithValue(error)
-    }
-  }
-)
 export const dashboardReducerInitialState: IDashboardCardInterface = {
   dashboardData: [],
   EdgeDetails: [],
@@ -133,9 +122,15 @@ const dashboardReducer = createSlice({
         }
       ),
       builder.addCase(
-        agreedTermsAndService.fulfilled,
+        termsAndServices.rejected,
         (state: IDashboardCardInterface, action: IDispatchState) => {
-          state.agreedTermsAndService = action.payload
+          state.agreedTermsAndService = false
+        }
+      ),
+      builder.addCase(
+        termsAndServices.fulfilled,
+        (state: IDashboardCardInterface, action: IDispatchState) => {
+          state.agreedTermsAndService = action.payload?.data
         }
       )
   },

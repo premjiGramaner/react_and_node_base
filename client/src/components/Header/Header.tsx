@@ -34,7 +34,6 @@ const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {
           project: '',
         })
       )
-      props.navigate(URLS.DEFAULT)
     }
   }, [logoutStatusCode, props, userName])
 

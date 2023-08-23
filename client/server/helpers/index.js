@@ -68,7 +68,7 @@ const getClusterHost = (host) => {
     if (cluster && CLUSTER_INFO[cluster]) {
         return (`https://${CLUSTER_INFO[cluster]}/api/`);
     } else if (!cluster) {
-        return (`https://${CLUSTER_INFO["prod"]}/api/`);
+        return (`https://${CLUSTER_INFO["zedcontrol.zededa.net"]}/api/`);
     }
 
     return undefined;

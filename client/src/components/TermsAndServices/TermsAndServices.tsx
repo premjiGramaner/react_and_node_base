@@ -5,18 +5,20 @@ const TermsAndServices: FC<
   IDefaultPageProps & ITermsAndServicesInterface
 > = props => {
   const [modal, setmodal] = useState<boolean>(false)
+  
   useEffect(() => {
     setmodal(props.modal)
     if (props.agree) {
       setmodal(false)
     }
   }, [props.modal, props.agree])
+
   return (
     <div
       className="modal"
       style={{ display: modal ? 'block' : 'none' }}
       id="exampleModalLong"
-      tabindex="-1"
+      tabIndex={-1}
       role="dialog"
       aria-labelledby="exampleModalLongTitle"
       aria-hidden="true"

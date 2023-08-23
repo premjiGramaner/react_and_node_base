@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { URLS } from '@Utils/constants';
 
 import { reviseData } from '@Utils/validation'
 import client, { fetchClient } from '@Utils/axiosConfig'
@@ -84,6 +85,8 @@ export const loginReducerInitialState: ILoginReducerState = {
   statusCode: null,
   message: '',
   userId: '',
+  detailedUserId: '',
+  isUserTermAgreed: false,
   logoutStatusCode: null,
   statusResult: false,
 }
@@ -131,10 +134,9 @@ const loginReducer = createSlice({
         state.token = action.payload.loginReducerInitialState.token
         state.userId = action.payload.loginReducerInitialState.userId
         state.userName = action.payload.loginReducerInitialState.userName
-        sessionStorage.clear()
         IS_USER_AUTHENTICATED(false)
-        localStorage.clear()
         state.statusResult = false
+        window.location.href = URLS.LOGIN;
       }
     )
     builder.addCase(userLogout.rejected, (state: ILoginReducerState) => {

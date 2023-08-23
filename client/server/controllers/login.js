@@ -9,7 +9,7 @@ const getLogedInUserInfo = async (req, res, next) => {
     const request = res.locals.tokenInfo || null;
     try {
         if (request) {
-            return formatResponse(res, 200, request.user, 'user info successfully fetched!')
+            return formatResponse(res, 200, request.user, 'User info successfully fetched!')
         } else {
             return formatResponse(res, 401, null, 'session timed out!')
         }
@@ -52,26 +52,28 @@ const doLogin = async (req, res, next) => {
                         updated_on: moment().format()
                     });
                 }
+
+                let jwtSecretKey = process.env.JWT_SECRET_KEY || "zea-jwt@2020$";
+                let tokenReq = {
+                    expire: new Date(moment().add(1, "hours")).getTime(),
+                    canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
+                    user: loginPost?.data?.detailedUser || null,
+                    isUserTermAgreed: !!userData?.isTermAgreed,
+                    cluster
+                }
+
+
+                const token = jwt.sign(tokenReq, jwtSecretKey);
+
+                res.status(200).send({ loginToken: token, isUserTermAgreed: !!userData?.isTermAgreed, xrf_token: '', statusCode: 200, data: loginPost.data, message: 'Logged in succesfully!' })
+            } else {
+                formatResponse(res, 400, data, "Could not contact cluster URL, please reach out to SysAdmin!");
             }
-
-            let jwtSecretKey = process.env.JWT_SECRET_KEY || "zea-jwt@2020$";
-            let tokenReq = {
-                expire: new Date(moment().add(1, "hours")).getTime(),
-                canUpdateToken: new Date(moment().add(90, "minutes")).getTime(),
-                user: loginPost?.data?.detailedUser || null,
-                isUserTermAgreed: !!userData?.isTermAgreed,
-                cluster
-            }
-
-
-            const token = jwt.sign(tokenReq, jwtSecretKey);
-
-            res.status(200).send({ loginToken: token, isUserTermAgreed: !!userData?.isTermAgreed, xrf_token: '', statusCode: 200, data: loginPost.data, message: 'Logged in succesfully!' })
         } else {
-            formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
+            formatResponse(res, 400, null, "Invalid username or password");
         }
     } catch (e) {
-        formatResponse(res, e.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Failed to login!");
+        formatResponse(res, e.response?.data?.httpStatusCode || 400, e?.response?.data || {}, "Could not contact cluster URL, please reach out to SysAdmin");
     }
 };
 
@@ -89,7 +91,7 @@ const doLoginWithToken = async (req, res, next) => {
             const data = loginGet.data || null;
 
             if (!data) {
-                formatResponse(res, 400, data, "The requested resource was not found on this server!");
+                formatResponse(res, 400, data, "Could not contact cluster URL, please reach out to SysAdmin!");
             } else {
                 const userResponse = {};
                 let jwtSecretKey = process.env.JWT_SECRET_KEY || "test-jwt@2020$";
@@ -128,10 +130,10 @@ const doLoginWithToken = async (req, res, next) => {
                 res.status(200).send({ loginToken: token, isUserTermAgreed: !!userData?.isTermAgreed, statusCode: 200, data: userResponse, message: 'Token login in succesfully!' })
             }
         } else {
-            formatResponse(res, 400, null, "Credentails are not valid! Failed to login");
+            formatResponse(res, 400, null, "Provided token is not valid! please reach out to SysAdmin");
         }
     } catch (e) {
-        formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Failed to login!");
+        formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Could not contact cluster URL, please reach out to SysAdmin");
     }
 };
 
@@ -139,13 +141,14 @@ const updateTerm = async (req, res, next) => {
     const { userID, agreeStatus } = req.body;
     try {
         if (userID) {
-            const updateRequest = User.updateUserItem(userID, agreeStatus, moment().format());
+            
+            const updateRequest = await User.updateUserItem(userID, agreeStatus, moment().format());
             return formatResponse(res, 200, { status: updateRequest }, 'Terms of service updated successfully!')
         } else {
             return formatResponse(res, 400, { status: null }, 'User id not exist to update Terms of service!')
         }
     } catch (e) {
-        formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Terms of service update failed!");
+        formatResponse(res, e.response.data.httpStatusCode || 400, e.response.data || {}, "Could not contact cluster URL, please reach out to SysAdmin");
     }
 };
 
@@ -154,7 +157,7 @@ const doLogout = async (req, res, next) => {
         const logOutPost = await post(res, routes.logout);
         return formatResponse(res, 200, logOutPost.data, "Session Logged out successfully!");
     } catch (e) {
-        return formatResponse(res, e.response?.data?.httpStatusCode || 400, e.response?.data || {}, "Failed to log out!");
+        return formatResponse(res, e.response?.data?.httpStatusCode || 400, e.response?.data || {}, "Could not contact cluster URL, please reach out to SysAdmin");
     }
 };
 

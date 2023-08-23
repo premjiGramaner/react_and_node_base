@@ -26,7 +26,10 @@ const allReducers = combineReducers({
 
 const rootReducer = (state: any, action: any) => {
   if (action.type === URLS.LOGOUT) {
-    state = undefined
+    localStorage.removeItem('persist:zed-root')
+    sessionStorage.clear()
+    localStorage.clear();
+    state.dashboardReducer = { ...state.dashboardReducer, agreedTermsAndService: false }
   }
 
   return allReducers(state, action)

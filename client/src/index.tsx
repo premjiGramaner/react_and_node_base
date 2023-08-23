@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import store from '@Store/storeConfig'
+import storeConfig from '@Store/storeConfig'
+import { PersistGate } from 'redux-persist/integration/react'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App'
 
@@ -23,10 +25,14 @@ i18next.init({
   },
 })
 
+const { persistor, store } = storeConfig();
+
 root.render(
   <Provider store={store}>
-    <I18nextProvider i18n={i18next}>
-      <App />
-    </I18nextProvider>
+    <PersistGate loading={null} persistor={persistor}>
+      <I18nextProvider i18n={i18next}>
+        <App />
+      </I18nextProvider>
+    </PersistGate>
   </Provider>
 )
