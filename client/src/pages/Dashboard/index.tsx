@@ -126,8 +126,6 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     return dashboardData?.slice(firstPageIndex, lastPageIndex)
   }, [currentPage, dashboardData, pageSize])
 
-
-
   if (!Boolean(IS_USER_AUTHENTICATED()) && window.location.pathname !== URLS.LOGIN) {
     window.location.href = URLS.LOGIN;
     return null;
