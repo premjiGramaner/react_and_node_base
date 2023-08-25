@@ -6,12 +6,19 @@ import AuthWrapper from './AuthWrapper'
 import { IS_USER_AUTHENTICATED } from '@Utils/storage'
 import { IDefaultPageProps } from '@Utils/interface/PagesInterface'
 import { getKey } from '@Utils/utils'
+import { URLS } from '@Utils/constants'
 
 import AuthMenuList from './authMenuList'
 import UnAuthMenuList from './unAuthMenuList'
 
 const RouterComponent: React.FC<IDefaultPageProps> = props => {
   let authRoutes = null
+
+
+  if (!Boolean(IS_USER_AUTHENTICATED()) && props.location.pathname !== URLS.LOGIN) {
+    window.location.href = URLS.LOGIN;
+    return null;
+  }
 
   /* This will triggered when user is not logged-in */
   if (!Boolean(IS_USER_AUTHENTICATED())) {

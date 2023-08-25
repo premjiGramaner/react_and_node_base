@@ -8,8 +8,6 @@ import { IDefaultPageProps } from '@Interface/PagesInterface'
 import { userLogout } from '@Reducers/loginReducer'
 import { fetchUserEvents } from '@Reducers/userLogEventReducer'
 
-import { URLS } from '@Utils/constants'
-
 import { HelpIcon, HeaderLogo } from '@Assets/images'
 
 const Header: React.FC<IDefaultPageProps & IHeaderInterface> = props => {

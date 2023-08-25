@@ -62,10 +62,6 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
   }
 
   useEffect(() => {
-    if (!Boolean(IS_USER_AUTHENTICATED())) {
-      props.navigate(URLS.LOGIN)
-    }
-
     props.dispatch(fetchDashboard())
     props.dispatch(fetchEdgeDetails())
   }, [props])
@@ -129,6 +125,13 @@ const DashboardComponent: React.FC<IDefaultPageProps> = props => {
     const lastPageIndex = firstPageIndex + pageSize
     return dashboardData?.slice(firstPageIndex, lastPageIndex)
   }, [currentPage, dashboardData, pageSize])
+
+
+
+  if (!Boolean(IS_USER_AUTHENTICATED()) && window.location.pathname !== URLS.LOGIN) {
+    window.location.href = URLS.LOGIN;
+    return null;
+  }
 
   return (
     <div className="dashboard-page-main-container">

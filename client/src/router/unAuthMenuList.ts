@@ -1,6 +1,6 @@
 import { IMenuItem } from '@Interface/index'
 import { URLS } from '@Utils/constants'
-import { LoginComponent, pageNotFound } from '@Pages/index'
+import { DashboardComponent, LoginComponent, pageNotFound } from '@Pages/index'
 
 export default [
   {
@@ -15,6 +15,14 @@ export default [
     path: URLS.DEFAULT,
     routeName: 'Default Component',
     component: LoginComponent,
+    icon: '',
+    permissions: [],
+    children: [],
+  },
+  {
+    path: URLS.DASHBOARD,
+    routeName: 'Default Component',
+    component: DashboardComponent,
     icon: '',
     permissions: [],
     children: [],
